@@ -26,7 +26,7 @@
 - Use footsteps sounds from '06 - Forces.
 - Removed charging sound from the Drop Dash due to the Spin Dash being added in Update 2.
 
-## *Bug fixes and improvements (Dreamcast Era)
+## Bug fixes and improvements (Dreamcast Era)
 - Supports all the new features.
 
 ## Bug fixes and improvements (Hybrid)
