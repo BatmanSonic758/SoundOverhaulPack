@@ -8,6 +8,7 @@
 - Added support for Juke Box with toggleable features. Nothing crazy like the Presets but I'm sure it's enough to satisfy.
 - Sonic can use voice clips from Sonic Boom: Rise of Lyric when being melted by lava in Chaos Island.
 - Removed the secondary sound for double jumping, pole swing and... whatever else it is being used for.
+- The warpstone teleport sound in the Sky Sanctuary Cyber Space stages now synced correctly when Sonic being teleported to the next platform.
 - Spin Dash sounds were added in favour for the upcoming mechanic in Update 2 :)
 
 ## Bug fixes and improvements (general)
