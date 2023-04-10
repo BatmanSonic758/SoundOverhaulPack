@@ -25,7 +25,8 @@
 ## Bug fixes and improvements (Boost Era)
 - Use footsteps sounds from '06 - Forces.
 - Removed charging sound from the Drop Dash due to the Spin Dash being added in Update 2.
-- - Loop kick sound was overhauled.
+- Loop kick sound was overhauled.
+- Sonic Unleashed QTE sounds were removed, I plan to include them in some way...
 
 ## Bug fixes and improvements (Dreamcast Era)
 - Supports all the new features.
