@@ -1,0 +1,171 @@
+{
+   "Groups": [
+     {
+       "Name": "Main",
+       "DisplayName": "Sound Options",
+       "Elements": [
+         {
+           "Name": "IncludeDir0",
+           "DisplayName": "Gameplay",
+           "Description": [
+             "Choose the sound preset of your liking."
+           ],
+           "Type": "GameplayEnum",
+           "MinValue": null,
+           "MaxValue": null,
+           "DefaultValue": "raw_frontiers"
+			 },
+			 {
+				"Name": "IncludeDir1",
+				"DisplayName": "The End",
+				"Description": [
+				   "Choose the boss theme for The End.",
+				],
+				"Type": "TheEndEnum",
+				"MinValue": null,
+				"MaxValue": null,
+				"DefaultValue": "raw_TheEnd_vandalize"
+			 },
+			 {
+				"Name": "IncludeDir2",
+				"DisplayName": "Juke Box",
+				"Description": [
+				   "Replaces some of the tracks in the Juke Box in the series' chronological / Generations order (e.g. replacing Angel Island and Mushroom Hill with Green Hill and Chemical Plant).\n\nThe tracks from Sonic Colors is up to your personal preference :)",
+				],
+				"Type": "JokeBoxEnum",
+				"MinValue": null,
+				"MaxValue": null,
+				"DefaultValue": "raw_JokeBox_Colors2021"
+			 },
+			 {
+				"Name": "IncludeDir3",
+				"DisplayName": "Lava Interaction Voice Clips",
+				"Description": [
+				   "Make Sonic sound like he's actually suffering when he's being melted by Chaos Island's lava >:)\n\nWell... sort of. Roger sometimes makes Sonic sound like he's taking a shit when he's dying.",
+				],
+				"Type": "LavaVoiceEnum",
+				"MinValue": null,
+				"MaxValue": null,
+				"DefaultValue": "raw_voiceLavaBoom"
+			 }
+		  ]
+	   }
+	],
+	
+	"Enums": {
+     "GameplayEnum": [
+       {
+         "DisplayName": "Improved Sounds (Frontiers)",
+         "Value": "raw_frontiers",
+         "Description": [
+           "Improving the vanilla sounds with higher quality ones and adds little tweaks to it."
+         ]
+       },
+       {
+         "DisplayName": "Boost Era Sounds",
+         "Value": "raw_boost",
+         "Description": [
+           "Replaces the modified Frontiers SFX with sounds from the Boost Era (Unleashed, Colors, Generations and Lost World)"
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era Sounds",
+         "Value": "raw_dreamcast",
+         "Description": [
+           "Replaces the modified Frontiers SFX with sounds from the Dreamcast Era (Adventure 1, 2 and Heroes)"
+         ]
+       },
+       {
+         "DisplayName": "Hybrid Sounds",
+         "Value": "raw_hybrid",
+         "Description": [
+           "Merges sounds from each Preset into one!"
+         ]
+       },
+       {
+         "DisplayName": "Custom Preset 1",
+         "Value": "raw_custom1",
+         "Description": [
+           "Allows the use of other sound mods in favor for compatibility.\n\nTo make it work, just drag the associated files that modify either ''sound'' or ''general'' directories. (raw_custom1)."
+         ]
+       },
+       {
+         "DisplayName": "Custom Preset 2",
+         "Value": "raw_custom2",
+         "Description": [
+           "Allows the use of other sound mods in favor for compatibility.\n\nTo make it work, just drag the associated files that modify either ''sound'' or ''general'' directories. (raw_custom2)."
+         ]
+       },
+       {
+         "DisplayName": "Custom Preset 3",
+         "Value": "raw_custom3",
+         "Description": [
+           "Allows the use of other sound mods in favor for compatibility.\n\nTo make it work, just drag the associated files that modify either ''sound'' or ''general'' directories. (raw_custom3)."
+		     ]
+		  },
+  	   ],
+     "TheEndEnum": [
+       {
+         "DisplayName": "Vandalize [Re-Edit]",
+         "Value": "raw_TheEnd_vandalize",
+         "Description": [
+           "Replacing ''I'm With You'' with an edited version of ''Vandalize''.\n\nI call it ''Vandalize [Re-Edit]'' :)"
+         ]
+       },
+       {
+         "DisplayName": "One Way Dream",
+         "Value": "raw_TheEnd_onewaydream",
+         "Description": [
+           "Replacing ''I'm With You'' with ''One Way Dream''."
+         ]
+       },
+       {
+         "DisplayName": "I'm With You",
+         "Value": "raw_TheEnd_dummy",
+         "Description": [
+           "Does not modify The End's theme."
+		     ]
+		  },
+  	   ],
+	   "JokeBoxEnum": [
+		{
+         "DisplayName": "Colo(u)rs Wii Tracks",
+         "Value": "raw_JokeBox_Colors2010",
+         "Description": [
+           "Replacing ''Reach for the Stars'' and ''Asteroid Coaster'' with their original 2010 versions and keeps the rest of tracks unchanged."
+         ]
+       },
+       {
+		 "DisplayName": "Colo(u)rs Ultimate Tracks",
+		 "Value": "raw_JokeBox_Colors2021",
+         "Description": [
+           "Replacing ''Planet Wisp'' with its Colo(u)rs Ultimate Remix version and keeps the rest of tracks unchanged."
+         ]
+       },
+       {
+         "DisplayName": "Hybrid (Vanilla)",
+         "Value": "raw_JokeBox_colors2010Default",
+         "Description": [
+           "Does not modify any of the Sonic Colo(u)rs soundtrack."
+		     ]
+		  },
+  	   ],
+	   "LavaVoiceEnum": [
+		{
+		 "DisplayName": "Sonic Boom: Rise of Lyric",
+		 "Value": "raw_voiceLavaBoom",
+         "Description": [
+           "Replacing Sonic's awkward shoutings when he dies from the lava in Chaos Island with ones from Sonic Boom: Rise of Lyric. Not the ideal choice but whatever.\n\nI have to admit, Roget sucks when it comes to recording voice clips for dying :/"
+         ]
+       },
+       {
+         "DisplayName": "Sonic Frontiers (Vanilla)",
+         "Value": "raw_voiceLavaRangers",
+         "Description": [
+           "Keeps the vanilla voice clips when Sonic dies from the lava in Chaos Island."
+         ]
+       }
+     ]
+   },
+   "IniFile": "mod.ini"
+}
