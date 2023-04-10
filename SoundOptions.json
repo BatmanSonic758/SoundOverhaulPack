@@ -55,28 +55,28 @@
 	"Enums": {
      "GameplayEnum": [
        {
-         "DisplayName": "Improved Sounds (Frontiers)",
+         "DisplayName": "Vanilla Improved (Frontiers)",
          "Value": "raw_frontiers",
          "Description": [
            "Improving the vanilla sounds with higher quality ones and adds little tweaks to it."
          ]
        },
        {
-         "DisplayName": "Boost Era Sounds",
+         "DisplayName": "Boost Era",
          "Value": "raw_boost",
          "Description": [
            "Replaces the modified Frontiers SFX with sounds from the Boost Era (Unleashed, Colors, Generations and Lost World)"
          ]
        },
        {
-         "DisplayName": "Dreamcast Era Sounds",
+         "DisplayName": "Dreamcast Era",
          "Value": "raw_dreamcast",
          "Description": [
            "Replaces the modified Frontiers SFX with sounds from the Dreamcast Era (Adventure 1, 2 and Heroes)"
          ]
        },
        {
-         "DisplayName": "Hybrid Sounds",
+         "DisplayName": "Hybrid",
          "Value": "raw_hybrid",
          "Description": [
            "Merges sounds from each Preset into one!"
@@ -159,7 +159,7 @@
          ]
        },
        {
-         "DisplayName": "Sonic Frontiers (Vanilla)",
+         "DisplayName": "Vanilla",
          "Value": "raw_voiceLavaRangers",
          "Description": [
            "Keeps the vanilla voice clips when Sonic dies from the lava in Chaos Island."
