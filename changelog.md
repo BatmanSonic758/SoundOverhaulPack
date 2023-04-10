@@ -15,21 +15,26 @@
 - The awkward silence in Supreme's modified theme was removed.
 - Giganto's ending part was overhauled.
 
-## Bug fixes and improvements (Vanilla Improved / Frontiers)
+## Bug fixes, additions and improvements (Vanilla Improved / Frontiers)
+- Supports all the new features.
 - Homing Reticle sound was replaced with the one from Hybrid.
 - Removed charging sound from the Drop Dash due to the Spin Dash being added in Update 2.
 - The vanilla sound for collecting a Red Ring was re-added.
 - Loop kick sound was overhauled.
 - Pole swinging sound was overhauled.
+- Drift sound has turned up.
+- New grind rail sound.
 
-## Bug fixes and improvements (Boost Era)
+## Bug fixes, additions and improvements (Boost Era)
+- Supports all the new features.
 - Use footsteps sounds from '06 - Forces.
 - Removed charging sound from the Drop Dash due to the Spin Dash being added in Update 2.
 - Loop kick sound was overhauled.
 - Sonic Unleashed QTE sounds were removed, I plan to include them in some way...
 
-## Bug fixes and improvements (Dreamcast Era)
+## Bug fixes, additions and improvements (Dreamcast Era)
 - Supports all the new features.
+- Pulley sound (hopefully) would sync for the most part.
 
-## Bug fixes and improvements (Hybrid)
+## Bug fixes, additions and improvements (Hybrid)
 - Supports all the new features.
