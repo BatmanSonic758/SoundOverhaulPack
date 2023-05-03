@@ -28,17 +28,6 @@
 			 },
 			 {
 				"Name": "IncludeDir2",
-				"DisplayName": "Juke Box",
-				"Description": [
-				   "Replaces some of the tracks in the Juke Box in the series' chronological / Generations order (e.g. replacing Angel Island and Mushroom Hill with Green Hill and Chemical Plant).\n\nThe tracks from Sonic Colors is up to your personal preference :)",
-				],
-				"Type": "JokeBoxEnum",
-				"MinValue": null,
-				"MaxValue": null,
-				"DefaultValue": "raw_JokeBox_Colors2021"
-			 },
-			 {
-				"Name": "IncludeDir3",
 				"DisplayName": "Lava Interaction Voice Clips",
 				"Description": [
 				   "Make Sonic sound like he's actually suffering when he's being melted by Chaos Island's lava >:)\n\nWell... sort of. Roger sometimes makes Sonic sound like he's taking a shit when he's dying.",
@@ -47,6 +36,17 @@
 				"MinValue": null,
 				"MaxValue": null,
 				"DefaultValue": "raw_voiceLavaBoom"
+			 },
+			 {
+				"Name": "IncludeDir3",
+				"DisplayName": "Juke Box",
+				"Description": [
+				   "Replaces some of the tracks in the Juke Box in the series' chronological / Generations order (e.g. replacing Angel Island and Mushroom Hill with Green Hill and Chemical Plant).\n\nThe tracks from Sonic Colors is up to your personal preference :)",
+				],
+				"Type": "JokeBoxEnum",
+				"MinValue": null,
+				"MaxValue": null,
+				"DefaultValue": "raw_JokeBox_Colors2021"
 			 }
 		  ]
 	   }
@@ -55,28 +55,28 @@
 	"Enums": {
      "GameplayEnum": [
        {
-         "DisplayName": "Vanilla Improved (Frontiers)",
+         "DisplayName": "Vanilla Overhaul (Frontiers)",
          "Value": "raw_frontiers",
          "Description": [
            "Improving the vanilla sounds with higher quality ones and adds little tweaks to it."
          ]
        },
        {
-         "DisplayName": "Boost Era",
+         "DisplayName": "Boost Era Sounds",
          "Value": "raw_boost",
          "Description": [
            "Replaces the modified Frontiers SFX with sounds from the Boost Era (Unleashed, Colors, Generations and Lost World)"
          ]
        },
        {
-         "DisplayName": "Dreamcast Era",
+         "DisplayName": "Dreamcast Era Sounds",
          "Value": "raw_dreamcast",
          "Description": [
            "Replaces the modified Frontiers SFX with sounds from the Dreamcast Era (Adventure 1, 2 and Heroes)"
          ]
        },
        {
-         "DisplayName": "Hybrid",
+         "DisplayName": "Hybrid Sounds",
          "Value": "raw_hybrid",
          "Description": [
            "Merges sounds from each Preset into one!"
@@ -159,10 +159,42 @@
          ]
        },
        {
-         "DisplayName": "Vanilla",
+         "DisplayName": "Sonic Frontiers (Vanilla)",
          "Value": "raw_voiceLavaRangers",
          "Description": [
            "Keeps the vanilla voice clips when Sonic dies from the lava in Chaos Island."
+		     ]
+		  },
+  	   ],
+	   "SSTalkEnum": [
+		{
+		 "DisplayName": "Enable",
+		 "Value": "raw_SuperSonicTalkOn",
+         "Description": [
+           "Adds new sound effects and voice clips for Sonic in different scenarios while fighting the Titans in order to make him more interactive rather than remaining mute."
+         ]
+       },
+       {
+         "DisplayName": "Disable",
+         "Value": "raw_SuperSonicTalkOff",
+         "Description": [
+           "Disables Sonic's newly added dialogue. In order words, keep Sonic the silent protagonist he was.\n\nHowever, it will keep the extra sound effects."
+		     ]
+		  },
+  	   ],
+	   "CyberEditEnum": [
+		{
+		 "DisplayName": "Enable",
+		 "Value": "raw_CyberSpaceOSTEditOn",
+         "Description": [
+           "Enable the Cyber Space OST edits."
+         ]
+       },
+       {
+         "DisplayName": "Disable",
+         "Value": "raw_CyberSpaceOSTEditOff",
+         "Description": [
+           "Disable the Cyber Space OST edits."
          ]
        }
      ]
