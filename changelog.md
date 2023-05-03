@@ -1,3 +1,19 @@
+## Version 2.1 Update
+- Vanilla Improved was renamed to Vanilla Overhaul.
+- Re-added the vanilla concrete footsteps for Vanilla Overhaul.
+- Grand Slam / Recovery Smash sound delay from vanilla was fixed. Included in all Presets.
+- Super Sonic's grand slam has recieved new sounds, including Knight's variant.
+- Added QTE fails sound modifications.
+- Supreme's battle theme has recived small tweaks.
+- Vandalize [Re-Edit] has recived small tweaks.
+- Support for all languages were added, they'll be included as an Add-On.
+- Added a voice clip when the Caterpillar Guardian pulls Sonic towards its rails.
+- Removed unneccecery voice clips.
+- An add-on to disable some of Sonic's added voice clips is now available on GameBanana. Insturctions on how to install Add-Ons is on the mod's page or down below the changelog.
+- An add-on that replaces Roger's voice with that of Jun'ichi Kanemaru is now available on GameBanana. Insturctions on how to install Add-Ons is on the mod's page or down below the changelog.
+
+No need to reinstall the base files again, just click on the update icon in HedgeModManager and you're done.
+
 ## New Features for Sound Overhaul Pack: The Super Sonic Update (Version 2.0)
 - Fully compatible with the Sights, Sounds, and Speed update (Update 1)
 - Added voice clips for the Super Sonic cutscenes (except from Supreme as of now). 
