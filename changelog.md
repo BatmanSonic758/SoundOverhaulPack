@@ -1,6 +1,8 @@
 ## Version 2.1.1 Hotfix
-- Fixed an issue where the Juke Box not displaying the names when you choose the Hybrid option (Thanks Rox_). Please reinstall the Pack from start to finish to make it work properly.
+- Fixed an issue where the Juke Box not displaying the names when you choose the Hybrid option (Thanks Rox_).
 - Added a sound modification to the Stealer when it steals a Chaos Emerald from Sonic in Ares Island or any other Island because I forgot where else it appears :/
+
+Please reinstall the Pack from start to finish to make it work properly.
 
 ## Version 2.1 Update
 - Vanilla Improved was renamed to Vanilla Overhaul.
