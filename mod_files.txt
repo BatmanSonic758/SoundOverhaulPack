@@ -11,6 +11,7 @@ add main/raw/sound/rifle01_sound/bgm_boss04.acb
 add main/raw/sound/rifle01_sound/bgm_boss04.awb
 add main/raw/sound/rifle01_sound/se_rangers_giant04.acb
 add main/raw/sound/the_end01_sound/se_rangers_boss_the_end.acb
+add main/raw/sound/robber01_sound/se_rangers_enemy_robber.acb
 add raw_TheEnd_onewaydream/raw/sound/the_end01_sound/bgm_lastboss.acb
 add raw_TheEnd_onewaydream/raw/sound/the_end01_sound/bgm_lastboss.awb
 add raw_TheEnd_vandalize/raw/sound/the_end01_sound/bgm_lastboss.acb
