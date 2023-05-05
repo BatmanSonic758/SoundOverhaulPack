@@ -144,7 +144,7 @@
        },
        {
          "DisplayName": "Hybrid (Vanilla)",
-         "Value": "raw_JokeBox_colors2010Default",
+         "Value": "raw_JokeBox_colorsDefault",
          "Description": [
            "Does not modify any of the Sonic Colo(u)rs soundtrack."
 		     ]
