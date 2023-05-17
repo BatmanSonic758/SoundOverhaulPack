@@ -1,3 +1,7 @@
+## Version 2.1.2 Hotfix
+- Fixed an issue where Hybrid Preset gameplay sounds not loading... whoops...
+
+
 ## Version 2.1.1 Hotfix
 - Fixed an issue where the Juke Box not displaying the names when you choose the Hybrid option (Thanks Rox_).
 - Added a sound modification to the Stealer when it steals a Chaos Emerald from Sonic in Ares Island or any other Island because I forgot where else it appears :/
