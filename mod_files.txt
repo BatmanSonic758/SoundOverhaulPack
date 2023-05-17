@@ -28,5 +28,6 @@ add raw_frontiers/raw/sound/se_rangers_update_01.acb
 add raw_frontiers/raw/sound/sonic_sound/se_rangers_player_sonic.acb
 add raw_hybrid/raw/general/resident_general/se_rangers_obj_common.acb
 add raw_hybrid/raw/sound/se_rangers_update_01.acb
+add raw_hybrid/raw/sound/sonic_sound/se_rangers_player_sonic.acb
 add mod.ini
 add SoundOptions.json
