@@ -1,4 +1,6 @@
 ## Version 2.2 Update
+Please reinstall the mod pack again in order to make it work properly!
+
 - Compatible with Sonic's Birthday Bash (Update 2).
 - Add-Ons now has their own Update Servers! (Shut Up Sonic comes later)
 - Added sound modifications for Inugami Korone Collaboration and Sonic Emote with Koco DLC.
@@ -16,8 +18,7 @@
 - Mystery Girl is now part of Knight's encounter theme.
 - New sound effects when Knight's encounter ends.
 
-Please reinstall the mod pack again in order to make it work properly!
-
+  
 ## Version 2.1.2 Hotfix
 - Fixed an issue where Hybrid Preset gameplay sounds not loading... whoops...
 
