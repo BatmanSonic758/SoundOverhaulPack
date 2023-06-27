@@ -1,3 +1,21 @@
+## Version 2.2 Update
+- Compatible with Sonic's Birthday Bash (Update 2).
+- Add-Ons now has their own Update Servers! (Shut Up Sonic comes later)
+- Added sound modifications for Inugami Korone Collaboration and Sonic Emote with Koco DLC.
+- A config for Spin Dash sounds is now included!
+- Some loud sounds has been (hopefully) fixed.
+- New Air Tricks and Stomp Attack sounds.
+- Sonic now grunts when getting hit from spikes and lasers.
+- Removed lava voice clips config.
+- A config for Supreme's intro varient has been added (Instrumental or Vocal).
+- A config for Cyber Space boost filters style has been added (Vanilla or Generations-styled)
+- Removed Portal 4-2: Ephemeral modification.
+- Water and snow (although it is unused) footsteps added for Boost preset.
+- New sounds in the Dreamcast preset.
+- New boost sound for Vanilla Overhaul
+- Mystery Girl is now part of Knight's encounter theme.
+- New sound effects when Knight's encounter ends.
+
 ## Version 2.1.2 Hotfix
 - Fixed an issue where Hybrid Preset gameplay sounds not loading... whoops...
 
