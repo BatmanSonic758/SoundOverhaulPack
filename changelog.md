@@ -2,7 +2,7 @@
 Please reinstall the mod pack again in order to make it work properly!
 
 - Compatible with Sonic's Birthday Bash (Update 2).
-- Add-Ons now has their own Update Servers! (Shut Up Sonic comes later)
+- Add-Ons now has their own Update Servers!
 - Added sound modifications for Inugami Korone Collaboration and Sonic Emote with Koco DLC.
 - A config for Spin Dash sounds is now included!
 - Some loud sounds has been (hopefully) fixed.
