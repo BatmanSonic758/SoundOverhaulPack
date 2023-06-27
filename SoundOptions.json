@@ -17,6 +17,17 @@
 			 },
 			 {
 				"Name": "IncludeDir1",
+				"DisplayName": "Spin Dash",
+				"Description": [
+				   "Choose a variety of different sounds for the Spin Dash.",
+				],
+				"Type": "SpinDashEnum",
+				"MinValue": null,
+				"MaxValue": null,
+				"DefaultValue": "raw_SpinDash_modern"
+			 },
+			 {
+				"Name": "IncludeDir2",
 				"DisplayName": "The End",
 				"Description": [
 				   "Choose the boss theme for The End.",
@@ -27,17 +38,6 @@
 				"DefaultValue": "raw_TheEnd_vandalize"
 			 },
 			 {
-				"Name": "IncludeDir2",
-				"DisplayName": "Lava Interaction Voice Clips",
-				"Description": [
-				   "Make Sonic sound like he's actually suffering when he's being melted by Chaos Island's lava >:)\n\nWell... sort of. Roger sometimes makes Sonic sound like he's taking a shit when he's dying.",
-				],
-				"Type": "LavaVoiceEnum",
-				"MinValue": null,
-				"MaxValue": null,
-				"DefaultValue": "raw_voiceLavaBoom"
-			 },
-			 {
 				"Name": "IncludeDir3",
 				"DisplayName": "Juke Box",
 				"Description": [
@@ -46,7 +46,29 @@
 				"Type": "JokeBoxEnum",
 				"MinValue": null,
 				"MaxValue": null,
-				"DefaultValue": "raw_JokeBox_Colors2021"
+				"DefaultValue": "raw_JokeBox_colorsDefault"
+			 },
+			 {
+				"Name": "IncludeDir4",
+				"DisplayName": "Cyber Space Boost Filters",
+				"Description": [
+				   "Allows you to which Boost Filter you wish to play during Cyber Space. Choose either the vanilla boost filter or one that mimics the filters to sound like they're from Sonic Generations.\n\nAll changes are still applied no matter what option you chose.",
+				],
+				"Type": "CyberEditEnum",
+				"MinValue": null,
+				"MaxValue": null,
+				"DefaultValue": "raw_CyberSpaceRangersBoost"
+			 },
+			 {
+				"Name": "IncludeDir5",
+				"DisplayName": "Supreme Theme Intro",
+				"Description": [
+				   "Variants for Supreme's theme intro.",
+				],
+				"Type": "SupremeEnum",
+				"MinValue": null,
+				"MaxValue": null,
+				"DefaultValue": "raw_SupremeVocal"
 			 }
 		  ]
 	   }
@@ -104,6 +126,36 @@
 		     ]
 		  },
   	   ],
+     "SpinDashEnum": [
+       {
+         "DisplayName": "Modern",
+         "Value": "raw_SpinDash_modern",
+         "Description": [
+           "Keeps the Spin Dash sounds unchanged."
+         ]
+       },
+       {
+         "DisplayName": "Unleashed",
+         "Value": "raw_SpinDash_unleashed",
+         "Description": [
+           "Replacing the Spin Dash charging sound with that from the Wii / PS2 version of Sonic Unleashed."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast (Light Speed Shoes)",
+         "Value": "raw_SpinDash_06",
+         "Description": [
+           "Replacing the Spin Dash charging sound with that from the Adventure series' Light Speed Shoes / Shadow the Hedgehog / Sonic '06."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast",
+         "Value": "raw_SpinDash_dreamcast",
+         "Description": [
+           "Replacing the Spin Dash charging sound with that from Sonic Adventure."
+		     ]
+		  },
+  	   ],
      "TheEndEnum": [
        {
          "DisplayName": "Vandalize [Re-Edit]",
@@ -152,17 +204,24 @@
   	   ],
 	   "LavaVoiceEnum": [
 		{
-		 "DisplayName": "Sonic Boom: Rise of Lyric",
-		 "Value": "raw_voiceLavaBoom",
+         "DisplayName": "Falling Scream",
+         "Value": "raw_voiceLavaFall",
          "Description": [
-           "Replacing Sonic's awkward shoutings when he dies from the lava in Chaos Island with ones from Sonic Boom: Rise of Lyric. Not the ideal choice but whatever.\n\nI have to admit, Roget sucks when it comes to recording voice clips for dying :/"
+           "Replaces Sonic's awkward voice clips when he melts from the lava with those that he makes when he falls off the map."
          ]
        },
        {
-         "DisplayName": "Sonic Frontiers (Vanilla)",
+         "DisplayName": "Unchanged",
          "Value": "raw_voiceLavaRangers",
          "Description": [
-           "Keeps the vanilla voice clips when Sonic dies from the lava in Chaos Island."
+           "Keeps Sonic's vanilla voice clips."
+         ]
+       },
+       {
+		 "DisplayName": "Sonic Boom: Rise of Lyric",
+		 "Value": "raw_voiceLavaBoom",
+         "Description": [
+           "Replaces Sonic's awkward voice clips when he melts from the lava with voice clips from Sonic Boom: Rise of Lyric that serve the same purpose.\n\nNot the ideal choice but whatever, I included it for fun.\n\nI have to admit, Roget sucks when it comes to recording voice clips for dying :/"
 		     ]
 		  },
   	   ],
@@ -184,17 +243,33 @@
   	   ],
 	   "CyberEditEnum": [
 		{
-		 "DisplayName": "Enable",
-		 "Value": "raw_CyberSpaceOSTEditOn",
+		 "DisplayName": "Frontiers",
+		 "Value": "raw_CyberSpaceRangersBoost",
          "Description": [
            "Enable the Cyber Space OST edits."
          ]
        },
        {
-         "DisplayName": "Disable",
-         "Value": "raw_CyberSpaceOSTEditOff",
+         "DisplayName": "Generations-Esque",
+         "Value": "raw_CyberSpaceGenerationsBoost",
          "Description": [
-           "Disable the Cyber Space OST edits."
+           "Makes the Cyber Space stages' boost filters sound akin to that from Sonic Generations."
+		     ]
+		  },
+  	   ],
+	   "SupremeEnum": [
+		{
+		 "DisplayName": "Vocal",
+		 "Value": "raw_SupremeVocal",
+         "Description": [
+           "Replaces the instrumental part in the intro with the first verse of I'm Here."
+         ]
+       },
+       {
+         "DisplayName": "Instrumental",
+         "Value": "raw_SupremeInstrumental",
+         "Description": [
+           "Keeps the vanilla instrumental intro."
          ]
        }
      ]
