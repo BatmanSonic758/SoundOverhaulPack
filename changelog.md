@@ -16,6 +16,8 @@
 - Mystery Girl is now part of Knight's encounter theme.
 - New sound effects when Knight's encounter ends.
 
+Please reinstall the mod pack again in order to make it work properly!
+
 ## Version 2.1.2 Hotfix
 - Fixed an issue where Hybrid Preset gameplay sounds not loading... whoops...
 
