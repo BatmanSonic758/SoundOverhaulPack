@@ -1,3 +1,6 @@
+## Version 2.2.2 Hotfix
+- Fixed Homing Attack and Hybrid Spin Slash sound volumes.
+
 ## Version 2.2.1 Hotfix
 - Fixed Air Tricks sound volumes.
 - Removed Boost Era's Air Trick, now is uses Vanilla Overhaul's.
