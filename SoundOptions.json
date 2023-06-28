@@ -246,7 +246,7 @@
 		 "DisplayName": "Frontiers",
 		 "Value": "raw_CyberSpaceRangersBoost",
          "Description": [
-           "Enable the Cyber Space OST edits."
+           "Keeps the boost filter unchanged."
          ]
        },
        {
