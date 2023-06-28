@@ -1,3 +1,7 @@
+## Version 2.2.1 Hotfix
+- Fixed Air Tricks sound volumes.
+- Removed Boost Era's Air Trick, now is uses Vanilla Overhaul's.
+
 ## Version 2.2 Update
 Please reinstall the mod pack again in order to make it work properly!
 
