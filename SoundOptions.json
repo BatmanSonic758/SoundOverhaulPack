@@ -84,24 +84,66 @@
          ]
        },
        {
-         "DisplayName": "Boost Era Sounds",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - No Air Tricks",
+         "Value": "raw_frontiers_NoAirTrick",
+         "Description": [
+           "Keeps the modified SFX but reverts the Air Tricks / Wild Rush sound back to it's original version."
+         ]
+       },
+       {
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Boost",
+         "Value": "raw_frontiers_alternative",
+         "Description": [
+           "Alternative Boost sound."
+         ]
+       },
+       {
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Boost + No Air Tricks",
+         "Value": "raw_frontiers_NoAirTrick_alternative",
+         "Description": [
+           "Keeps the modified SFX but reverts the Air Tricks / Wild Rush sound back to it's original version, with an alternative Boost sound."
+         ]
+       },
+       {
+         "DisplayName": "Boost Era",
          "Value": "raw_boost",
          "Description": [
            "Replaces the modified Frontiers SFX with sounds from the Boost Era (Unleashed, Colors, Generations and Lost World)"
          ]
        },
        {
-         "DisplayName": "Dreamcast Era Sounds",
+         "DisplayName": "Boost Era - No Air Tricks",
+         "Value": "raw_boost_NoAirTrick",
+         "Description": [
+           "Keeps the modified SFX but reverts the Air Tricks / Wild Rush sound back to it's original version."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era",
          "Value": "raw_dreamcast",
          "Description": [
            "Replaces the modified Frontiers SFX with sounds from the Dreamcast Era (Adventure 1, 2 and Heroes)"
          ]
        },
        {
-         "DisplayName": "Hybrid Sounds",
+         "DisplayName": "Dreamcast Era - Alternative Drop Dash",
+         "Value": "raw_dreamcast_alternative",
+         "Description": [
+           "Alternative Drop Dash sound."
+         ]
+       },
+       {
+         "DisplayName": "Hybrid",
          "Value": "raw_hybrid",
          "Description": [
            "Merges sounds from each Preset into one!"
+         ]
+       },
+       {
+         "DisplayName": "Hybrid - No Air Tricks",
+         "Value": "raw_hybrid_NoAirTrick",
+         "Description": [
+           "Keeps the modified SFX but reverts the Air Tricks / Wild Rush sound back to it's original version."
          ]
        },
        {
@@ -246,7 +288,7 @@
 		 "DisplayName": "Frontiers",
 		 "Value": "raw_CyberSpaceRangersBoost",
          "Description": [
-           "Keeps the boost filter unchanged."
+           "Enable the Cyber Space OST edits."
          ]
        },
        {
