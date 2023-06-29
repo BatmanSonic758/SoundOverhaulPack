@@ -3,6 +3,7 @@
 - Vanilla Boost has returned in Vanilla Overhaul, the previous sound is repurposed as an alternative.
 - Added versions that disables the Air Tricks for the existing presets.
 - Fixed Sonic's VO volume when he's grabbed by the Caterpillar.
+
 I'll update the Add-Ons later on today :)
 
 ## Version 2.2.2 Hotfix
