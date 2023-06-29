@@ -1,3 +1,7 @@
+## Version 2.2.3 Hotfix
+- Alternative sounds for existing presets are now featured.
+- Fixed Sonic's VO volume when he's grabbed by the Caterpillar.
+
 ## Version 2.2.2 Hotfix
 - Fixed Homing Attack and Hybrid Spin Slash sound volumes.
 
