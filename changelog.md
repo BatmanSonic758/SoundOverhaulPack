@@ -1,5 +1,5 @@
 ## Version 2.2.4 Hotfix
-- The original / unmodified The End track has been added to prevent issues for those who want to use "I'm With You" while playing Ikaruga against the purple moon :)
+- The original / unmodified The End track has been added into "raw_TheEnd_dummy" to prevent issues for those who want to use "I'm With You" while playing Ikaruga against the purple moon :)
 
 ## Version 2.2.3 Hotfix
 - Alternative sounds for existing presets are now featured.
