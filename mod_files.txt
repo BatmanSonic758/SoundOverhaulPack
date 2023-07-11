@@ -65,5 +65,7 @@ add raw_TheEnd_onewaydream/raw/sound/the_end01_sound/bgm_lastboss.acb
 add raw_TheEnd_onewaydream/raw/sound/the_end01_sound/bgm_lastboss.awb
 add raw_TheEnd_vandalize/raw/sound/the_end01_sound/bgm_lastboss.acb
 add raw_TheEnd_vandalize/raw/sound/the_end01_sound/bgm_lastboss.awb
+add raw_TheEnd_dummy/raw/sound/the_end01_sound/bgm_lastboss.acb
+add raw_TheEnd_dummy/raw/sound/the_end01_sound/bgm_lastboss.awb
 add mod.ini
 add SoundOptions.json
