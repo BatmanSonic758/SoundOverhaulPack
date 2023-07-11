@@ -1,3 +1,6 @@
+## Version 2.2.4 Hotfix
+- The original / unmodified The End track has been added to prevent issues for those who want to use "I'm With You" while playing Ikaruga against the purple moon :)
+
 ## Version 2.2.3 Hotfix
 - Alternative sounds for existing presets are now featured.
 - Vanilla Boost has returned in Vanilla Overhaul, the previous sound is repurposed as an alternative.
