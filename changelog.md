@@ -1,3 +1,16 @@
+## Version 2.3 Update (Final Update for now)
+- Added multiple gameplay sounds customizations alongside the No Air Tricks (Boost, Cyloop / Drop Dash and Footsteps)
+- Removed Juke Box modifications in favor of my Enhanced Juke Box mod.
+- New feature has been added - Titan Encounter theme. Choose either you wish Mystery Girl or each Titan's instrumental theme to play when you encounter them for the first time.
+- New Spin Dash varient - Faithful. Which adds the Drop Dash charing sound, making it sound faithful to Frontiers
+- Overhauled Dreamcast Spin Dash sounds.
+- New download option which includes the entire mod and not just the base files for those who don't like the complicated setup.
+
+You know the drill, reinstall the mod.
+With that out the window, this will be the final Update for Sound Overhaul Pack, which means that there will be no hotfixes unless it's something serious. As for the upcoming Add-Ons... I doubt if I'll complete them before Daddy Kish drops Update 3.
+When Update 3 releases, I will remake the mod from scratch because I assume stuff will definitely be broken.
+I have plans for Tails, Knuckles and Amy already in mind. Update 3 will definitely be large but the mod's makeover would be as well :)
+
 ## Version 2.2.4 Hotfix
 - The original / unmodified The End track has been added into "raw_TheEnd_dummy" to prevent issues for those who want to use "I'm With You" while playing Ikaruga against the purple moon :)
 
