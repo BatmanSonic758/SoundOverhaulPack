@@ -28,28 +28,6 @@
 			 },
 			 {
 				"Name": "IncludeDir2",
-				"DisplayName": "The End",
-				"Description": [
-				   "Choose the boss theme for The End.",
-				],
-				"Type": "TheEndEnum",
-				"MinValue": null,
-				"MaxValue": null,
-				"DefaultValue": "raw_TheEnd_vandalize"
-			 },
-			 {
-				"Name": "IncludeDir3",
-				"DisplayName": "Juke Box",
-				"Description": [
-				   "Replaces some of the tracks in the Juke Box in the series' chronological / Generations order (e.g. replacing Angel Island and Mushroom Hill with Green Hill and Chemical Plant).\n\nThe tracks from Sonic Colors is up to your personal preference :)",
-				],
-				"Type": "JokeBoxEnum",
-				"MinValue": null,
-				"MaxValue": null,
-				"DefaultValue": "raw_JokeBox_colorsDefault"
-			 },
-			 {
-				"Name": "IncludeDir4",
 				"DisplayName": "Cyber Space Boost Filters",
 				"Description": [
 				   "Allows you to which Boost Filter you wish to play during Cyber Space. Choose either the vanilla boost filter or one that mimics the filters to sound like they're from Sonic Generations.\n\nAll changes are still applied no matter what option you chose.",
@@ -60,8 +38,19 @@
 				"DefaultValue": "raw_CyberSpaceRangersBoost"
 			 },
 			 {
-				"Name": "IncludeDir5",
-				"DisplayName": "Supreme Theme Intro",
+				"Name": "IncludeDir3",
+				"DisplayName": "Titan Encounter",
+				"Description": [
+				   "Determine if you wish to keep ''Mystery Girl'' or replace it with each Titan's instrumental theme when encountering them for the first time.",
+				],
+				"Type": "TitanMeetEnum",
+				"MinValue": null,
+				"MaxValue": null,
+				"DefaultValue": "raw_TitanMeet_Frontiers"
+			 },
+			 {
+				"Name": "IncludeDir4",
+				"DisplayName": "Supreme",
 				"Description": [
 				   "Variants for Supreme's theme intro.",
 				],
@@ -69,6 +58,17 @@
 				"MinValue": null,
 				"MaxValue": null,
 				"DefaultValue": "raw_SupremeVocal"
+			 },
+			 {
+				"Name": "IncludeDir5",
+				"DisplayName": "The End",
+				"Description": [
+				   "Choose the boss theme for The End.",
+				],
+				"Type": "TheEndEnum",
+				"MinValue": null,
+				"MaxValue": null,
+				"DefaultValue": "raw_TheEnd_vandalize"
 			 }
 		  ]
 	   }
@@ -80,42 +80,112 @@
          "DisplayName": "Vanilla Overhaul (Frontiers)",
          "Value": "raw_frontiers",
          "Description": [
-           "Improving the vanilla sounds with higher quality ones and adds little tweaks to it."
+           "Improving the vanilla sounds by restoring sound details inspired by previous titles and replacing existing sounds with higher quality versions."
+         ]
+       },
+       {
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Old Footsteps",
+         "Value": "raw_frontiers_UnleashedFoot",
+         "Description": [
+           "Replaces the vanilla footsteps sounds with those from previous titles."
          ]
        },
        {
          "DisplayName": "Vanilla Overhaul (Frontiers) - No Air Tricks",
          "Value": "raw_frontiers_NoAirTrick",
          "Description": [
-           "Keeps the modified SFX but reverts the Air Tricks / Wild Rush sound back to it's original version."
+           "Reverts the Air Tricks / Wild Rush sound back to their original and unmodified version."
+         ]
+       },
+       {
+         "DisplayName": "Vanilla Overhaul (Frontiers) - No Air Tricks + Old Footsteps",
+         "Value": "raw_frontiers_UnleashedFoot_NoAirTrick",
+         "Description": [
+           "Reverts the Air Tricks / Wild Rush sound back to their original and unmodified version and replaces the vanilla footsteps sounds with those from previous titles."
          ]
        },
        {
          "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Boost",
          "Value": "raw_frontiers_alternative",
          "Description": [
-           "Alternative Boost sound."
+           "Alternative Boost sound (Sonic Free Riders kick dash)."
+         ]
+       },
+       {
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Boost + Old Footsteps",
+         "Value": "raw_frontiers_UnleashedFoot_alternative",
+         "Description": [
+           "Alternative Boost sound (Sonic Free Riders kick dash) with footsteps sounds from previous titles."
          ]
        },
        {
          "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Boost + No Air Tricks",
          "Value": "raw_frontiers_NoAirTrick_alternative",
          "Description": [
-           "Keeps the modified SFX but reverts the Air Tricks / Wild Rush sound back to it's original version, with an alternative Boost sound."
+           "Original / unmodified Air Tricks / Wild Rush sound with an alternative Boost sound (Sonic Free Riders kick dash)."
+         ]
+       },
+       {
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Boost + Old Footsteps + No Air Tricks",
+         "Value": "raw_frontiers_UnleashedFoot_NoAirTrick_alternative",
+         "Description": [
+           "Original / unmodified  Air Tricks / Wild Rush sound back, replaces the vanilla footsteps sounds with those from previous titles with an alternative Boost sound (Sonic Free Riders kick dash)."
          ]
        },
        {
          "DisplayName": "Boost Era",
          "Value": "raw_boost",
          "Description": [
-           "Replaces the modified Frontiers SFX with sounds from the Boost Era (Unleashed, Colors, Generations and Lost World)"
+           "Replaces the modified Frontiers sounds with those from Boost Era games (Unleashed, Colors, Generations and Lost World)"
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Old Footsteps",
+         "Value": "raw_boost_UnleashedFoot",
+         "Description": [
+           "Replaces the vanilla footsteps sounds with those from previous titles."
          ]
        },
        {
          "DisplayName": "Boost Era - No Air Tricks",
          "Value": "raw_boost_NoAirTrick",
          "Description": [
-           "Keeps the modified SFX but reverts the Air Tricks / Wild Rush sound back to it's original version."
+           "Reverts the Air Tricks / Wild Rush sound back to their original and unmodified version."
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - No Air Tricks + Old Footsteps",
+         "Value": "raw_boost_UnleashedFoot_NoAirTrick",
+         "Description": [
+           "Reverts the Air Tricks / Wild Rush sound back to their original and unmodified version and replaces the vanilla footsteps sounds with those from previous titles."
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Alternative Cyloop",
+         "Value": "raw_boost_LostWorldCyloop",
+         "Description": [
+           "Alternative Cyloop sound (Sonic Lost World parkour)."
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Alternative Cyloop + Old Footsteps",
+         "Value": "raw_boost_UnleashedFoot_LostWorldCyloop",
+         "Description": [
+           "Alternative Cyloop sound (Sonic Lost World parkour) with footsteps sounds from previous titles."
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Alternative Cyloop + No Air Tricks",
+         "Value": "raw_boost_LostWorldCyloop_NoAirTrick",
+         "Description": [
+           "AlternativeCyloop sound (Sonic Lost World parkour) with footsteps sounds from previous titles."
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Alternative Cyloop + Old Footsteps + No Air Tricks",
+         "Value": "raw_boost_UnleashedFoot_LostWorldCyloop_NoAirTrick",
+         "Description": [
+           "Original / unmodified  Air Tricks / Wild Rush sound back, replaces the vanilla footsteps sounds with those from previous titles with an alternative Cyloop sound (Sonic Lost World parkour)."
          ]
        },
        {
@@ -126,10 +196,45 @@
          ]
        },
        {
+         "DisplayName": "Dreamcast Era - Old Footsteps",
+         "Value": "raw_dreamcast_UnleashedFoot",
+         "Description": [
+           "Keeps the modified SFX but replaces the vanilla footsteps sounds with those from previous titles."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Alternative Cyloop",
+         "Value": "raw_dreamcast_LightDashCyloop",
+         "Description": [
+           "Alternative Cyloop sound."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Alternative Cyloop + Old Footsteps",
+         "Value": "raw_dreamcast_UnleashedFoot_LightDashCyloop",
+         "Description": [
+           "Alternative Cyloop sound and replaces the vanilla footsteps sounds with those from previous titles."
+         ]
+       },
+       {
          "DisplayName": "Dreamcast Era - Alternative Drop Dash",
-         "Value": "raw_dreamcast_alternative",
+         "Value": "raw_dreamcast_alternativeDropDash",
          "Description": [
            "Alternative Drop Dash sound."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Alternative Drop Dash + Old Footsteps",
+         "Value": "raw_dreamcast_UnleashedFoot_alternativeDropDash",
+         "Description": [
+           "Alternative Drop Dash sound and replaces the vanilla footsteps sounds with those from previous titles."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Alternative Drop Dash + Alternative Cyloop + Old Footsteps",
+         "Value": "raw_dreamcast_UnleashedFoot_alternativeDropDash_LightDashCyloop",
+         "Description": [
+           "Alternative Drop Dash and Cyloop sounds and replaces the vanilla footsteps sounds with those from previous titles."
          ]
        },
        {
@@ -140,10 +245,24 @@
          ]
        },
        {
+         "DisplayName": "Hybrid - Old Footsteps",
+         "Value": "raw_hybrid_UnleashedFoot",
+         "Description": [
+           "Replaces the vanilla footsteps sounds with those from previous titles."
+         ]
+       },
+       {
          "DisplayName": "Hybrid - No Air Tricks",
          "Value": "raw_hybrid_NoAirTrick",
          "Description": [
            "Keeps the modified SFX but reverts the Air Tricks / Wild Rush sound back to it's original version."
+         ]
+       },
+       {
+         "DisplayName": "Hybrid - No Air Tricks + Old Footsteps",
+         "Value": "raw_hybrid_UnleashedFoot_NoAirTrick",
+         "Description": [
+           "Reverts the Air Tricks / Wild Rush sound back to their original and unmodified version and replaces the vanilla footsteps sounds with those from previous titles."
          ]
        },
        {
@@ -169,6 +288,13 @@
 		  },
   	   ],
      "SpinDashEnum": [
+       {
+         "DisplayName": "Faithful",
+         "Value": "raw_SpinDash_frontiers",
+         "Description": [
+           "Adds the Drop Dash charging sound, making it faithful to Frontiers."
+         ]
+       },
        {
          "DisplayName": "Modern",
          "Value": "raw_SpinDash_modern",
@@ -221,26 +347,19 @@
 		     ]
 		  },
   	   ],
-	   "JokeBoxEnum": [
+	   "TitanMeetEnum": [
 		{
-         "DisplayName": "Colo(u)rs Wii Tracks",
-         "Value": "raw_JokeBox_Colors2010",
+		 "DisplayName": "Vanilla",
+		 "Value": "raw_TitanMeet_Frontiers",
          "Description": [
-           "Replacing ''Reach for the Stars'' and ''Asteroid Coaster'' with their original 2010 versions and keeps the rest of tracks unchanged."
+           "Keeps ''Mystery Girl'' when encountering a Titan for the first time."
          ]
        },
        {
-		 "DisplayName": "Colo(u)rs Ultimate Tracks",
-		 "Value": "raw_JokeBox_Colors2021",
+         "DisplayName": "Instrumental",
+         "Value": "raw_TitanMeet_Instrumental",
          "Description": [
-           "Replacing ''Planet Wisp'' with its Colo(u)rs Ultimate Remix version and keeps the rest of tracks unchanged."
-         ]
-       },
-       {
-         "DisplayName": "Hybrid (Vanilla)",
-         "Value": "raw_JokeBox_colorsDefault",
-         "Description": [
-           "Does not modify any of the Sonic Colo(u)rs soundtrack."
+           "Replaces ''Mystery Girl'' with an instrumental version of each of the Titan's boss theme."
 		     ]
 		  },
   	   ],
