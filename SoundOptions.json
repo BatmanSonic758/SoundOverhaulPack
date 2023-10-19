@@ -6,17 +6,50 @@
        "Elements": [
          {
            "Name": "IncludeDir0",
-           "DisplayName": "Gameplay",
+           "DisplayName": "Sonic",
            "Description": [
-             "Choose the sound preset of your liking."
+             "Choose the sound preset of your liking for Sonic."
            ],
-           "Type": "GameplayEnum",
+           "Type": "GameplaySonicEnum",
            "MinValue": null,
            "MaxValue": null,
-           "DefaultValue": "raw_frontiers"
+           "DefaultValue": "raw_frontiers_Sonic"
 			 },
 			 {
-				"Name": "IncludeDir1",
+           "Name": "IncludeDir1",
+           "DisplayName": "Tails",
+           "Description": [
+             "Choose the sound preset of your liking for Tails."
+           ],
+           "Type": "GameplayTailsEnum",
+           "MinValue": null,
+           "MaxValue": null,
+           "DefaultValue": "raw_frontiers_Tails"
+			 },
+			 {
+           "Name": "IncludeDir2",
+           "DisplayName": "Knuckles",
+           "Description": [
+             "Choose the sound preset of your liking for Knuckles."
+           ],
+           "Type": "GameplayKnucklesEnum",
+           "MinValue": null,
+           "MaxValue": null,
+           "DefaultValue": "raw_frontiers_Knuckles"
+			 },
+			 {
+           "Name": "IncludeDir3",
+           "DisplayName": "Amy",
+           "Description": [
+             "Choose the sound preset of your liking for Amy."
+           ],
+           "Type": "GameplayAmyEnum",
+           "MinValue": null,
+           "MaxValue": null,
+           "DefaultValue": "raw_frontiers_Amy"
+			 },
+			 {
+				"Name": "IncludeDir4",
 				"DisplayName": "Spin Dash",
 				"Description": [
 				   "Choose a variety of different sounds for the Spin Dash.",
@@ -24,21 +57,32 @@
 				"Type": "SpinDashEnum",
 				"MinValue": null,
 				"MaxValue": null,
-				"DefaultValue": "raw_SpinDash_modern"
+				"DefaultValue": "raw_SpinDash_faithful"
 			 },
 			 {
-				"Name": "IncludeDir2",
-				"DisplayName": "Cyber Space Boost Filters",
+				"Name": "IncludeDir5",
+				"DisplayName": "Cyber Space BGM",
 				"Description": [
-				   "Allows you to which Boost Filter you wish to play during Cyber Space. Choose either the vanilla boost filter or one that mimics the filters to sound like they're from Sonic Generations.\n\nAll changes are still applied no matter what option you chose.",
+				   "Choose which types of BGM you want to play in Cyber Space.",
 				],
 				"Type": "CyberEditEnum",
 				"MinValue": null,
 				"MaxValue": null,
-				"DefaultValue": "raw_CyberSpaceRangersBoost"
+				"DefaultValue": "raw_cyberRangersBoost"
 			 },
 			 {
-				"Name": "IncludeDir3",
+				"Name": "IncludeDir6",
+				"DisplayName": "Guardian Intros",
+				"Description": [
+				   "Toggle a language of your liking to play during Guardian Intros or to turn them off, making Sonic mute as he is in the vanilla game.",
+				],
+				"Type": "GuardianTalkEnum",
+				"MinValue": null,
+				"MaxValue": null,
+				"DefaultValue": "raw_guardian_TalkEnglish_Roger"
+			 },
+			 {
+				"Name": "IncludeDir7",
 				"DisplayName": "Titan Encounter",
 				"Description": [
 				   "Determine if you wish to keep ''Mystery Girl'' or replace it with each Titan's instrumental theme when encountering them for the first time.",
@@ -49,19 +93,19 @@
 				"DefaultValue": "raw_TitanMeet_Frontiers"
 			 },
 			 {
-				"Name": "IncludeDir4",
-				"DisplayName": "Supreme",
+				"Name": "IncludeDir8",
+				"DisplayName": "Titan Sequences",
 				"Description": [
-				   "Variants for Supreme's theme intro.",
+				   "Toggle a language of your liking to play during Super Sonic's Titan Sequences or to turn them off, making Sonic mute as he is in the vanilla game.",
 				],
-				"Type": "SupremeEnum",
+				"Type": "SSTalkEnum",
 				"MinValue": null,
 				"MaxValue": null,
-				"DefaultValue": "raw_SupremeVocal"
+				"DefaultValue": "raw_supersonic_TalkEnglish_Roger"
 			 },
 			 {
-				"Name": "IncludeDir5",
-				"DisplayName": "The End",
+				"Name": "IncludeDir9",
+				"DisplayName": "The End (Base Game)",
 				"Description": [
 				   "Choose the boss theme for The End.",
 				],
@@ -69,221 +113,95 @@
 				"MinValue": null,
 				"MaxValue": null,
 				"DefaultValue": "raw_TheEnd_vandalize"
+			 },
+			 {
+				"Name": "IncludeDir10",
+				"DisplayName": "Ouranos Island Theme (Another Story)",
+				"Description": [
+				   "Determine which version of Ouranos Island you wish to play when in Another Story.",
+				],
+				"Type": "OuranosEnum",
+				"MinValue": null,
+				"MaxValue": null,
+				"DefaultValue": "raw_w1r06_Horizon"
+			 },
+			 {
+				"Name": "IncludeDir11",
+				"DisplayName": "Cyber Space BGM (Another Story)",
+				"Description": [
+				   "Choose which types of BGM you want to play in Another Story's Cyber Space stages.",
+				],
+				"Type": "CyberAnotherEnum",
+				"MinValue": null,
+				"MaxValue": null,
+				"DefaultValue": "raw_cyberAnotherRangersBoost"
 			 }
 		  ]
 	   }
 	],
 	
 	"Enums": {
-     "GameplayEnum": [
+     "GameplaySonicEnum": [
        {
-         "DisplayName": "Vanilla Overhaul (Frontiers)",
-         "Value": "raw_frontiers",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - New Footsteps",
+         "Value": "raw_frontiers_Sonic",
          "Description": [
            "Improving the vanilla sounds by restoring sound details inspired by previous titles and replacing existing sounds with higher quality versions."
          ]
        },
        {
          "DisplayName": "Vanilla Overhaul (Frontiers) - Old Footsteps",
-         "Value": "raw_frontiers_UnleashedFoot",
+         "Value": "raw_frontiers_Sonic_UnleashedFoot",
          "Description": [
            "Replaces the vanilla footsteps sounds with those from previous titles."
-         ]
-       },
+		     ]
+		  },
+  	   ],
+     "GameplayTailsEnum": [
        {
-         "DisplayName": "Vanilla Overhaul (Frontiers) - No Air Tricks",
-         "Value": "raw_frontiers_NoAirTrick",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - New Footsteps",
+         "Value": "raw_frontiers_Tails",
          "Description": [
-           "Reverts the Air Tricks / Wild Rush sound back to their original and unmodified version."
+           "Improving the vanilla sounds by restoring sound details inspired by previous titles and replacing existing sounds with higher quality versions."
          ]
        },
        {
-         "DisplayName": "Vanilla Overhaul (Frontiers) - No Air Tricks + Old Footsteps",
-         "Value": "raw_frontiers_UnleashedFoot_NoAirTrick",
-         "Description": [
-           "Reverts the Air Tricks / Wild Rush sound back to their original and unmodified version and replaces the vanilla footsteps sounds with those from previous titles."
-         ]
-       },
-       {
-         "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Boost",
-         "Value": "raw_frontiers_alternative",
-         "Description": [
-           "Alternative Boost sound (Sonic Free Riders kick dash)."
-         ]
-       },
-       {
-         "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Boost + Old Footsteps",
-         "Value": "raw_frontiers_UnleashedFoot_alternative",
-         "Description": [
-           "Alternative Boost sound (Sonic Free Riders kick dash) with footsteps sounds from previous titles."
-         ]
-       },
-       {
-         "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Boost + No Air Tricks",
-         "Value": "raw_frontiers_NoAirTrick_alternative",
-         "Description": [
-           "Original / unmodified Air Tricks / Wild Rush sound with an alternative Boost sound (Sonic Free Riders kick dash)."
-         ]
-       },
-       {
-         "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Boost + Old Footsteps + No Air Tricks",
-         "Value": "raw_frontiers_UnleashedFoot_NoAirTrick_alternative",
-         "Description": [
-           "Original / unmodified  Air Tricks / Wild Rush sound back, replaces the vanilla footsteps sounds with those from previous titles with an alternative Boost sound (Sonic Free Riders kick dash)."
-         ]
-       },
-       {
-         "DisplayName": "Boost Era",
-         "Value": "raw_boost",
-         "Description": [
-           "Replaces the modified Frontiers sounds with those from Boost Era games (Unleashed, Colors, Generations and Lost World)"
-         ]
-       },
-       {
-         "DisplayName": "Boost Era - Old Footsteps",
-         "Value": "raw_boost_UnleashedFoot",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Old Footsteps",
+         "Value": "raw_frontiers_Tails_UnleashedFoot",
          "Description": [
            "Replaces the vanilla footsteps sounds with those from previous titles."
-         ]
-       },
+		     ]
+		  },
+  	   ],
+     "GameplayKnucklesEnum": [
        {
-         "DisplayName": "Boost Era - No Air Tricks",
-         "Value": "raw_boost_NoAirTrick",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - New Footsteps",
+         "Value": "raw_frontiers_Knuckles",
          "Description": [
-           "Reverts the Air Tricks / Wild Rush sound back to their original and unmodified version."
+           "Improving the vanilla sounds by restoring sound details inspired by previous titles and replacing existing sounds with higher quality versions."
          ]
        },
        {
-         "DisplayName": "Boost Era - No Air Tricks + Old Footsteps",
-         "Value": "raw_boost_UnleashedFoot_NoAirTrick",
-         "Description": [
-           "Reverts the Air Tricks / Wild Rush sound back to their original and unmodified version and replaces the vanilla footsteps sounds with those from previous titles."
-         ]
-       },
-       {
-         "DisplayName": "Boost Era - Alternative Cyloop",
-         "Value": "raw_boost_LostWorldCyloop",
-         "Description": [
-           "Alternative Cyloop sound (Sonic Lost World parkour)."
-         ]
-       },
-       {
-         "DisplayName": "Boost Era - Alternative Cyloop + Old Footsteps",
-         "Value": "raw_boost_UnleashedFoot_LostWorldCyloop",
-         "Description": [
-           "Alternative Cyloop sound (Sonic Lost World parkour) with footsteps sounds from previous titles."
-         ]
-       },
-       {
-         "DisplayName": "Boost Era - Alternative Cyloop + No Air Tricks",
-         "Value": "raw_boost_LostWorldCyloop_NoAirTrick",
-         "Description": [
-           "AlternativeCyloop sound (Sonic Lost World parkour) with footsteps sounds from previous titles."
-         ]
-       },
-       {
-         "DisplayName": "Boost Era - Alternative Cyloop + Old Footsteps + No Air Tricks",
-         "Value": "raw_boost_UnleashedFoot_LostWorldCyloop_NoAirTrick",
-         "Description": [
-           "Original / unmodified  Air Tricks / Wild Rush sound back, replaces the vanilla footsteps sounds with those from previous titles with an alternative Cyloop sound (Sonic Lost World parkour)."
-         ]
-       },
-       {
-         "DisplayName": "Dreamcast Era",
-         "Value": "raw_dreamcast",
-         "Description": [
-           "Replaces the modified Frontiers SFX with sounds from the Dreamcast Era (Adventure 1, 2 and Heroes)"
-         ]
-       },
-       {
-         "DisplayName": "Dreamcast Era - Old Footsteps",
-         "Value": "raw_dreamcast_UnleashedFoot",
-         "Description": [
-           "Keeps the modified SFX but replaces the vanilla footsteps sounds with those from previous titles."
-         ]
-       },
-       {
-         "DisplayName": "Dreamcast Era - Alternative Cyloop",
-         "Value": "raw_dreamcast_LightDashCyloop",
-         "Description": [
-           "Alternative Cyloop sound."
-         ]
-       },
-       {
-         "DisplayName": "Dreamcast Era - Alternative Cyloop + Old Footsteps",
-         "Value": "raw_dreamcast_UnleashedFoot_LightDashCyloop",
-         "Description": [
-           "Alternative Cyloop sound and replaces the vanilla footsteps sounds with those from previous titles."
-         ]
-       },
-       {
-         "DisplayName": "Dreamcast Era - Alternative Drop Dash",
-         "Value": "raw_dreamcast_alternativeDropDash",
-         "Description": [
-           "Alternative Drop Dash sound."
-         ]
-       },
-       {
-         "DisplayName": "Dreamcast Era - Alternative Drop Dash + Old Footsteps",
-         "Value": "raw_dreamcast_UnleashedFoot_alternativeDropDash",
-         "Description": [
-           "Alternative Drop Dash sound and replaces the vanilla footsteps sounds with those from previous titles."
-         ]
-       },
-       {
-         "DisplayName": "Dreamcast Era - Alternative Drop Dash + Alternative Cyloop + Old Footsteps",
-         "Value": "raw_dreamcast_UnleashedFoot_alternativeDropDash_LightDashCyloop",
-         "Description": [
-           "Alternative Drop Dash and Cyloop sounds and replaces the vanilla footsteps sounds with those from previous titles."
-         ]
-       },
-       {
-         "DisplayName": "Hybrid",
-         "Value": "raw_hybrid",
-         "Description": [
-           "Merges sounds from each Preset into one!"
-         ]
-       },
-       {
-         "DisplayName": "Hybrid - Old Footsteps",
-         "Value": "raw_hybrid_UnleashedFoot",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Old Footsteps",
+         "Value": "raw_frontiers_Knuckles_UnleashedFoot",
          "Description": [
            "Replaces the vanilla footsteps sounds with those from previous titles."
+		     ]
+		  },
+  	   ],
+     "GameplayAmyEnum": [
+       {
+         "DisplayName": "Vanilla Overhaul (Frontiers) - New Footsteps",
+         "Value": "raw_frontiers_Amy",
+         "Description": [
+           "Improving the vanilla sounds by restoring sound details inspired by previous titles and replacing existing sounds with higher quality versions."
          ]
        },
        {
-         "DisplayName": "Hybrid - No Air Tricks",
-         "Value": "raw_hybrid_NoAirTrick",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Old Footsteps",
+         "Value": "raw_frontiers_Amy_UnleashedFoot",
          "Description": [
-           "Keeps the modified SFX but reverts the Air Tricks / Wild Rush sound back to it's original version."
-         ]
-       },
-       {
-         "DisplayName": "Hybrid - No Air Tricks + Old Footsteps",
-         "Value": "raw_hybrid_UnleashedFoot_NoAirTrick",
-         "Description": [
-           "Reverts the Air Tricks / Wild Rush sound back to their original and unmodified version and replaces the vanilla footsteps sounds with those from previous titles."
-         ]
-       },
-       {
-         "DisplayName": "Custom Preset 1",
-         "Value": "raw_custom1",
-         "Description": [
-           "Allows the use of other sound mods in favor for compatibility.\n\nTo make it work, just drag the associated files that modify either ''sound'' or ''general'' directories. (raw_custom1)."
-         ]
-       },
-       {
-         "DisplayName": "Custom Preset 2",
-         "Value": "raw_custom2",
-         "Description": [
-           "Allows the use of other sound mods in favor for compatibility.\n\nTo make it work, just drag the associated files that modify either ''sound'' or ''general'' directories. (raw_custom2)."
-         ]
-       },
-       {
-         "DisplayName": "Custom Preset 3",
-         "Value": "raw_custom3",
-         "Description": [
-           "Allows the use of other sound mods in favor for compatibility.\n\nTo make it work, just drag the associated files that modify either ''sound'' or ''general'' directories. (raw_custom3)."
+           "Replaces the vanilla footsteps sounds with those from previous titles."
 		     ]
 		  },
   	   ],
@@ -329,18 +247,18 @@
          "DisplayName": "Vandalize [Re-Edit]",
          "Value": "raw_TheEnd_vandalize",
          "Description": [
-           "Replacing ''I'm With You'' with an edited version of ''Vandalize''.\n\nI call it ''Vandalize [Re-Edit]'' :)"
+           "Replacing ''I'm with you'' with an edited version of ''Vandalize''.\n\nI call it ''Vandalize [Re-Edit]'' :)"
          ]
        },
        {
          "DisplayName": "One Way Dream",
          "Value": "raw_TheEnd_onewaydream",
          "Description": [
-           "Replacing ''I'm With You'' with ''One Way Dream''."
+           "Replacing ''I'm with you'' with ''One Way Dream''."
          ]
        },
        {
-         "DisplayName": "I'm With You",
+         "DisplayName": "I'm with you",
          "Value": "raw_TheEnd_dummy",
          "Description": [
            "Does not modify The End's theme."
@@ -388,49 +306,155 @@
   	   ],
 	   "SSTalkEnum": [
 		{
-		 "DisplayName": "Enable",
-		 "Value": "raw_SuperSonicTalkOn",
+		 "DisplayName": "English (Roger Craig Smith)",
+		 "Value": "raw_supersonic_TalkEnglish_Roger",
          "Description": [
-           "Adds new sound effects and voice clips for Sonic in different scenarios while fighting the Titans in order to make him more interactive rather than remaining mute."
+           "Adds Roger's voice to the Titan Sequences."
          ]
        },
        {
-         "DisplayName": "Disable",
-         "Value": "raw_SuperSonicTalkOff",
+         "DisplayName": "Mute",
+         "Value": "raw_supersonic_TalkOff",
          "Description": [
-           "Disables Sonic's newly added dialogue. In order words, keep Sonic the silent protagonist he was.\n\nHowever, it will keep the extra sound effects."
+           "Remains Sonic mute as he is in the vanilla game during the Titan sequences.\n\nHowever, it will keep the extra sound effects."
+		     ]
+		  },
+  	   ],
+	   "GuardianTalkEnum": [
+		{
+		 "DisplayName": "English (Roger Craig Smith)",
+		 "Value": "raw_guardian_TalkEnglish_Roger",
+         "Description": [
+           "Adds Roger's voice to the Guardian Intros."
+         ]
+       },
+       {
+         "DisplayName": "Mute",
+         "Value": "raw_guardian_TalkOff",
+         "Description": [
+           "Remains Sonic mute as he is in the vanilla game during the Guardian intros.\n\nHowever, it will keep the extra sound effects."
 		     ]
 		  },
   	   ],
 	   "CyberEditEnum": [
 		{
-		 "DisplayName": "Frontiers",
-		 "Value": "raw_CyberSpaceRangersBoost",
+		 "DisplayName": "Vanilla Soundtracks (Frontiers Boost Filter)",
+		 "Value": "raw_cyberRangersBoost",
          "Description": [
-           "Enable the Cyber Space OST edits."
+           "Keeps the Cyber Space soundtracks unchanged."
          ]
        },
        {
-         "DisplayName": "Generations-Esque",
-         "Value": "raw_CyberSpaceGenerationsBoost",
+         "DisplayName": "Vanilla Soundtracks (Generations-Esque Boost Filter)",
+         "Value": "raw_cyberGenerationsBoost",
          "Description": [
-           "Makes the Cyber Space stages' boost filters sound akin to that from Sonic Generations."
+           "Makes Cyber Space's boost filters to sound like in Sonic Generations."
+         ]
+       },
+       {
+         "DisplayName": "Another Story Remixes (Frontiers Boost Filter)",
+         "Value": "raw_cyberRangersBoost_AnotherStory",
+         "Description": [
+           "Replaces the Base Game's\nCyber Space stages with their Another Story remixes."
+         ]
+       },
+       {
+         "DisplayName": "Another Story Remixes (Generations-Esque Boost Filter)",
+         "Value": "raw_cyberGenerationsBoost_AnotherStory",
+         "Description": [
+           "Replaces the Base Game's\nCyber Space stages with their Another Story remixes\nand makes Cyber Space's boost filters to sound like in Sonic Generations."
 		     ]
 		  },
   	   ],
 	   "SupremeEnum": [
 		{
-		 "DisplayName": "Vocal",
-		 "Value": "raw_SupremeVocal",
+         "DisplayName": "Instrumental",
+         "Value": "raw_Supreme_instrumental",
          "Description": [
-           "Replaces the instrumental part in the intro with the first verse of I'm Here."
+           "Keeps the vanilla instrumental intro."
          ]
        },
        {
-         "DisplayName": "Instrumental",
-         "Value": "raw_SupremeInstrumental",
+		 "DisplayName": "Vocal",
+		 "Value": "raw_Supreme_vocal",
          "Description": [
-           "Keeps the vanilla instrumental intro."
+           "Replaces the instrumental part in the intro with the first verse of I'm Here."
+		     ]
+		  },
+  	   ],
+	   "OuranosEnum": [
+		{
+         "DisplayName": "Ouranos Island - Remix (Another Story)",
+         "Value": "raw_w1r06_Horizon",
+         "Description": [
+           "Keeps Ouranos Island's theme unchanged."
+         ]
+       },
+       {
+		 "DisplayName": "Second Wind - Sonic Mvt.",
+		 "Value": "raw_w1r06_SonicMvt",
+         "Description": [
+           "Replacing Ouranos Island - Remix with Second Wind - Sonic Mvt."
+         ]
+       },
+       {
+		 "DisplayName": "Ouranos Island (Base Game)",
+		 "Value": "raw_w1r06_Rangers",
+         "Description": [
+           "Replacing Ouranos Island - Remix with the base game's version."
+         ]
+       },
+       {
+		 "DisplayName": "Theme of Starfall Islands",
+		 "Value": "raw_w1r06_Starfall",
+         "Description": [
+           "Replacing Ouranos Island - Remix with Theme of Starfall Islands, like in the base game."
+		     ]
+		  },
+  	   ],
+	   "CyberAnotherEnum": [
+		{
+         "DisplayName": "Vanilla Soundtracks (Frontiers Boost Filter)",
+         "Value": "raw_cyberAnotherRangersBoost",
+         "Description": [
+           "Keeps Another Story's\nCyber Space soundtracks unchanged."
+         ]
+       },
+       {
+		 "DisplayName": "Vanilla Soundtracks (Generations-Esque Boost Filter)",
+         "Value": "raw_cyberAnotherGenerationsBoost",
+         "Description": [
+           "Makes Another Story's\nCyber Space boost filters to sound like in Sonic Generations."
+         ]
+       },
+       {
+		 "DisplayName": "Base Game Tracks (Frontiers Boost Filter)",
+         "Value": "raw_cyberAnotherRangersBoost_Base",
+         "Description": [
+           "Replaces the Another Story's\nCyber Space stages with their base game versions."
+         ]
+       },
+       {
+		 "DisplayName": "Base Game Tracks (Generations-Esque Boost Filter)",
+         "Value": "raw_cyberAnotherGenerationsBoost_Base",
+         "Description": [
+           "Replaces Another Story's\nCyber Space stages with their base game versions, and makes Cyber Space's boost filters to sound like in Sonic Generations."
+		     ]
+		  },
+  	   ],
+	   "SupremeBeastEnum": [
+		{
+         "DisplayName": "Monologue on",
+         "Value": "raw_SupremeBeast_talkOn",
+         "Description": [
+           "Adds The End's monologue from the base game to the Another Story battle."
+         ]
+       },
+       {
+		 "DisplayName": "Monologue off",
+		 "Value": "raw_SupremeBeast_talkOff",
+         "Description": [
+           "Disables the monologue."
          ]
        }
      ]
