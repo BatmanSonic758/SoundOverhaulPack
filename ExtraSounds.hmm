@@ -1,0 +1,994 @@
+Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
+//
+    #lib "Player"
+	#lib "Sonic"
+    #lib "Time"
+    #lib "Lua"
+    #lib "HMM"
+    #lib "INI"
+	
+	#load "System.Numerics.dll"
+
+    using System.Numerics;
+
+    static bool isGrindStep = false;
+	static bool isSpinJump = false;
+	static bool isDoubleJumpGrunt = false;
+	static bool isStompAttack = false;
+	static bool isSquatGrunt = false;
+	static bool isDeath = false;
+	static bool isDashRamp = false;
+	static bool isTrickFinish = false;
+	static bool isDriftGrunt = false;
+	static bool isClimbGrunt = false;
+	static bool isBreatheGrunt = false;
+
+//
+{
+    //Play a sound when switching rails    
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateGrindStep)
+    {
+        if (!isGrindStep)
+        {
+            Player.Sound.PlaySound("sn_triangle_jump");
+            Player.Sound.PlaySound("sa1007");
+            isGrindStep = true;
+        }
+    }
+    else
+    {
+        isGrindStep = false;
+    }
+
+    //Sonic's spin sounds plays when he curls into a ball, like in Forces.    
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateJump)
+    {
+        if (!isSpinJump)
+        {
+			Player.Sound.PlaySound("_sn_spin");
+			Player.Sound.PlaySound("sa1003");
+            isSpinJump = true;
+        }
+    }
+    else
+    {
+        isSpinJump = false;
+    }
+
+    //Sonic grunts when performing a Double Jump    
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDoubleJump)
+    {
+        if (!isDoubleJumpGrunt)
+        {
+			Player.Sound.PlaySound("sa1005");
+            isDoubleJumpGrunt = true;
+        }
+    }
+    else
+    {
+        isDoubleJumpGrunt = false;
+    }
+
+    //Restores Sonic's Stomp Attack sound    
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingDown)
+    {
+        if (!isStompAttack)
+        {
+            Player.Sound.PlaySound("_sn_stomping_start");
+            Player.Sound.PlaySound("sa1023");
+            isStompAttack = true;
+        }
+    }
+    else
+    {
+        isStompAttack = false;
+    }
+
+    //Sonic grunts while squatting    
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSquat)
+    {
+        if (!isSquatGrunt)
+        {
+            Player.Sound.PlaySound("sn_climb_jump");
+			Player.Sound.PlaySound("sa1007");
+            isSquatGrunt = true;
+        }
+    }
+    else
+    {
+        isSquatGrunt = false;
+    }
+
+    //Sonic Death Grunt    
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDead)
+    {
+        if (!isDeath)
+        {
+            Player.Sound.PlaySound("sa1027");
+            isDeath = true;
+        }
+    }
+    else
+    {
+        isDeath = false;
+    }
+
+    //Plays a somersault sound when Sonic finish tricks    
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateRecoveryJump)
+    {
+        if (!isTrickFinish)
+        {
+            Player.Sound.PlaySound("sn_climb_balance_ok");
+            Player.Sound.PlaySound("sa1001");
+            isTrickFinish = true;
+        }
+    }
+    else
+    {
+        isTrickFinish = false;
+    }
+
+    //Sonic grunts while drifting    
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDrift)
+    {
+        if (!isDriftGrunt)
+        {
+            Player.Sound.PlaySound("sn_sliding");
+			Player.Sound.PlaySound("sa1010");
+            isDriftGrunt = true;
+        }
+    }
+    else
+    {
+        isDriftGrunt = false;
+    }
+
+    //Sonic grunts when climbing.    
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateClimbing)
+    {
+        if (!isClimbGrunt)
+        {
+            Player.Sound.PlaySound("sa1002");
+            isClimbGrunt = true;
+        }
+    }
+    else
+    {
+        isClimbGrunt = false;
+    }
+
+    //Sonic grunts when exiting deep water (yes, that exists).    
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateBreathe)
+    {
+        if (!isBreatheGrunt)
+        {
+            Player.Sound.PlaySound("sa1033");
+            isBreatheGrunt = true;
+        }
+    }
+    else
+    {
+        isBreatheGrunt = false;
+    }
+
+    //Restores the proper Dash Ramp sound from previous titles    
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateJumpBoardLaunch)
+    {
+        if (!isDashRamp)
+        {
+            Player.Sound.PlaySound("sn_chaosemerald_use");
+            isDashRamp = true;
+        }
+    }
+    else
+    {
+        isDashRamp = false;
+    }
+}
+
+Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
+//
+    #lib "Player"
+	#lib "Tails"
+    #lib "Time"
+    #lib "Lua"
+    #lib "HMM"
+    #lib "INI"
+	
+	#load "System.Numerics.dll"
+
+    using System.Numerics;
+
+    static bool isGrindStep = false;
+	static bool isSpinJump = false;
+	static bool isDoubleJumpGrunt = false;
+	static bool isStompAttackStart = false;
+	static bool isStompAttack = false;
+	static bool isSquatGrunt = false;
+	static bool isDeath = false;
+	static bool isDashRamp = false;
+	static bool isTrickFinish = false;
+	static bool isDriftGrunt = false;
+	static bool isClimbGrunt = false;
+	static bool isBreatheGrunt = false;
+	static bool isFlyTired = false;
+	static bool isCycloneStart = false;
+
+//
+{
+    //Play a sound when switching rails (Tails)    
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateGrindStep)
+    {
+        if (!isGrindStep)
+        {
+            Player.Sound.PlaySound("sn_triangle_jump");
+            Player.Sound.PlaySound("sa1007");
+            isGrindStep = true;
+        }
+    }
+    else
+    {
+        isGrindStep = false;
+    }
+
+    //Tails's spin sounds plays when he curls into a ball, like in Forces.    
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateJump)
+    {
+        if (!isSpinJump)
+        {
+			Player.Sound.PlaySound("_sn_spin");
+			Player.Sound.PlaySound("sa1001");
+            isSpinJump = true;
+        }
+    }
+    else
+    {
+        isSpinJump = false;
+    }
+
+    //Tails grunts when performing a Double Jump    
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateDoubleJump)
+    {
+        if (!isDoubleJumpGrunt)
+        {
+			Player.Sound.PlaySound("sa1007");
+            isDoubleJumpGrunt = true;
+        }
+    }
+    else
+    {
+        isDoubleJumpGrunt = false;
+    }
+
+    //Restores Tails's Stomp Attack sound    
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.TailsStateStomping)
+    {
+        if (!isStompAttackStart)
+        {
+            Player.Sound.PlaySound("sn_stomping_start");
+            Player.Sound.PlaySound("sa1110");
+            isStompAttackStart = true;
+        }
+    }
+    else
+    {
+        isStompAttackStart = false;
+    }
+
+    //Restores Tails's Stomp Attack sound    
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.TailsStateStompingDown)
+    {
+        if (!isStompAttack)
+        {
+            Player.Sound.PlaySound("sn_stomping_start");
+            Player.Sound.PlaySound("sa1011");
+            isStompAttack = true;
+        }
+    }
+    else
+    {
+        isStompAttack = false;
+    }
+
+    //Tails grunts while squatting    
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateSquat)
+    {
+        if (!isSquatGrunt)
+        {
+            Player.Sound.PlaySound("sn_climb_jump");
+			Player.Sound.PlaySound("ta1100");
+            isSquatGrunt = true;
+        }
+    }
+    else
+    {
+        isSquatGrunt = false;
+    }
+
+    //Tails Death Grunt    
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateDead)
+    {
+        if (!isDeath)
+        {
+            Player.Sound.PlaySound("sa1027");
+            isDeath = true;
+        }
+    }
+    else
+    {
+        isDeath = false;
+    }
+
+    //Plays a somersault sound when Tails finish tricks.    
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateRecoveryJump)
+    {
+        if (!isTrickFinish)
+        {
+            Player.Sound.PlaySound("sn_climb_balance_ok");
+            Player.Sound.PlaySound("ta1110");
+            isTrickFinish = true;
+        }
+    }
+    else
+    {
+        isTrickFinish = false;
+    }
+
+    //Tails grunts while drifting.    
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateDrift)
+    {
+        if (!isDriftGrunt)
+        {
+            Player.Sound.PlaySound("sa1010");
+            isDriftGrunt = true;
+        }
+    }
+    else
+    {
+        isDriftGrunt = false;
+    }
+
+    //Tails grunts when climbing.    
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateClimbing)
+    {
+        if (!isClimbGrunt)
+        {
+            Player.Sound.PlaySound("sa1002");
+            isClimbGrunt = true;
+        }
+    }
+    else
+    {
+        isClimbGrunt = false;
+    }
+
+    //Tails grunts when exiting deep water (yes, that exists).    
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateBreathe)
+    {
+        if (!isBreatheGrunt)
+        {
+            Player.Sound.PlaySound("sa1033");
+            isBreatheGrunt = true;
+        }
+    }
+    else
+    {
+        isBreatheGrunt = false;
+    }
+
+    //Restores the proper Dash Ramp sound from previous titles    
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateJumpBoardLaunch)
+    {
+        if (!isDashRamp)
+        {
+            Player.Sound.PlaySound("sn_chaosemerald_use");
+            isDashRamp = true;
+        }
+    }
+    else
+    {
+        isDashRamp = false;
+    }
+
+    //Adds a few sounds when the Cyclone appears    
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateCycloneAppear)
+    {
+        if (!isCycloneStart)
+        {
+            Player.Sound.PlaySound("ta1110");
+			Player.Sound.PlaySound("sn_triangle_jump");
+			Player.Sound.PlaySound("sn_somersault");
+            isCycloneStart = true;
+        }
+    }
+    else
+    {
+        isCycloneStart = false;
+    }
+}
+
+Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
+//
+    #lib "Player"
+	#lib "Knuckles"
+    #lib "Time"
+    #lib "Lua"
+    #lib "HMM"
+    #lib "INI"
+	
+	#load "System.Numerics.dll"
+
+    using System.Numerics;
+
+    static bool isGrindStep = false;
+	static bool isSpinJump = false;
+	static bool isDoubleJumpGrunt = false;
+	static bool isStompAttackLand = false;
+	static bool isStompAttack = false;
+	static bool isSquatGrunt = false;
+	static bool isDeath = false;
+	static bool isDashRamp = false;
+	static bool isTrickFinish = false;
+	static bool isDriftGrunt = false;
+	static bool isClimbGrunt = false;
+	static bool isBreatheGrunt = false;
+	static bool isDrillStart = false;
+	static bool isDrillJump = false;
+
+//
+{
+    //Play a sound when switching rails (Knuckles)    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateGrindStep)
+    {
+        if (!isGrindStep)
+        {
+            Player.Sound.PlaySound("sn_triangle_jump");
+            Player.Sound.PlaySound("sa1007");
+            isGrindStep = true;
+        }
+    }
+    else
+    {
+        isGrindStep = false;
+    }
+
+    //Knuckles's spin sounds plays when he curls into a ball, like in Forces.    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateJump)
+    {
+        if (!isSpinJump)
+        {
+			Player.Sound.PlaySound("_sn_spin");
+			Player.Sound.PlaySound("sa1003");
+            isSpinJump = true;
+        }
+    }
+    else
+    {
+        isSpinJump = false;
+    }
+
+    //Knuckles grunts when performing a Double Jump    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateDoubleJump)
+    {
+        if (!isDoubleJumpGrunt)
+        {
+			Player.Sound.PlaySound("sa1007");
+            isDoubleJumpGrunt = true;
+        }
+    }
+    else
+    {
+        isDoubleJumpGrunt = false;
+    }
+
+    //Restores Knuckles's Stomp Attack sound    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.KnucklesStateStompingDown)
+    {
+        if (!isStompAttack)
+        {
+            Player.Sound.PlaySound("kn_heatknuckle_start");
+			Player.Sound.PlaySound("ka1202");
+            isStompAttack = true;
+        }
+    }
+    else
+    {
+        isStompAttack = false;
+    }
+
+    //Restores Knuckles's Stomp Attack sound    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.KnucklesStateStompingLand)
+    {
+        if (!isStompAttackLand)
+        {
+			Player.Sound.PlaySound("ka1110");
+            isStompAttackLand = true;
+        }
+    }
+    else
+    {
+        isStompAttackLand = false;
+    }
+
+    //Knuckles grunts while squatting    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateSquat)
+    {
+        if (!isSquatGrunt)
+        {
+            Player.Sound.PlaySound("sn_climb_jump");
+			Player.Sound.PlaySound("sa1001");
+            isSquatGrunt = true;
+        }
+    }
+    else
+    {
+        isSquatGrunt = false;
+    }
+
+    //Knuckles Death Grunt    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateDead)
+    {
+        if (!isDeath)
+        {
+            Player.Sound.PlaySound("sa1027");
+            isDeath = true;
+        }
+    }
+    else
+    {
+        isDeath = false;
+    }
+
+    //Plays a somersault sound when Knuckles finish tricks.    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateRecoveryJump)
+    {
+        if (!isTrickFinish)
+        {
+            Player.Sound.PlaySound("sn_climb_balance_ok");
+            Player.Sound.PlaySound("ka1110");
+            isTrickFinish = true;
+        }
+    }
+    else
+    {
+        isTrickFinish = false;
+    }
+
+    //Knuckles grunts while drifting.    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateDrift)
+    {
+        if (!isDriftGrunt)
+        {
+            Player.Sound.PlaySound("sa1010");
+            isDriftGrunt = true;
+        }
+    }
+    else
+    {
+        isDriftGrunt = false;
+    }
+
+    //Knuckles grunts when climbing.    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateClimbing)
+    {
+        if (!isClimbGrunt)
+        {
+            Player.Sound.PlaySound("sa1002");
+            isClimbGrunt = true;
+        }
+    }
+    else
+    {
+        isClimbGrunt = false;
+    }
+
+    //Knuckles grunts when exiting deep water (yes, that exists).    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateBreathe)
+    {
+        if (!isBreatheGrunt)
+        {
+            Player.Sound.PlaySound("sa1033");
+            isBreatheGrunt = true;
+        }
+    }
+    else
+    {
+        isBreatheGrunt = false;
+    }
+
+    //Restores the proper Dash Ramp sound from previous titles    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateJumpBoardLaunch)
+    {
+        if (!isDashRamp)
+        {
+            Player.Sound.PlaySound("sn_chaosemerald_use");
+            isDashRamp = true;
+        }
+    }
+    else
+    {
+        isDashRamp = false;
+    }
+
+    //Plays a sound when Knuckles starts his Drill Boost    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.KnucklesStateDrillBoost)
+    {
+        if (!isDrillStart)
+        {
+            Player.Sound.PlaySound("ka1110");            
+			Player.Sound.PlaySound("_sn_stomping_start");
+            isDrillStart = true;
+        }
+    }
+    else
+    {
+        isDrillStart = false;
+    }
+
+    //Plays a sound when Knuckles jumps when in a Drill Boost    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.KnucklesStateDrillBoostJump)
+    {
+        if (!isDrillJump)
+        {
+            Player.Sound.PlaySound("sn_triangle_jump");
+            isDrillJump = true;
+        }
+    }
+    else
+    {
+        isDrillJump = false;
+    }
+}
+
+Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
+//
+    #lib "Player"
+	#lib "Amy"
+    #lib "Time"
+    #lib "Lua"
+    #lib "HMM"
+    #lib "INI"
+	
+	#load "System.Numerics.dll"
+
+    using System.Numerics;
+
+    static bool isGrindStep = false;
+	static bool isSpinJump = false;
+	static bool isDoubleJumpGrunt = false;
+	static bool isStompAttackLand = false;
+	static bool isStompAttack = false;
+	static bool isSquatGrunt = false;
+	static bool isDeath = false;
+	static bool isDashRamp = false;
+	static bool isTrickFinish = false;
+	static bool isCyHammerGrunt = false;
+	static bool isClimbGrunt = false;
+	static bool isBreatheGrunt = false;
+	static bool isDriftCard = false;
+
+//
+{
+    //Play a sound when switching rails    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateGrindStep)
+    {
+        if (!isGrindStep)
+        {
+            Player.Sound.PlaySound("sn_triangle_jump");
+            Player.Sound.PlaySound("sa1007");
+            isGrindStep = true;
+        }
+    }
+    else
+    {
+        isGrindStep = false;
+    }
+
+    //Amy grunts when jumping    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateJump)
+    {
+        if (!isSpinJump)
+        {
+			Player.Sound.PlaySound("_sn_triangle_jump");
+			Player.Sound.PlaySound("sa1001");
+            isSpinJump = true;
+        }
+    }
+    else
+    {
+        isSpinJump = false;
+    }
+
+    //Amy grunts when performing a Double Jump    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateDoubleJump)
+    {
+        if (!isDoubleJumpGrunt)
+        {
+			Player.Sound.PlaySound("sa1009");
+            isDoubleJumpGrunt = true;
+        }
+    }
+    else
+    {
+        isDoubleJumpGrunt = false;
+    }
+
+    //Amy grunts when stomping    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.AmyStateStompingDown)
+    {
+        if (!isStompAttack)
+        {
+			Player.Sound.PlaySound("sa1024");
+            isStompAttack = true;
+        }
+    }
+    else
+    {
+        isStompAttack = false;
+    }
+
+    //Amy grunts while squatting    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateSquat)
+    {
+        if (!isSquatGrunt)
+        {
+            Player.Sound.PlaySound("sn_climb_jump");
+			Player.Sound.PlaySound("sa1038");
+            isSquatGrunt = true;
+        }
+    }
+    else
+    {
+        isSquatGrunt = false;
+    }
+
+    //Amy Death Grunt    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateDead)
+    {
+        if (!isDeath)
+        {
+            Player.Sound.PlaySound("sa1027");
+            isDeath = true;
+        }
+    }
+    else
+    {
+        isDeath = false;
+    }
+
+    //Plays a somersault sound when Amy finish tricks    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateRecoveryJump)
+    {
+        if (!isTrickFinish)
+        {
+            Player.Sound.PlaySound("sn_climb_balance_ok");
+            Player.Sound.PlaySound("sa1034");
+            isTrickFinish = true;
+        }
+    }
+    else
+    {
+        isTrickFinish = false;
+    }
+
+    //Amy grunts when swinging her hammer    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateCyHammer)
+    {
+        if (!isCyHammerGrunt)
+        {
+            Player.Sound.PlaySound("sa1024");
+            isCyHammerGrunt = true;
+        }
+    }
+    else
+    {
+        isCyHammerGrunt = false;
+    }
+
+    //Amy grunts when climbing    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateClimbing)
+    {
+        if (!isClimbGrunt)
+        {
+            Player.Sound.PlaySound("sa1002");
+            isClimbGrunt = true;
+        }
+    }
+    else
+    {
+        isClimbGrunt = false;
+    }
+
+    //Amy grunts when exiting deep water (yes, that exists)    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateBreathe)
+    {
+        if (!isBreatheGrunt)
+        {
+            Player.Sound.PlaySound("sa1033");
+            isBreatheGrunt = true;
+        }
+    }
+    else
+    {
+        isBreatheGrunt = false;
+    }
+
+    //Restores the proper Dash Ramp sound from previous titles    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateJumpBoardLaunch)
+    {
+        if (!isDashRamp)
+        {
+            Player.Sound.PlaySound("sn_chaosemerald_use");
+            isDashRamp = true;
+        }
+    }
+    else
+    {
+        isDashRamp = false;
+    }
+
+    //Amy grunts when drifting    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.AmyStateTarotDrift)
+    {
+        if (!isDriftCard)
+        {
+            Player.Sound.PlaySound("aa1112");
+			Player.Sound.PlaySound("_sn_drift");
+            isDriftCard = true;
+        }
+    }
+    else
+    {
+        isDriftCard = false;
+    }
+}
