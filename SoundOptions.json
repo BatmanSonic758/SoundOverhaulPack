@@ -154,6 +154,20 @@
          "Value": "raw_frontiers_Sonic_UnleashedFoot",
          "Description": [
            "Replaces the vanilla footsteps sounds with those from previous titles."
+         ]
+       },
+       {
+         "DisplayName": "Vanilla Overhaul (Frontiers) - New Footsteps + No Air Tricks",
+         "Value": "raw_frontiers_Sonic_NoAirTricks",
+         "Description": [
+           "Replaces the vanilla footsteps sounds with those from previous titles."
+         ]
+       },
+       {
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Old Footsteps + No Air Tricks",
+         "Value": "raw_frontiers_Sonic_UnleashedFoot_NoAirTricks",
+         "Description": [
+           "Replaces the vanilla footsteps sounds with those from previous titles."
 		     ]
 		  },
   	   ],
