@@ -15,6 +15,8 @@ add raw_frontiers_Knuckles/raw/sound/knuckles_sound/se_rangers_player_knuckles.a
 add raw_frontiers_Knuckles_UnleashedFoot/raw/sound/knuckles_sound/se_rangers_player_knuckles.acb
 add raw_frontiers_Sonic/raw/sound/sonic_sound/se_rangers_player_sonic.acb
 add raw_frontiers_Sonic_UnleashedFoot/raw/sound/sonic_sound/se_rangers_player_sonic.acb
+add raw_frontiers_Sonic_NoAirTricks/raw/sound/sonic_sound/se_rangers_player_sonic.acb
+add raw_frontiers_Sonic_UnleashedFoot_NoAirTricks/raw/sound/sonic_sound/se_rangers_player_sonic.acb
 add raw_frontiers_Tails/raw/sound/tails_sound/se_rangers_player_tails.acb
 add raw_frontiers_Tails_UnleashedFoot/raw/sound/tails_sound/se_rangers_player_tails.acb
 add raw_guardian_TalkEnglish_Roger/raw/sound/chargercommon_sound/se_rangers_miniboss_charger.acb
