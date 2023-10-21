@@ -1,3 +1,7 @@
+## Version 3.0.1
+- Added an option that disables the Air Tricks... again...
+
+
 ## Version 3.0 (REVISED)
 - Reworked to be compatible with The Final Horizon (Update 3).
 - Perfect Parry sound plays when doing a regular Parry.
