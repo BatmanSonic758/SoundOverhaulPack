@@ -1,3 +1,6 @@
+## Version 3.0.2
+- Fixed an Error Compiling Codes bug.
+
 ## Version 3.0.1
 - Added an option that disables the Air Tricks... again...
 
