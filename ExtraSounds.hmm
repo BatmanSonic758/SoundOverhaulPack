@@ -244,7 +244,6 @@ Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
 	static bool isDriftGrunt = false;
 	static bool isClimbGrunt = false;
 	static bool isBreatheGrunt = false;
-	static bool isFlyTired = false;
 	static bool isCycloneStart = false;
 
 //
@@ -770,7 +769,6 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
     static bool isGrindStep = false;
 	static bool isSpinJump = false;
 	static bool isDoubleJumpGrunt = false;
-	static bool isStompAttackLand = false;
 	static bool isStompAttack = false;
 	static bool isSquatGrunt = false;
 	static bool isDeath = false;
