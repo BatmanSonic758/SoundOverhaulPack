@@ -1,4 +1,4 @@
-## Version 3.0.2
+## Version 3.1
 - Fixed an Error Compiling Codes bug.
 
 ## Version 3.0.1
