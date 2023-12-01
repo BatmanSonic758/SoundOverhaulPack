@@ -1,4 +1,4 @@
-##Version 3.1 (Batman Sonic's Birthday Bash!!!)
+## Version 3.1 (Batman Sonic's Birthday Bash!!!)
 Happy birthday to me :D
 No need to redownload the mod, but highly recommended.
 If you already have the mod install, copy paste every file from either the Full Package of Base Files .rar files except from mod.ini.
