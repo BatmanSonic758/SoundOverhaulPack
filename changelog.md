@@ -1,3 +1,23 @@
+##Version 3.1 (Batman Sonic's Birthday Bash!!!)
+Happy birthday to me :D
+No need to redownload the mod, but highly recommended.
+If you already have the mod install, copy paste every file from either the Full Package of Base Files .rar files except from mod.ini.
+
+- Reorganized the config file, the options are now divided into three categories: Characters, Skills and Miscellaneous. 
+- Tweaked Supreme's sounds (Thanks SuperNova124 :D)
+- Added I'm Here [Re-Edit] to Another Story.
+- Added small tweaks to I'm Here: Revisited.
+- An option to add The End's monologue to Another Story.
+- Added triangle jump sound when Sonic jumps with an animal in Another Story's Cyber Space / with a Koco.
+- More sounds for Knuckles and Amy, especially Knuckles.
+- 8 (technically 10) edited cutscenes, including both HD and 4K versions.
+- Restored unused Camera Gaze sound (a sound now plays when you press Right Stick when you lock on into a target, I call it a focus lock on).
+- Added a Forces-like spin jump sound for all characters (yes, even Amy).
+- Added a tired sound for Tails.
+- Added a sound (inspired by Amy) when each character enters that flip animation when interacting with terrian.
+- Added a unique boost sound for Super Sonic, similar to previous titles.
+- Added a fix for boost sounds being missing for Tails and Amy (normally missing when boosting on rails with max rings)
+
 ## Version 3.0.2
 - Fixed an Error Compiling Codes bug.
 
