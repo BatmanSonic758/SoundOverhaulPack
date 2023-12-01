@@ -11,7 +11,9 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
 
     using System.Numerics;
 
-    static bool isGrindStep = false;
+    static bool isAttackWindmill = false;
+    static bool isCrossSlash = false;        
+	static bool isGrindStep = false;
 	static bool isSpinJump = false;
 	static bool isDoubleJumpGrunt = false;
 	static bool isStompAttack = false;
@@ -22,9 +24,46 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
 	static bool isDriftGrunt = false;
 	static bool isClimbGrunt = false;
 	static bool isBreatheGrunt = false;
+	static bool isAnimalJump = false;
+	static bool isKocoJump = false;
 
 //
 {
+    //Alternative way to handle Windmill Kick
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateHomingFinish)
+    {
+        if (!isAttackWindmill)
+        {
+            Player.Sound.PlaySound("sa1013_1");
+			Player.Sound.PlaySound("sn_triangle_jump");
+            isAttackWindmill = true;
+        }
+    }
+    else
+    {
+        isAttackWindmill = false;
+    }
+
+    //Alternative Cross Slash grunt  
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateCrossSlash)
+    {
+        if (!isCrossSlash)
+        {
+            Player.Sound.PlaySound("sa1019_1");
+            isCrossSlash = true;
+        }
+    }
+    else
+    {
+        isCrossSlash = false;
+    }
+
     //Play a sound when switching rails    
     if (Player.GetPlayerType() != Player.PlayerType.Sonic)
         return;
@@ -51,7 +90,6 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     {
         if (!isSpinJump)
         {
-			Player.Sound.PlaySound("_sn_spin");
 			Player.Sound.PlaySound("sa1003");
             isSpinJump = true;
         }
@@ -87,7 +125,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
         if (!isStompAttack)
         {
             Player.Sound.PlaySound("_sn_stomping_start");
-            Player.Sound.PlaySound("sa1023");
+            Player.Sound.PlaySound("sa1004");
             isStompAttack = true;
         }
     }
@@ -157,7 +195,6 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     {
         if (!isDriftGrunt)
         {
-            Player.Sound.PlaySound("sn_sliding");
 			Player.Sound.PlaySound("sa1010");
             isDriftGrunt = true;
         }
@@ -199,6 +236,42 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     else
     {
         isBreatheGrunt = false;
+    }
+
+    //Adds the triangle jump for when jumping with a Koco    
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateJumpWithKodama)
+    {
+        if (!isKocoJump)
+        {
+			Player.Sound.PlaySound("sn_triangle_jump");
+			Player.Sound.PlaySound("sa1003");
+            isKocoJump = true;
+        }
+    }
+    else
+    {
+        isKocoJump = false;
+    }
+
+    //Adds the triangle jump for when jumping with an animal    
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateJumpWithAnimal)
+    {
+        if (!isAnimalJump)
+        {
+			Player.Sound.PlaySound("sn_triangle_jump");
+			Player.Sound.PlaySound("sa1003");
+            isAnimalJump = true;
+        }
+    }
+    else
+    {
+        isAnimalJump = false;
     }
 
     //Restores the proper Dash Ramp sound from previous titles    
@@ -468,7 +541,7 @@ Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
         {
             Player.Sound.PlaySound("ta1110");
 			Player.Sound.PlaySound("sn_triangle_jump");
-			Player.Sound.PlaySound("sn_somersault");
+			Player.Sound.PlaySound("sn_chaosemerald_guard");
             isCycloneStart = true;
         }
     }
@@ -505,6 +578,9 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
 	static bool isBreatheGrunt = false;
 	static bool isDrillStart = false;
 	static bool isDrillJump = false;
+	static bool isCyknuckle = false;
+	static bool isCyknuckleGround = false;
+	static bool isCyknuckleWall = false;
 
 //
 {
@@ -717,11 +793,64 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
         isDashRamp = false;
     }
 
+    //Knuckles grunts when performing Cyknuckle    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateCyKnuckle)
+    {
+        if (!isCyknuckleGround)
+        {        
+			Player.Sound.PlaySound("sa1024");
+            isCyknuckleGround = true;
+        }
+    }
+    else
+    {
+        isCyknuckleGround = false;
+    }
+
+    //Knuckles grunts when performing Cyknuckle in wall    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateCyKnuckleWall)
+    {
+        if (!isCyknuckleWall)
+        {        
+			Player.Sound.PlaySound("sa1010");
+            isCyknuckleWall = true;
+        }
+    }
+    else
+    {
+        isCyknuckleWall = false;
+    }
+
+    //Adds a stomping sound when Knuckles starts his Cyknuckle    
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateCyKnucklePreFall)
+    {
+        if (!isCyknuckle)
+        {        
+			Player.Sound.PlaySound("sn_chaosemerald_guard");
+			Player.Sound.PlaySound("sn_skateboard_jump");
+			Player.Sound.PlaySound("ka1202");
+            isCyknuckle = true;
+        }
+    }
+    else
+    {
+        isCyknuckle = false;
+    }
+
     //Plays a sound when Knuckles starts his Drill Boost    
     if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
         return;
     
-    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.KnucklesStateDrillBoost)
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.KnucklesStateDrillBoost && Player.Input.IsPressed(Player.InputActionType.PlayerBoost))
     {
         if (!isDrillStart)
         {
@@ -778,6 +907,10 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
 	static bool isClimbGrunt = false;
 	static bool isBreatheGrunt = false;
 	static bool isDriftCard = false;
+	static bool isPropellerHover = false;
+    static bool isCardJump = false;
+	static bool isCardSpinJump = false;
+	static bool isCardSpinDizzy = false;
 
 //
 {
@@ -981,12 +1114,779 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
         if (!isDriftCard)
         {
             Player.Sound.PlaySound("aa1112");
-			Player.Sound.PlaySound("_sn_drift");
             isDriftCard = true;
         }
     }
     else
     {
         isDriftCard = false;
+    }
+
+    //Extra sound when Amy enters her Propeller Hover state   
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StatePropellerHover)
+    {
+        if (!isPropellerHover)
+        {
+            Player.Sound.PlaySound("_sn_airtrick");
+            isPropellerHover = true;
+        }
+    }
+    else
+    {
+        isPropellerHover = false;
+    }
+
+    //Plays a sound when Amy jumps when during Card Boost    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.AmyStateTarotBoostJump)
+    {
+        if (!isCardJump)
+        {
+            Player.Sound.PlaySound("sn_lightdash");
+            isCardJump = true;
+        }
+    }
+    else
+    {
+        isCardJump = false;
+    }
+
+    //Adds a jumping sound when Amy spins her Tarot Cards around    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.AmyStateTarotRollingJump)
+    {
+        if (!isCardSpinJump)
+        {
+            Player.Sound.PlaySound("sn_lightdash");
+            isCardSpinJump = true;
+        }
+    }
+    else
+    {
+        isCardSpinJump = false;
+    }
+
+    //Amy grunts when getting dizzy from spinning her Tarot Cards    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.AmyStateTarotRollingStun)
+    {
+        if (!isCardSpinDizzy)
+        {
+            Player.Sound.PlaySound("sa1048");
+            isCardSpinDizzy = true;
+        }
+    }
+    else
+    {
+        isCardSpinDizzy = false;
+    }
+}
+
+Code "Grind Boost Fix (Amy Rose)" by "Batman Sonic & SuperNova124"
+//Fixes Amy's boost sounds being missing when boosting on rails with max rings.
+    #lib "Player"
+//
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateGrind)
+    {
+        if (Player.Input.IsPressed(Player.InputActionType.PlayerBoost))
+            Player.Sound.PlaySound("sn_boost_run");
+    }
+
+    if (!Player.Input.IsDown(Player.InputActionType.PlayerBoost))
+    {
+        int soundBoostFix = Player.Sound.PlaySound("sn_boost_run");
+        Player.Sound.StopSound(&soundBoostFix);
+    }
+}
+
+Code "Grind Boost Fix (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
+//Fixes Tails' boost sounds being missing when boosting on rails with max rings.
+    #lib "Player"
+//
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateGrind)
+    {
+        if (Player.Input.IsPressed(Player.InputActionType.PlayerBoost))
+            Player.Sound.PlaySound("sn_boost_run");
+    }
+
+    if (!Player.Input.IsDown(Player.InputActionType.PlayerBoost))
+    {
+        int soundBoostFix = Player.Sound.PlaySound("sn_boost_run");
+        Player.Sound.StopSound(&soundBoostFix);
+    }
+}
+
+Code "Restore Camera Gaze Sound" by "Batman Sonic & SuperNova124"
+
+//Restores an unused sound that meant to play when the camera focuses on an object.
+#lib "Player"
+
+//
+{
+    if (Player.Input.IsPressed(Player.InputActionType.CameraGaze)) {
+        Player.Sound.PlaySound("sn_line_snipe_lock");
+    }
+}
+
+
+Code "Unique Super Sonic Boost Sound" by "Batman Sonic & SuperNova124"
+//Restores Super Sonic's unique boost sound that he used to have.
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "BlackboardStatus"
+
+#load "System.Numerics.dll"
+
+using System.Numerics;
+
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+
+    if (BlackboardStatus.IsSuper() && Player.Input.IsPressed(Player.InputActionType.PlayerBoost))
+    {
+        Player.Sound.PlaySound("sn_chaosemerald_guard");
+    }
+
+    if (!BlackboardStatus.IsSuper() || !Player.Input.IsDown(Player.InputActionType.PlayerBoost))
+    {
+        int soundSuperBoost = Player.Sound.PlaySound("sn_chaosemerald_guard");
+        Player.Sound.StopSound(&soundSuperBoost);
+    }
+}
+
+Code "Forces-like Jump Ball Sound (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
+//Makes the spin sound play when each character (aside from Amy) curls into a ball, like in Sonic Forces.
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Sonic"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+	
+#load "System.Numerics.dll"
+
+using System.Numerics;
+
+static bool isJumpSpinAttack = false;
+
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+
+    // Assuming Player.State has a method like GetCurrentStateID
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateJump &&
+        Player.State.GetPreviousStateID<Sonic.StateID>() != Sonic.StateID.StateJump)
+    {
+        if (!isJumpSpinAttack)
+        {
+            Player.Sound.PlaySound("sn_spin");
+            isJumpSpinAttack = true;
+        }
+    }
+    else
+    {
+        isJumpSpinAttack = false;
+    }
+
+    // Assuming Player.State has a method like GetPreviousStateID
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateJump &&
+        Player.State.GetPreviousStateID<Sonic.StateID>() == Sonic.StateID.StateJump)
+    {
+        // Assuming Player.Sound has a method like StopSound
+        int soundSpinJumpSonic = Player.Sound.PlaySound("sn_spin");
+        {
+            Player.Sound.StopSound(&soundSpinJumpSonic);
+        }
+    }
+}
+
+Code "Forces-like Jump Ball Sound in Bounce Jump (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
+//Makes the spin sound play when each character (aside from Amy) curls into a ball, like in Sonic Forces.
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Sonic"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+	
+#load "System.Numerics.dll"
+
+using System.Numerics;
+
+static bool isJumpSpinBounceAttack = false;
+
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+
+    // Assuming Player.State has a method like GetCurrentStateID
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateBounceJump &&
+        Player.State.GetPreviousStateID<Sonic.StateID>() != Sonic.StateID.StateBounceJump)
+    {
+        if (!isJumpSpinBounceAttack)
+        {
+            Player.Sound.PlaySound("sn_spin");
+            isJumpSpinBounceAttack = true;
+        }
+    }
+    else
+    {
+        isJumpSpinBounceAttack = false;
+    }
+
+    // Assuming Player.State has a method like GetPreviousStateID
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateBounceJump &&
+        Player.State.GetPreviousStateID<Sonic.StateID>() == Sonic.StateID.StateBounceJump)
+    {
+        // Assuming Player.Sound has a method like StopSound
+        int soundSpinJumpBounceSonic = Player.Sound.PlaySound("sn_spin");
+        {
+            Player.Sound.StopSound(&soundSpinJumpBounceSonic);
+        }
+    }
+}
+
+Code "Forces-like Jump Ball Sound (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
+//Makes the spin sound play when each character (aside from Amy) curls into a ball, like in Sonic Forces.
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Tails"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+	
+#load "System.Numerics.dll"
+
+using System.Numerics;
+
+static bool isJumpSpinAttack = false;
+
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+
+    // Assuming Player.State has a method like GetCurrentStateID
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateJump &&
+        Player.State.GetPreviousStateID<Tails.StateID>() != Tails.StateID.StateJump)
+    {
+        if (!isJumpSpinAttack)
+        {
+            Player.Sound.PlaySound("sn_spin");
+            isJumpSpinAttack = true;
+        }
+    }
+    else
+    {
+        isJumpSpinAttack = false;
+    }
+
+    // Assuming Player.State has a method like GetPreviousStateID
+    if (Player.State.GetCurrentStateID<Tails.StateID>() != Tails.StateID.StateJump &&
+        Player.State.GetPreviousStateID<Tails.StateID>() == Tails.StateID.StateJump)
+    {
+        // Assuming Player.Sound has a method like StopSound
+        int soundSpinJumpTails = Player.Sound.PlaySound("sn_spin");
+        {
+            Player.Sound.StopSound(&soundSpinJumpTails);
+        }
+    }
+}
+
+Code "Forces-like Jump Ball Sound (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
+//Makes the spin sound play when each character (aside from Amy) curls into a ball, like in Sonic Forces.
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Knuckles"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+	
+#load "System.Numerics.dll"
+
+using System.Numerics;
+
+static bool isJumpSpinAttack = false;
+
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+
+    // Assuming Player.State has a method like GetCurrentStateID
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateJump &&
+        Player.State.GetPreviousStateID<Knuckles.StateID>() != Knuckles.StateID.StateJump)
+    {
+        if (!isJumpSpinAttack)
+        {
+            Player.Sound.PlaySound("sn_spin");
+            isJumpSpinAttack = true;
+        }
+    }
+    else
+    {
+        isJumpSpinAttack = false;
+    }
+
+    // Assuming Player.State has a method like GetPreviousStateID
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() != Knuckles.StateID.StateJump &&
+        Player.State.GetPreviousStateID<Knuckles.StateID>() == Knuckles.StateID.StateJump)
+    {
+        // Assuming Player.Sound has a method like StopSound
+        int soundSpinJumpKnuckles = Player.Sound.PlaySound("sn_spin");
+        {
+            Player.Sound.StopSound(&soundSpinJumpKnuckles);
+        }
+    }
+}
+
+Code "Tails Tired Sound" by "Batman Sonic & SuperNova124"
+//Adds a tired sound when Tails gets tired from flying.
+
+#lib "Player"
+#import "States"
+
+static bool isFlyTired = false;
+
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+
+    var kinematics = Player.Kinematics.Get();
+
+    if (kinematics == null)
+        return;
+
+    var pStateTailsFly = Player.State.GetState<StateTailsFly>();
+
+    if (pStateTailsFly == null)
+        return;
+
+    if (pStateTailsFly->Phase == StateTailsFly.PhaseType.Tired)
+    {
+        if (!isFlyTired)
+        {
+            Player.Sound.PlaySound("sn_homingshot");
+            isFlyTired = true;
+        }
+    }
+    else
+    {
+        isFlyTired = false;
+    }
+}
+
+Code "Additional Drift Sound for Amy" by "Batman Sonic & SuperNova124"
+//Adds Sonic's drifting sound to Amy's Tarot Card Drift.
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Amy"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+	
+#load "System.Numerics.dll"
+
+using System.Numerics;
+
+static bool isAmyDriftExtra = false;
+
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+
+    // Assuming Player.State has a method like GetCurrentStateID
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.AmyStateTarotDrift &&
+        Player.State.GetPreviousStateID<Amy.StateID>() != Amy.StateID.AmyStateTarotDrift)
+    {
+        if (!isAmyDriftExtra)
+        {
+            Player.Sound.PlaySound("sn_drift");
+            isAmyDriftExtra = true;
+        }
+    }
+    else
+    {
+        isAmyDriftExtra = false;
+    }
+
+    // Assuming Player.State has a method like GetPreviousStateID
+    if (Player.State.GetCurrentStateID<Amy.StateID>() != Amy.StateID.AmyStateTarotDrift &&
+        Player.State.GetPreviousStateID<Amy.StateID>() == Amy.StateID.AmyStateTarotDrift)
+    {
+        // Assuming Player.Sound has a method like StopSound
+        int soundDrift = Player.Sound.PlaySound("sn_drift");
+        {
+            Player.Sound.StopSound(&soundDrift);
+        }
+    }
+}
+
+Code "Restore Wall Slide" by "Batman Sonic & SuperNova124"
+//Adds a sliding sound to Sonic's wall jump, like in previous games.
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Amy"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+	
+#load "System.Numerics.dll"
+
+using System.Numerics;
+
+static bool isSonicWallSlide = false;
+
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+
+    // Assuming Player.State has a method like GetCurrentStateID
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateWallJumpReady &&
+        Player.State.GetPreviousStateID<Sonic.StateID>() != Sonic.StateID.StateWallJumpReady)
+    {
+        if (!isSonicWallSlide)
+        {
+            Player.Sound.PlaySound("sn_sliding");
+            isSonicWallSlide = true;
+        }
+    }
+    else
+    {
+        isSonicWallSlide = false;
+    }
+
+    // Assuming Player.State has a method like GetPreviousStateID
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateWallJumpReady &&
+        Player.State.GetPreviousStateID<Sonic.StateID>() == Sonic.StateID.StateWallJumpReady)
+    {
+        // Assuming Player.Sound has a method like StopSound
+        int soundWallSlide = Player.Sound.PlaySound("sn_sliding");
+        {
+            Player.Sound.StopSound(&soundWallSlide);
+        }
+    }
+}
+
+Code "Somersault when hitting terrian" by "Batman Sonic & SuperNova124"
+//Plays a somersault sound when hitting terrian.
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Sonic"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+	
+#load "System.Numerics.dll"
+
+using System.Numerics;
+
+static bool SomersaultFlip = false;
+
+//
+{
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateFallFlip)
+    {
+        if (!SomersaultFlip)
+        {
+            Player.Sound.PlaySound("sn_windmill_kick");
+            Player.Sound.PlaySound("sa1001");
+            SomersaultFlip = true;
+        }
+    }
+    else
+    {
+        SomersaultFlip = false;
+    }
+}
+
+Code "Restore Zero Rings Warning" by "Batman Sonic & SuperNova124"
+//Restores an unused warning sound that was meant to play when the player has zero rings.
+
+#lib "Player"
+#lib "BlackboardItem"
+
+static bool isRingWarning = false;
+static int soundRingUp = 0;
+
+//void RestoreZeroRingsWarning()
+{
+    var pBlackboardItem = BlackboardItem.Get();
+
+    if (pBlackboardItem == null)
+        return;
+
+    int rings = pBlackboardItem->RingCount;
+
+    if (rings == 0)
+    {
+        // Play the sound only when the player has 0 rings and it's not already playing
+        if (!isRingWarning)
+        {
+            soundRingUp = Player.Sound.PlaySound("sys_ring_zero_warning");
+            isRingWarning = true;
+        }
+    }
+    else if (rings >= 1)
+    {
+        // If the player has at least 1 ring, stop the sound
+        if (isRingWarning)
+        {
+            int tempSoundRingUp = soundRingUp;
+            Player.Sound.StopSound(&tempSoundRingUp);
+            isRingWarning = false;
+        }
+    }
+}
+
+Code "Unique Super Sonic 2 Aura (EXPERIMENTAL)" by "Batman Sonic & SuperNova124"
+//Gives Super Sonic 2 a unique aura, thanks for the idea SuperNova :D
+
+#include "Reflection" noemit
+#import "GOComponents"
+#import "PlayerVisuals"
+
+// Specify the required libraries
+#lib "Player"
+#lib "BlackboardStatus"
+#lib "BlackboardItem"
+
+static bool SS2Aura = false;
+static int SuperSonic2SoundHandle = -1;
+
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+
+    var data = Player.GetPlayerData();
+    if (data == null)
+        return;
+
+    var gocVisual = GameObject.GetGOC<GOCPlayerVisual>(&data->GameObject);
+    if (gocVisual == null)
+        return;
+
+    var visual = gocVisual->GetVisual<VisualSuperSonic>();
+    if (visual == null)
+        return;
+
+    if (BlackboardStatus.IsSuper() && visual->IsSuperSonic2) // Fixed syntax error here
+    {
+        var pBlackboardItem = BlackboardItem.Get();
+        if (pBlackboardItem == null)
+            return;
+
+        if (!SS2Aura)
+        {
+            SuperSonic2SoundHandle = Player.Sound.PlaySound("_sn_line_star");
+            SS2Aura = true;
+        }
+    }
+    else
+    {
+        if (SS2Aura && BlackboardStatus.IsSuper() || visual == null)
+        {
+            int soundSS2AuraStop = Player.Sound.PlaySound("_sn_line_star");
+            Player.Sound.StopSound(&soundSS2AuraStop);
+        }
+        SS2Aura = false;
+    }
+}
+
+Code "Forces-like Jump Ball Sound (Amy Rose)" by "Batman Sonic & SuperNova124"
+//Only plays when Amy jumps off of a Spin Dash.
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Amy"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+
+#load "System.Numerics.dll"
+
+static bool isSpinDashJumpAmy = false;
+static int spinDashJumpSoundHandle = -1;
+
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateJump &&
+        Player.State.GetPreviousStateID<Amy.StateID>() == Amy.StateID.StateSpinBoost)
+    {
+        if (!isSpinDashJumpAmy)
+        {
+            spinDashJumpSoundHandle = Player.Sound.PlaySound("sn_spin");
+            isSpinDashJumpAmy = true;
+        }
+    }
+
+    if (isSpinDashJumpAmy && Player.State.GetCurrentStateID<Amy.StateID>() != Amy.StateID.StateJump)
+    {
+        int soundHandleAmySpinDash = Player.Sound.PlaySound("sn_spin");
+        Player.Sound.StopSound(&soundHandleAmySpinDash);
+        isSpinDashJumpAmy = false;
+    }
+}
+
+Code "Forces-like Jump Ball Sound (Wall Jump)" by "Batman Sonic & SuperNova124"
+//Only plays when Sonic or Knuckles jumps off of a wall while boosting.
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Amy"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+	
+#load "System.Numerics.dll"
+
+using System.Numerics;
+
+static bool isBoostWallJump = false;
+
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic && Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+
+    // Assuming Player.State has a method like GetCurrentStateID
+    if ((Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateBaseJump ||
+         Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateBaseJump) &&
+        (Player.State.GetPreviousStateID<Sonic.StateID>() != Sonic.StateID.StateBaseJump &&
+         Player.State.GetPreviousStateID<Knuckles.StateID>() != Knuckles.StateID.StateBaseJump))
+    {
+        if (!isBoostWallJump)
+        {
+            Player.Sound.PlaySound("sn_jump");
+			Player.Sound.PlaySound("sa1007");
+            Player.Sound.PlaySound("sn_spin");
+            isBoostWallJump = true;
+        }
+    }
+    else
+    {
+        isBoostWallJump = false;
+    }
+
+    // Assuming Player.State has a method like GetPreviousStateID
+    if ((Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateBaseJump &&
+         Player.State.GetPreviousStateID<Sonic.StateID>() == Sonic.StateID.StateBaseJump) ||
+        (Player.State.GetCurrentStateID<Knuckles.StateID>() != Knuckles.StateID.StateBaseJump &&
+         Player.State.GetPreviousStateID<Knuckles.StateID>() == Knuckles.StateID.StateBaseJump))
+    {
+        // Assuming Player.Sound has a method like StopSound
+        int soundBoostWallJump = Player.Sound.PlaySound("sn_spin");
+        {
+            Player.Sound.StopSound(&soundBoostWallJump);
+        }
+    }
+}
+
+Code "Somersault when hitting wall terrian" by "Batman Sonic & SuperNova124"
+//Plays a somersault sound when hitting terrian as Sonic or Knuckles.
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Sonic"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+	
+#load "System.Numerics.dll"
+
+using System.Numerics;
+
+static bool SomersaultWall = false;
+
+//
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic && Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+
+    if ((Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateWallLeave ||
+         Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateWallLeave))
+    {
+        if (!SomersaultWall)
+        {
+            Player.Sound.PlaySound("sn_windmill_kick");
+            Player.Sound.PlaySound("sa1001");
+            SomersaultWall = true;
+        }
+    }
+    else
+    {
+        SomersaultWall = false;
+    }
+}
+
+Code "Grunt when wall slide" by "Batman Sonic & SuperNova124"
+//Sonic or Knuckles grunt when they slide down the wall.
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Sonic"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+	
+#load "System.Numerics.dll"
+
+using System.Numerics;
+
+static bool WallGrunt = false;
+
+//
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic && Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+
+    if ((Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateWallSlideDown ||
+         Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateWallSlideDown))
+    {
+        if (!WallGrunt)
+        {
+            Player.Sound.PlaySound("sa1036");
+            WallGrunt = true;
+        }
+    }
+    else
+    {
+        WallGrunt = false;
     }
 }

@@ -1,10 +1,10 @@
 {
-   "Groups": [
-     {
-       "Name": "Main",
-       "DisplayName": "Sound Options",
-       "Elements": [
-         {
+  "Groups": [
+    {
+      "Name": "Main",
+      "DisplayName": "Characters",
+      "Elements": [
+        {
            "Name": "IncludeDir0",
            "DisplayName": "Sonic",
            "Description": [
@@ -47,9 +47,15 @@
            "MinValue": null,
            "MaxValue": null,
            "DefaultValue": "raw_frontiers_Amy"
-			 },
-			 {
-				"Name": "IncludeDir4",
+        }
+      ]
+    },
+    {
+      "Name": "Main",
+       "DisplayName": "Skills",
+       "Elements": [
+         {
+           "Name": "IncludeDir4",
 				"DisplayName": "Spin Dash",
 				"Description": [
 				   "Choose a variety of different sounds for the Spin Dash.",
@@ -58,9 +64,15 @@
 				"MinValue": null,
 				"MaxValue": null,
 				"DefaultValue": "raw_SpinDash_faithful"
-			 },
-			 {
-				"Name": "IncludeDir5",
+        }
+      ]
+    },
+    {
+      "Name": "Main",
+       "DisplayName": "Miscellaneous",
+       "Elements": [
+         {
+           "Name": "IncludeDir5",
 				"DisplayName": "Cyber Space BGM",
 				"Description": [
 				   "Choose which types of BGM you want to play in Cyber Space.",
@@ -135,6 +147,17 @@
 				"MinValue": null,
 				"MaxValue": null,
 				"DefaultValue": "raw_cyberAnotherRangersBoost"
+			 },
+			 {
+				"Name": "IncludeDir12",
+				"DisplayName": "The End (Anoter Story)",
+				"Description": [
+				   "Choose to either enable or disable The End's monologue in Another Story.",
+				],
+				"Type": "SupremeBeastEnum",
+				"MinValue": null,
+				"MaxValue": null,
+				"DefaultValue": "raw_SupremeBeast_talkOff"
 			 }
 		  ]
 	   }
@@ -166,6 +189,20 @@
        {
          "DisplayName": "Vanilla Overhaul (Frontiers) - Old Footsteps + No Air Tricks",
          "Value": "raw_frontiers_Sonic_UnleashedFoot_NoAirTricks",
+         "Description": [
+           "Replaces the vanilla footsteps sounds with those from previous titles."
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - New Footsteps",
+         "Value": "raw_boost_Sonic",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Boost Era games (Unleashed, Colors, Generations and Lost World)"
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Old Footsteps",
+         "Value": "raw_boost_Sonic_UnleashedFoot",
          "Description": [
            "Replaces the vanilla footsteps sounds with those from previous titles."
 		     ]
