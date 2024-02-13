@@ -1,3 +1,54 @@
+## Version 3.2 (THE BIG BANG UPDATE!!!)
+PLEASE REDOWNLOAD THE UPDATED VERSION FROM GAMEBANANA!!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Version 3.1 (Batman Sonic's Birthday Bash!!!)
 Happy birthday to me :D
 No need to redownload the mod, but highly recommended.
