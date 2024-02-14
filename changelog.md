@@ -1,3 +1,13 @@
+## Version 3.2.1
+This hotfix is relevant for those who already downloaded version 3.2. If you haven't download it from GameBanana.
+
+- Fixed default settings.
+- Fixed an oversight in the config file which caused errors.
+- Fixed incorrect sounds in Sonic's Hybrid preset.
+- Reduced Boost Jet volume.
+- Super transformation sounds are now optional rather than mandatory.
+
+
 ## Version 3.2 (THE BIG BANG UPDATE!!!)
 PLEASE REDOWNLOAD THE UPDATED VERSION FROM GAMEBANANA!!!!
 
