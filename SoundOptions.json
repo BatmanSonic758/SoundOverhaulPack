@@ -1,205 +1,1180 @@
 {
-   "Groups": [
-     {
-       "Name": "Main",
-       "DisplayName": "Sound Options",
-       "Elements": [
-         {
-           "Name": "IncludeDir0",
-           "DisplayName": "Sonic",
-           "Description": [
-             "Choose the sound preset of your liking for Sonic."
-           ],
-           "Type": "GameplaySonicEnum",
-           "MinValue": null,
-           "MaxValue": null,
-           "DefaultValue": "raw_frontiers_Sonic"
-			 },
-			 {
-           "Name": "IncludeDir1",
-           "DisplayName": "Tails",
-           "Description": [
-             "Choose the sound preset of your liking for Tails."
-           ],
-           "Type": "GameplayTailsEnum",
-           "MinValue": null,
-           "MaxValue": null,
-           "DefaultValue": "raw_frontiers_Tails"
-			 },
-			 {
-           "Name": "IncludeDir2",
-           "DisplayName": "Knuckles",
-           "Description": [
-             "Choose the sound preset of your liking for Knuckles."
-           ],
-           "Type": "GameplayKnucklesEnum",
-           "MinValue": null,
-           "MaxValue": null,
-           "DefaultValue": "raw_frontiers_Knuckles"
-			 },
-			 {
-           "Name": "IncludeDir3",
-           "DisplayName": "Amy",
-           "Description": [
-             "Choose the sound preset of your liking for Amy."
-           ],
-           "Type": "GameplayAmyEnum",
-           "MinValue": null,
-           "MaxValue": null,
-           "DefaultValue": "raw_frontiers_Amy"
-			 },
-			 {
-				"Name": "IncludeDir4",
-				"DisplayName": "Spin Dash",
-				"Description": [
-				   "Choose a variety of different sounds for the Spin Dash.",
-				],
-				"Type": "SpinDashEnum",
-				"MinValue": null,
-				"MaxValue": null,
-				"DefaultValue": "raw_SpinDash_faithful"
-			 },
-			 {
-				"Name": "IncludeDir5",
-				"DisplayName": "Cyber Space BGM",
-				"Description": [
-				   "Choose which types of BGM you want to play in Cyber Space.",
-				],
-				"Type": "CyberEditEnum",
-				"MinValue": null,
-				"MaxValue": null,
-				"DefaultValue": "raw_cyberRangersBoost"
-			 },
-			 {
-				"Name": "IncludeDir6",
-				"DisplayName": "Guardian Intros",
-				"Description": [
-				   "Toggle a language of your liking to play during Guardian Intros or to turn them off, making Sonic mute as he is in the vanilla game.",
-				],
-				"Type": "GuardianTalkEnum",
-				"MinValue": null,
-				"MaxValue": null,
-				"DefaultValue": "raw_guardian_TalkEnglish_Roger"
-			 },
-			 {
-				"Name": "IncludeDir7",
-				"DisplayName": "Titan Encounter",
-				"Description": [
-				   "Determine if you wish to keep ''Mystery Girl'' or replace it with each Titan's instrumental theme when encountering them for the first time.",
-				],
-				"Type": "TitanMeetEnum",
-				"MinValue": null,
-				"MaxValue": null,
-				"DefaultValue": "raw_TitanMeet_Frontiers"
-			 },
-			 {
-				"Name": "IncludeDir8",
-				"DisplayName": "Titan Sequences",
-				"Description": [
-				   "Toggle a language of your liking to play during Super Sonic's Titan Sequences or to turn them off, making Sonic mute as he is in the vanilla game.",
-				],
-				"Type": "SSTalkEnum",
-				"MinValue": null,
-				"MaxValue": null,
-				"DefaultValue": "raw_supersonic_TalkEnglish_Roger"
-			 },
-			 {
-				"Name": "IncludeDir9",
-				"DisplayName": "The End (Base Game)",
-				"Description": [
-				   "Choose the boss theme for The End.",
-				],
-				"Type": "TheEndEnum",
-				"MinValue": null,
-				"MaxValue": null,
-				"DefaultValue": "raw_TheEnd_vandalize"
-			 },
-			 {
-				"Name": "IncludeDir10",
-				"DisplayName": "Ouranos Island Theme (Another Story)",
-				"Description": [
-				   "Determine which version of Ouranos Island you wish to play when in Another Story.",
-				],
-				"Type": "OuranosEnum",
-				"MinValue": null,
-				"MaxValue": null,
-				"DefaultValue": "raw_w1r06_Horizon"
-			 },
-			 {
-				"Name": "IncludeDir11",
-				"DisplayName": "Cyber Space BGM (Another Story)",
-				"Description": [
-				   "Choose which types of BGM you want to play in Another Story's Cyber Space stages.",
-				],
-				"Type": "CyberAnotherEnum",
-				"MinValue": null,
-				"MaxValue": null,
-				"DefaultValue": "raw_cyberAnotherRangersBoost"
-			 }
-		  ]
-	   }
-	],
-	
-	"Enums": {
-     "GameplaySonicEnum": [
+    "Groups": [
+   {
+    "Name": "Main",
+    "DisplayName": "DLC (two mods must to be placed below Sound Overhaul Pack)",
+    "Elements": [
+        {
+            "Name": "IncludeDir17",
+            "DisplayName": "Inugami Korone Collaboration DLC Sounds",
+            "Description": [
+                "Adds default gameplay and object sounds on top using the Inugami Korone Collaboration DLC sounds.\nChoose your desired sound preset according to your selected in in the Gameplay category.\n\nNote(s):\n- You are required to have the Inugami Korone Collaboration DLC mod in order to make it work and place it below Sound Overhaul Pack.\n\nSame for Sonic Emote with Koco DLC!"
+            ],
+            "Type": "KoroneDLCEnum",
+            "MinValue": null,
+            "MaxValue": null,
+            "DefaultValue": "raw_KoroneDLC_frontiers"
+        },
+        {
+            "Name": "IncludeDir16",
+            "DisplayName": "Sonic Emote with Koco DLC Language",
+            "Description": [
+                "Choose your desired language for the Sonic Emote with Koco DLC.\n\nNote(s):\n- You are required to have the Sonic Emote with Koco DLC mod in order to make it work and place it below Sound Overhaul Pack.\n\nSame for Inugami Korone Collaboration DLC!"
+            ],
+            "Type": "KocoDLCEnum",
+            "MinValue": null,
+            "MaxValue": null,
+            "DefaultValue": "raw_KocoEmoteDLC_talkOn_English"
+                }
+            ]
+        },
+        {
+            "Name": "Main",
+            "DisplayName": "Languages",
+            "Elements": [
+                {
+            "Name": "IncludeDir8",
+            "DisplayName": "Titan Sequences Language",
+            "Description": [
+                "Toggle a language of your liking to play during Super Sonic's Titan Sequences or to turn them off, making Sonic mute as he is in the vanilla game."
+            ],
+            "Type": "SSTalkEnum",
+            "MinValue": null,
+            "MaxValue": null,
+            "DefaultValue": "raw_supersonic_TalkEnglish_Roger"
+        },
+        {
+            "Name": "IncludeDir6",
+            "DisplayName": "Guardian Intros Language",
+            "Description": [
+                "Toggle a language of your liking to play during Guardian Intros or to turn them off, making Sonic mute as he is in the vanilla game."
+            ],
+            "Type": "GuardianTalkEnum",
+            "MinValue": null,
+            "MaxValue": null,
+            "DefaultValue": "raw_guardian_TalkEnglish_Roger"
+        },
+        {
+            "Name": "FlightTired",
+            "DisplayName": "Tired Grunt Language",
+            "Description": [
+                "Choose your desired language."
+            ],
+            "Type": "FlightTired",
+            "DefaultValue": 1
+        },
+        {
+            "Name": "SuperGrandSlam",
+            "DisplayName": "Grand Slam Grunt Language",
+            "Description": [
+                "Choose your desired language."
+            ],
+            "Type": "SuperGrandSlam",
+            "DefaultValue": 1
+        },
+        {
+            "Name": "IncludeDir12",
+            "DisplayName": "The End's Monologue in Another Story",
+            "Description": [
+                "Choose to either enable or disable The End's monologue in Another Story."
+            ],
+            "Type": "SupremeBeastEnum",
+            "MinValue": null,
+            "MaxValue": null,
+            "DefaultValue": "raw_SupremeBeast_talkOn_English"
+                }
+            ]
+        },
+        {
+    "Name": "Main",
+    "DisplayName": "Additional Sounds",
+    "Elements": [
+        {
+      "Name": "ZeroRingWarning",
+      "DisplayName": "Restore Zero Ring Warning Jingle",
+      "Description": [
+        "Restores an unused jingle that is meant to play when you have zero rings.\n\nNote(s):\n- This will play only when you have zero rings after taking damage.\n- The jingle will (normally) play when you start the tutorial. If you use the ''Keep Rings from Cyber Space on Islands'' code, it won't conflict :)"
+      ],
+      "Type": "ZeroRingWarning",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "RestoreCameraGaze",
+      "DisplayName": "Restore Camera Gaze Jingle",
+      "Description": [
+        "Restores an unused jingle that is meant to play when you press the analog stick when you lock on to a target."
+      ],
+      "Type": "RestoreCameraGaze",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "PulleyExtra",
+      "DisplayName": "Additional Pulley Sounds (W.I.P)",
+      "Description": [
+        "Adds additional sounds for the pulley, a new sound will be added and stopped once the player is out of the pulley.\n\nNote(s):\n- Sometimes the sounds will play at random cases since the associated state is shared with others.\nMore particularly when interacting with the cannons in Another Story and the rocket in Portal 4-B."
+      ],
+      "Type": "PulleyExtra",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "ForcesSpin",
+      "DisplayName": "Forces-like Spin Jump",
+      "Description": [
+        "Adds spinning sound when jumping and bouncing, similar to Sonic Forces\nIn Sonic Frontiers, the sound normally plays when jumping off an enemy.\n\nNote(s):\n- This is will not apply to the Double Jump. \n- It will play for Amy too, but only when she jumps out of a Spin Dash since she normally doesn't curl into a ball."
+      ],
+      "Type": "ForcesSpin",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "LightDashImpact",
+      "DisplayName": "Dreamcast-styled Light Dash Impact",
+      "Description": [
+        "Adds the Light Dash impact from both Adventure titles."
+      ],
+      "Type": "LightDashImpact",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "BoostJet",
+      "DisplayName": "Boost Jet / Impact",
+      "Description": [
+      "Restores the jet sound that plays when the player boosts, similar to previous titles.",
+      ],
+      "Type": "BoostJet",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "SonicDriftBoost",
+      "DisplayName": "Boost Sound for Sonic's Drift",
+      "Description": [
+        "Adds a boost sound for Sonic when pressing the Boost button during a Drift instead of not playing a thing, just like previous titles."
+      ],
+      "Type": "SonicDriftBoost",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "QuickStep",
+      "DisplayName": "Restore Quick Step",
+      "Description": [
+        "Restores the Quick Step sounds from previous titles\nChoose your desired Quick Step sound."
+      ],
+      "Type": "QuickStep",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "SkyDiveUnleashed",
+      "DisplayName": "Unleashed-styled Sky Dive",
+      "Description": [
+        "Adds the high quality Sky Dive sounds from Sonic Unleashed."
+      ],
+      "Type": "SkyDiveUnleashed",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "KnucklesClimb",
+      "DisplayName": "2006-styled Wall Climb",
+      "Description": [
+        "Adds additional climb sounds for Knuckles from SONIC THE HEDGEHOG (2006)."
+      ],
+      "Type": "KnucklesClimb",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "AmyDoubleJumpNEXT",
+      "DisplayName": "2006-styled Double Jump",
+      "Description": [
+        "Adds an additional Double Jump sound for Amy, like in SONIC THE HEDGEHOG (2006)."
+      ],
+      "Type": "AmyDoubleJumpNEXT",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "AmyDrift",
+      "DisplayName": "Amy's Tarot Bike Drift",
+      "Description": [
+        "Additional drift sounds for Amy's Tarot Bike Drift."
+      ],
+      "Type": "AmyDrift",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "CyberAuraFriends",
+      "DisplayName": "Cyber Form Aura for Friends (W.I.P)",
+      "Description": [
+        "Gives Tails, Knuckles and Amy their Cyber form aura from the cutscenes into gameplay.\n\nRecommended for those who use / prefer their Cyber forms\n\nNote(s):\n- This code is experimental and may contain minor imperfections that are not expected to function flawlessly, thus I recommend for you to keep this option off for now until it'll be far more flashed. Or keep it on, totally up to you.\n- When you switch to Tails, Knuckles and Amy, the aura sound will not play until they're standing still or falling, for some reason.\n- The aura may reset or overplay when you perform some actions or become grounded."
+      ],
+      "Type": "CyberAuraFriends",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "SuperSonicBoostPrimary",
+      "DisplayName": "Unique Super Sonic Boost (Primary)",
+      "Description": [
+        "Note: This is the boost sound from Sonic Generations / Lost World Forces.\n\nGives Super Sonic a unique boost sound like in previous titles rather than reusing the default one."
+      ],
+      "Type": "SuperSonicBoostPrimary",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "SuperSonicBoostSecondary",
+      "DisplayName": "Unique Super Sonic Boost (Secondary)",
+      "Description": [
+        "Note: This is the boost sound from Sonic Unleashed during the Perfect Dark Gaia fight.\n\nGives Super Sonic a unique boost sound like in previous titles rather than reusing the default one."
+      ],
+      "Type": "SuperSonicBoostSecondary",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "SuperSonicDrift",
+      "DisplayName": "Unique Drift for Super Sonic",
+      "Description": [
+        "Gives Super Sonic a unique drift sound."
+      ],
+      "Type": "SuperSonicDrift",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "SS2Aura",
+      "DisplayName": "Unique Aura for Super Sonic 2",
+      "Description": [
+        "Adds Super Sonic 2's (hard-to-hear) aura from the cutscenes and quick-time events into gameplay.\n\nNote(s):\n- The aura sound may play in a few cutscenes / scenarios (when THE END reconnects its cable to Supreme), a fix is unknown at the moment.\n\n-- The aura sound will play for a few seconds after Supreme's defeat (when the screen goes black) but will stop when the final cutscene plays."
+      ],
+      "Type": "SS2Aura",
+      "DefaultValue": 1
+                }
+            ]
+        },
+        {
+            "Name": "Main",
+            "DisplayName": "Gameplay",
+            "Elements": [
+                {
+                    "Name": "IncludeDir0",
+                    "DisplayName": "Sonic",
+                    "Description": [
+                        "Choose the sound preset of your liking for Sonic."
+                    ],
+                    "Type": "GameplaySonicEnum",
+                    "MinValue": null,
+                    "MaxValue": null,
+                    "DefaultValue": "raw_frontiers_Sonic"
+                },
+                {
+                    "Name": "IncludeDir1",
+                    "DisplayName": "Tails",
+                    "Description": [
+                        "Choose the sound preset of your liking for Tails."
+                    ],
+                    "Type": "GameplayTailsEnum",
+                    "MinValue": null,
+                    "MaxValue": null,
+                    "DefaultValue": "raw_frontiers_Tails"
+                },
+                {
+                    "Name": "IncludeDir2",
+                    "DisplayName": "Knuckles",
+                    "Description": [
+                        "Choose the sound preset of your liking for Knuckles."
+                    ],
+                    "Type": "GameplayKnucklesEnum",
+                    "MinValue": null,
+                    "MaxValue": null,
+                    "DefaultValue": "raw_frontiers_Knuckles"
+                },
+                {
+                    "Name": "IncludeDir3",
+                    "DisplayName": "Amy",
+                    "Description": [
+                        "Choose the sound preset of your liking for Amy."
+                    ],
+                    "Type": "GameplayAmyEnum",
+                    "MinValue": null,
+                    "MaxValue": null,
+                    "DefaultValue": "raw_frontiers_Amy"
+                },
+                {
+                    "Name": "IncludeDir21",
+                    "DisplayName": "Objects",
+                    "Description": [
+                        "Choose the sound preset of your liking for the game objects\n\nNote(s):\n- You must follow each of your characters' selected preset to use the option that is suited for it in order to make it work and sound properly.\n\n-This applies to general objects and Sonic's Birthday Bash."
+                    ],
+                    "Type": "GameplayObjectsEnum",
+                    "MinValue": null,
+                    "MaxValue": null,
+                    "DefaultValue": "raw_frontiers_Objects"
+                }
+            ]
+        },
+        {
+            "Name": "Main",
+            "DisplayName": "Skills",
+            "Elements": [
+                {
+                    "Name": "IncludeDir4",
+                    "DisplayName": "Spin Dash",
+                    "Description": [
+                        "Choose a variety of different sounds for the Spin Dash."
+                    ],
+                    "Type": "SpinDashEnum",
+                    "MinValue": null,
+                    "MaxValue": null,
+                    "DefaultValue": "raw_SpinDash_faithful"
+                },
+                {
+                    "Name": "SpinDashImpact",
+                    "DisplayName": "Spin Dash / Roll Release (mod compatibility)",
+                    "Description": [
+                        "Choose to enable or disable mod compatibility."
+                    ],
+                    "Type": "SpinDashImpact",
+                    "DefaultValue": 1
+                }
+            ]
+        },
+        {
+    "Name": "Main",
+    "DisplayName": "Open Zone",
+    "Elements": [
+        {
+            "Name": "IncludeDir7",
+            "DisplayName": "Titan Encounter",
+            "Description": [
+                "Determine if you wish to keep ''Mystery Girl'' or replace it with each Titan's instrumental theme when encountering them for the first time."
+            ],
+            "Type": "TitanMeetEnum",
+            "MinValue": null,
+            "MaxValue": null,
+            "DefaultValue": "raw_TitanMeet_Frontiers"
+        },
+        {
+            "Name": "IncludeDir9",
+            "DisplayName": "The End (Base Game)",
+            "Description": [
+                "Choose the boss theme for The End."
+            ],
+            "Type": "TheEndEnum",
+            "MinValue": null,
+            "MaxValue": null,
+            "DefaultValue": "raw_TheEnd_vandalize"
+        },
+        {
+            "Name": "IncludeDir10",
+            "DisplayName": "Ouranos Island Theme (Another Story)",
+            "Description": [
+                "Determine which version of Ouranos Island you wish to play when in Another Story."
+            ],
+            "Type": "OuranosEnum",
+            "MinValue": null,
+            "MaxValue": null,
+            "DefaultValue": "raw_w1r06_Horizon"
+                }
+            ]
+        }
+    ],
+    "Enums": {
+    "SuperSonicBoost": [
+        {
+            "DisplayName": "Lost World / Forces",
+            "Value": "1",
+            "Description": [
+                "Gives Super Sonic his unique boost sound that he had in Sonic Generations, Lost World, and Forces."
+            ]
+        },
+        {
+            "DisplayName": "Unleashed",
+            "Value": "2",
+            "Description": [
+                "Gives Super Sonic the unique boost sound that he had in Sonic Unleashed during the Perfect Dark Gaia fight."
+            ]
+        },
+        {
+            "DisplayName": "Mixed",
+            "Value": "3",
+            "Description": [
+                "A mix between the two."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "4",
+            "Description": [
+                "Disables Super Sonic's new boost sound."
+            ]
+        }
+    ],
+    "ForcesSpin": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Enables the spin jump sound."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "Disables the spin jump sound."
+            ]
+        }
+    ],
+    "SpinDashImpact": [
+        {
+            "DisplayName": "Default",
+            "Value": "1",
+            "Description": [
+                "Default settings."
+            ]
+        },
+        {
+            "DisplayName": "Loco's Reimagined Slide",
+            "Value": "2",
+            "Description": [
+                "Adds compatibility with Loco's Reimagined Slide."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "3",
+            "Description": [
+                "Disables the Spin Dash / Roll release impact."
+            ]
+        }
+    ],
+    "CyberAuraFriends": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Gives Tails, Knuckles, and Amy their Cyber form aura from the cutscenes into gameplay.\n\nThis is an experimental code, so it might not work as intended at times."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "Tails, Knuckles, and Amy's Cyber forms emit no aura sound.\n\nI'd recommend leaving this option disabled until it'll be fixed, but up to you."
+            ]
+        }
+    ],
+    "BoostJet": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Enables Boost Jet sound."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "Leaves the Boost unchanged."
+            ]
+        }
+    ],
+    "SS2Aura": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Gives Super Sonic 2 a unique aura sound."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "Disables Super Sonic 2's aura."
+            ]
+        }
+    ],
+    "ZeroRingWarning": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Restores an unused jingle that is meant to play when you have zero rings."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "No sound will play when the player has zero rings."
+            ]
+        }
+    ],
+    "AmyDrift": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Gives Amy additional sounds for her Tarot Bike Drift."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "Keeps Amy's Tarot Bike Drift unchanged."
+            ]
+        }
+    ],
+    "AmyDoubleJumpNEXT": [
+        {
+            "DisplayName": "Double Jump",
+            "Value": "1",
+            "Description": [
+                "Applys Amy's Double Jump / short hop to her Double Jump."
+            ]
+        },
+        {
+            "DisplayName": "Tarot Card Propeller Jump",
+            "Value": "2",
+            "Description": [
+                "Applys Amy's Double Jump / short hop to her Tarot Card Propeller Jump."
+            ]
+        },
+        {
+            "DisplayName": "Both",
+            "Value": "3",
+            "Description": [
+                "Applys Amy's Double Jump / short hop to both conditions.."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "4",
+            "Description": [
+                "No short hop plays."
+            ]
+        }
+    ],
+    "KnucklesClimb": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Adds Rouge's climbing sounds from SONIC THE HEDGEHOG (2006) on top of Knuckles' wall climbing."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "Keeps Knuckles' climbing sounds unchanged."
+            ]
+        }
+    ],
+    "SonicDriftBoost": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Adds boost sounds when Sonic boosts during a drift."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "No sound will play when Sonic boosts during a drift."
+            ]
+        }
+    ],
+    "SuperSonicBoostPrimary": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Gives Super Sonic his unique boost sound that he had in Sonic Generations, Lost World, and Forces."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "Disables Super Sonic's new boost sound."
+            ]
+        }
+    ],
+    "SuperSonicBoostSecondary": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Gives Super Sonic the unique boost sound that he had in Sonic Unleashed during the Perfect Dark Gaia fight."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "Disables Super Sonic's new boost sound."
+            ]
+        }
+    ],
+    "SuperSonicDrift": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Enables Super Sonic's unique drifting sound."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "Disables Super Sonic's drifting sound."
+            ]
+        }
+    ],
+    "RestoreCameraGaze": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Restores an unused jingle that is meant to play when you press the analog stick when you lock on to a target."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "No sound will play when you press the analog stick when you lock on to a target."
+            ]
+        }
+    ],
+    "PulleyExtra": [
+        {
+            "DisplayName": "Sonic Unleashed",
+            "Value": "1",
+            "Description": [
+                "Adds additional sounds for the pulley from Sonic Unleashed."
+            ]
+        },
+        {
+            "DisplayName": "Dreamcast / 2006",
+            "Value": "2",
+            "Description": [
+                "Adds additional sounds for the pulley from the Dreamcast games / SONIC THE HEDGEHOG (2006)"
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "3",
+            "Description": [
+                "No sound will play when you interact with the pulley."
+            ]
+        }
+    ],
+    "QuickStep": [
+        {
+            "DisplayName": "Unleashed",
+            "Value": "1",
+            "Description": [
+                "Enables the Quick Step sound from Sonic Unleashed."
+            ]
+        },
+        {
+            "DisplayName": "Colors / Generations",
+            "Value": "2",
+            "Description": [
+                "Enables the Quick Step sound from Sonic Colors (and Generations...?)"
+            ]
+        },
+        {
+            "DisplayName": "Forces / Frontiers",
+            "Value": "3",
+            "Description": [
+                "Leaves the Quick Step unchanged."
+            ]
+        }
+    ],
+    "LightDashImpact": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Enables the Light Dash impact from the Dreamcast games."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "Leaves the Light Dash unchanged."
+            ]
+        }
+    ],
+    "SkyDiveUnleashed": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Enables the higher quality Sky Dive sounds from Sonic Unleashed."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "Leaves theSky Dive unchanged."
+            ]
+        }
+    ],
+    "FlightTired": [
+        {
+            "DisplayName": "English",
+            "Value": "1",
+            "Description": [
+                ""
+            ]
+        },
+        {
+            "DisplayName": "France",
+            "Value": "2",
+            "Description": [
+                ""
+            ]
+        },
+        {
+            "DisplayName": "Italian",
+            "Value": "3",
+            "Description": [
+                ""
+            ]
+        },
+        {
+            "DisplayName": "German",
+            "Value": "4",
+            "Description": [
+                ""
+            ]
+        },
+        {
+            "DisplayName": "Spanish",
+            "Value": "5",
+            "Description": [
+                ""
+            ]
+        },
+        {
+            "DisplayName": "Japanese",
+            "Value": "6",
+            "Description": [
+                ""
+            ]
+        },
+        {
+            "DisplayName": "Mute",
+            "Value": "7",
+            "Description": [
+                ""
+            ]
+        }
+    ],
+    "SuperGrandSlam": [
+        {
+            "DisplayName": "English",
+            "Value": "1",
+            "Description": [
+                ""
+            ]
+        },
+        {
+            "DisplayName": "France",
+            "Value": "2",
+            "Description": [
+                ""
+            ]
+        },
+        {
+            "DisplayName": "Italian",
+            "Value": "3",
+            "Description": [
+                ""
+            ]
+        },
+        {
+            "DisplayName": "German",
+            "Value": "4",
+            "Description": [
+                ""
+            ]
+        },
+        {
+            "DisplayName": "Spanish",
+            "Value": "5",
+            "Description": [
+                ""
+            ]
+        },
+        {
+            "DisplayName": "Japanese",
+            "Value": "6",
+            "Description": [
+                ""
+            ]
+        },
+        {
+            "DisplayName": "Mute",
+            "Value": "7",
+            "Description": [
+                ""
+            ]
+        }
+    ],
+    "GameplaySonicEnum": [
        {
-         "DisplayName": "Vanilla Overhaul (Frontiers) - New Footsteps",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Vanilla Footsteps",
          "Value": "raw_frontiers_Sonic",
          "Description": [
            "Improving the vanilla sounds by restoring sound details inspired by previous titles and replacing existing sounds with higher quality versions."
          ]
        },
        {
-         "DisplayName": "Vanilla Overhaul (Frontiers) - Old Footsteps",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Footsteps",
          "Value": "raw_frontiers_Sonic_UnleashedFoot",
          "Description": [
            "Replaces the vanilla footsteps sounds with those from previous titles."
+         ]
+       },
+       {
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Vanilla Footsteps + No Air Tricks",
+         "Value": "raw_frontiers_Sonic_NoAirTricks",
+         "Description": [
+           "Improving the vanilla sounds by restoring sound details inspired by previous titles and replacing existing sounds with higher quality versions, without the new Air Tricks sound."
+         ]
+       },
+       {
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Footsteps + No Air Tricks",
+         "Value": "raw_frontiers_Sonic_UnleashedFoot_NoAirTricks",
+         "Description": [
+           "Replaces the vanilla footsteps sounds with those from previous titles, without the new Air Tricks sound."
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Vanilla Footsteps",
+         "Value": "raw_boost_Sonic",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Boost Era games (Unleashed, Colors, Generations and Lost World)"
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Alternative Footsteps",
+         "Value": "raw_boost_Sonic_UnleashedFoot",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Boost Era games (Unleashed, Colors, Generations and Lost World), and includes footsteps sounds from previous games."
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Vanilla Footsteps + No Air Tricks",
+         "Value": "raw_boost_Sonic_NoAirTricks",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Boost Era games (Unleashed, Colors, Generations and Lost World), without the new Air Tricks sound."
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Alternative Footsteps + No Air Tricks",
+         "Value": "raw_boost_Sonic_UnleashedFoot_NoAirTricks",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Boost Era games (Unleashed, Colors, Generations and Lost World), includes footsteps sounds from previous games, without the new Air Tricks sound."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Vanilla Footsteps",
+         "Value": "raw_dreamcast_Sonic",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games"
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Alternative Footsteps",
+         "Value": "raw_dreamcast_Sonic_UnleashedFoot",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games, and includes footsteps sounds from previous games."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Vanilla Footsteps + SA2 Jump",
+         "Value": "raw_dreamcast_Sonic_SA2",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games, with the jump sound from Sonic Adventure 2 / Heroes."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Alternative Footsteps + SA2 Jump",
+         "Value": "raw_dreamcast_Sonic_SA2_UnleashedFoot",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games, with the jump sound from Sonic Adventure 2 / Heroes."
+         ]
+       },
+       {
+         "DisplayName": "Hybrid - Vanilla Footsteps",
+         "Value": "raw_hybrid_Sonic",
+         "Description": [
+           "Merges sounds from each Preset into one presets."
+         ]
+       },
+       {
+         "DisplayName": "Hybrid - Alternative Footsteps",
+         "Value": "raw_hybrid_Sonic_UnleashedFoot",
+         "Description": [
+           "Merges sounds from each Preset into one presets, and includes footsteps sounds from previous games."
+         ]
+       },
+       {
+         "DisplayName": "Hybrid - Vanilla Footsteps + No Air Tricks",
+         "Value": "raw_hybrid_Sonic_NoAirTricks",
+         "Description": [
+           "Merges sounds from each Preset into one presets, without the new Air Tricks sound."
+         ]
+       },
+       {
+         "DisplayName": "Hybrid - Alternative Footsteps + No Air Tricks",
+         "Value": "raw_hybrid_Sonic_UnleashedFoot_NoAirTricks",
+         "Description": [
+           "Merges sounds from each Preset into one presets, includes footsteps sounds from previous games, without the new Air Tricks sound."
 		     ]
 		  },
   	   ],
      "GameplayTailsEnum": [
        {
-         "DisplayName": "Vanilla Overhaul (Frontiers) - New Footsteps",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Vanilla Footsteps",
          "Value": "raw_frontiers_Tails",
          "Description": [
            "Improving the vanilla sounds by restoring sound details inspired by previous titles and replacing existing sounds with higher quality versions."
          ]
        },
        {
-         "DisplayName": "Vanilla Overhaul (Frontiers) - Old Footsteps",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Footsteps",
          "Value": "raw_frontiers_Tails_UnleashedFoot",
          "Description": [
            "Replaces the vanilla footsteps sounds with those from previous titles."
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Vanilla Footsteps",
+         "Value": "raw_boost_Tails",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Boost Era games (Unleashed, Colors, Generations and Lost World)"
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Alternative Footsteps",
+         "Value": "raw_boost_Tails_UnleashedFoot",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Boost Era games (Unleashed, Colors, Generations and Lost World), and includes footsteps sounds from previous games."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Vanilla Footsteps",
+         "Value": "raw_dreamcast_Tails",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games"
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Alternative Footsteps",
+         "Value": "raw_dreamcast_Tails_UnleashedFoot",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games, and includes footsteps sounds from previous games."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Vanilla Footsteps + SA2 Jump",
+         "Value": "raw_dreamcast_Tails_SA2",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games, with the jump sound from Tails Adventure 2 / Heroes."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Alternative Footsteps + SA2 Jump",
+         "Value": "raw_dreamcast_Tails_SA2_UnleashedFoot",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games, with the jump sound from Tails Adventure 2 / Heroes."
+         ]
+       },
+       {
+         "DisplayName": "Hybrid - Vanilla Footsteps",
+         "Value": "raw_hybrid_Tails",
+         "Description": [
+           "Merges sounds from each Preset into one presets."
+         ]
+       },
+       {
+         "DisplayName": "Hybrid - Alternative Footsteps",
+         "Value": "raw_hybrid_Tails_UnleashedFoot",
+         "Description": [
+           "Merges sounds from each Preset into one presets, and includes footsteps sounds from previous games."
 		     ]
 		  },
   	   ],
      "GameplayKnucklesEnum": [
        {
-         "DisplayName": "Vanilla Overhaul (Frontiers) - New Footsteps",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Vanilla Footsteps",
          "Value": "raw_frontiers_Knuckles",
          "Description": [
            "Improving the vanilla sounds by restoring sound details inspired by previous titles and replacing existing sounds with higher quality versions."
          ]
        },
        {
-         "DisplayName": "Vanilla Overhaul (Frontiers) - Old Footsteps",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Footsteps",
          "Value": "raw_frontiers_Knuckles_UnleashedFoot",
          "Description": [
            "Replaces the vanilla footsteps sounds with those from previous titles."
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Vanilla Footsteps",
+         "Value": "raw_boost_Knuckles",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Boost Era games (Unleashed, Colors, Generations and Lost World)"
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Alternative Footsteps",
+         "Value": "raw_boost_Knuckles_UnleashedFoot",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Boost Era games (Unleashed, Colors, Generations and Lost World), and includes footsteps sounds from previous games."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Vanilla Footsteps",
+         "Value": "raw_dreamcast_Knuckles",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games"
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Alternative Footsteps",
+         "Value": "raw_dreamcast_Knuckles_UnleashedFoot",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games, and includes footsteps sounds from previous games."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Vanilla Footsteps + SA2 Jump",
+         "Value": "raw_dreamcast_Knuckles_SA2",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games, with the jump sound from Knuckles Adventure 2 / Heroes."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Alternative Footsteps + SA2 Jump",
+         "Value": "raw_dreamcast_Knuckles_SA2_UnleashedFoot",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games, with the jump sound from Knuckles Adventure 2 / Heroes."
+         ]
+       },
+       {
+         "DisplayName": "Hybrid - Vanilla Footsteps",
+         "Value": "raw_hybrid_Knuckles",
+         "Description": [
+           "Merges sounds from each Preset into one presets."
+         ]
+       },
+       {
+         "DisplayName": "Hybrid - Alternative Footsteps",
+         "Value": "raw_hybrid_Knuckles_UnleashedFoot",
+         "Description": [
+           "Merges sounds from each Preset into one presets, and includes footsteps sounds from previous games."
 		     ]
 		  },
   	   ],
      "GameplayAmyEnum": [
        {
-         "DisplayName": "Vanilla Overhaul (Frontiers) - New Footsteps",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Vanilla Footsteps",
          "Value": "raw_frontiers_Amy",
          "Description": [
            "Improving the vanilla sounds by restoring sound details inspired by previous titles and replacing existing sounds with higher quality versions."
          ]
        },
        {
-         "DisplayName": "Vanilla Overhaul (Frontiers) - Old Footsteps",
+         "DisplayName": "Vanilla Overhaul (Frontiers) - Alternative Footsteps",
          "Value": "raw_frontiers_Amy_UnleashedFoot",
+         "Description": [
+           "Replaces the vanilla footsteps sounds with those from previous titles."
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Vanilla Footsteps",
+         "Value": "raw_boost_Amy",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Boost Era games (Unleashed, Colors, Generations and Lost World)"
+         ]
+       },
+       {
+         "DisplayName": "Boost Era - Alternative Footsteps",
+         "Value": "raw_boost_Amy_UnleashedFoot",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Boost Era games (Unleashed, Colors, Generations and Lost World), and includes footsteps sounds from previous games."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Vanilla Footsteps",
+         "Value": "raw_dreamcast_Amy",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games"
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Alternative Footsteps",
+         "Value": "raw_dreamcast_Amy_UnleashedFoot",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games, and includes footsteps sounds from previous games."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Vanilla Footsteps + SA2 Jump",
+         "Value": "raw_dreamcast_Amy_SA2",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games, with the jump sound from Amy Adventure 2 / Heroes."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era - Alternative Footsteps + SA2 Jump",
+         "Value": "raw_dreamcast_Amy_SA2_UnleashedFoot",
+         "Description": [
+           "Replaces the modified Frontiers sounds with those from Dreamcast Era games, with the jump sound from Amy Adventure 2 / Heroes."
+         ]
+       },
+       {
+         "DisplayName": "Hybrid - Vanilla Footsteps",
+         "Value": "raw_hybrid_Amy",
+         "Description": [
+           "Merges sounds from each Preset into one presets."
+         ]
+       },
+       {
+         "DisplayName": "Hybrid - Alternative Footsteps",
+         "Value": "raw_hybrid_Amy_UnleashedFoot",
+         "Description": [
+           "Merges sounds from each Preset into one presets, and includes footsteps sounds from previous games."
+		     ]
+		  },
+  	   ],
+     "GameplayObjectsEnum": [
+       {
+         "DisplayName": "Frontiers",
+         "Value": "raw_frontiers_Objects",
+         "Description": [
+           "Improving the vanilla sounds by restoring sound details inspired by previous titles and replacing existing sounds with higher quality versions."
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast",
+         "Value": "raw_dreamcast_Objects",
+         "Description": [
+           "Replaces the vanilla footsteps sounds with those from previous titles."
+         ]
+       },
+       {
+         "DisplayName": "Hybrid",
+         "Value": "raw_hybrid_Objects",
          "Description": [
            "Replaces the vanilla footsteps sounds with those from previous titles."
 		     ]
@@ -211,6 +1186,13 @@
          "Value": "raw_SpinDash_frontiers",
          "Description": [
            "Adds the Drop Dash charging sound, making it faithful to Frontiers."
+         ]
+       },
+       {
+         "DisplayName": "Faithful-Unleashed",
+         "Value": "raw_SpinDash_unleashed_frontiers",
+         "Description": [
+           "Adds the Drop Dash charging sound, making it faithful to Frontiers and the Unleashed Spin Dash charge sound."
          ]
        },
        {
@@ -239,6 +1221,20 @@
          "Value": "raw_SpinDash_dreamcast",
          "Description": [
            "Replacing the Spin Dash charging sound with that from Sonic Adventure."
+         ]
+       },
+       {
+         "DisplayName": "Super Smash Bros. Brawl",
+         "Value": "raw_SpinDash_SmashBros_Brawl",
+         "Description": [
+           "Replacing the Spin Dash charging sound with that from Super Smash Bros. Brawl."
+         ]
+       },
+       {
+         "DisplayName": "Super Smash Bros. Ultimate",
+         "Value": "raw_SpinDash_SmashBros_Ultimate",
+         "Description": [
+           "Replacing the Spin Dash charging sound with that from Super Smash Bros. Ultimate."
 		     ]
 		  },
   	   ],
@@ -248,6 +1244,13 @@
          "Value": "raw_TheEnd_vandalize",
          "Description": [
            "Replacing ''I'm with you'' with an edited version of ''Vandalize''.\n\nI call it ''Vandalize [Re-Edit]'' :)"
+         ]
+       },
+       {
+         "DisplayName": "Vandalize [Re-Edit] - Uncensored ver.",
+         "Value": "raw_TheEnd_vandalize_Japan",
+         "Description": [
+           "Replacing ''I'm with you'' with an edited version of ''Vandalize''.\n\nI call it ''Vandalize [Re-Edit]'' :)\n\nNote; That is the japanese / uncensored version."
          ]
        },
        {
@@ -306,10 +1309,45 @@
   	   ],
 	   "SSTalkEnum": [
 		{
-		 "DisplayName": "English (Roger Craig Smith)",
+		 "DisplayName": "English",
 		 "Value": "raw_supersonic_TalkEnglish_Roger",
          "Description": [
-           "Adds Roger's voice to the Titan Sequences."
+           "Adds the English voice lines to the Titan Sequences."
+         ]
+       },
+       {
+         "DisplayName": "French",
+         "Value": "raw_supersonic_TalkFrench",
+         "Description": [
+           "Adds the French voice lines to the Titan Sequences."
+         ]
+       },
+       {
+         "DisplayName": "Italian",
+         "Value": "raw_supersonic_TalkItalian",
+         "Description": [
+           "Adds the Italian voice lines to the Titan Sequences."
+         ]
+       },
+       {
+         "DisplayName": "German",
+         "Value": "raw_supersonic_TalkGerman",
+         "Description": [
+           "Adds the German voice lines to the Titan Sequences."
+         ]
+       },
+       {
+         "DisplayName": "Spanish",
+         "Value": "raw_supersonic_TalkSpanish",
+         "Description": [
+           "Adds the Spanish voice lines to the Titan Sequences."
+         ]
+       },
+       {
+         "DisplayName": "Japanese",
+         "Value": "raw_supersonic_TalkJapanese",
+         "Description": [
+           "Adds the Japanese voice lines to the Titan Sequences."
          ]
        },
        {
@@ -322,17 +1360,17 @@
   	   ],
 	   "GuardianTalkEnum": [
 		{
-		 "DisplayName": "English (Roger Craig Smith)",
-		 "Value": "raw_guardian_TalkEnglish_Roger",
+		 "DisplayName": "On",
+		 "Value": "raw_guardian_TalkOn",
          "Description": [
-           "Adds Roger's voice to the Guardian Intros."
+           "Makes Sonic talk and comment during the Guardian Intros."
          ]
        },
        {
-         "DisplayName": "Mute",
+         "DisplayName": "Off (Mute)",
          "Value": "raw_guardian_TalkOff",
          "Description": [
-           "Remains Sonic mute as he is in the vanilla game during the Guardian intros.\n\nHowever, it will keep the extra sound effects."
+           "Remains Sonic mute as he is in the vanilla game during the Guardian Intros.\n\nHowever, it will keep the extra sound effects."
 		     ]
 		  },
   	   ],
@@ -444,10 +1482,45 @@
   	   ],
 	   "SupremeBeastEnum": [
 		{
-         "DisplayName": "Monologue on",
-         "Value": "raw_SupremeBeast_talkOn",
+         "DisplayName": "Monologue on (English)",
+         "Value": "raw_SupremeBeast_talkOn_English",
          "Description": [
            "Adds The End's monologue from the base game to the Another Story battle."
+         ]
+       },
+       {
+		 "DisplayName": "Monologue on (France)",
+		 "Value": "raw_SupremeBeast_talkOn_France",
+         "Description": [
+           "Adds The End's monologue from the base game to the Another Story battle.",
+         ]
+       },
+       {
+         "DisplayName": "Monologue on (Italian)",
+		 "Value": "raw_SupremeBeast_talkOn_Italian",
+         "Description": [
+           "Adds The End's monologue from the base game to the Another Story battle.",
+         ]
+       },
+       {
+         "DisplayName": "Monologue on (German)",
+		 "Value": "raw_SupremeBeast_talkOn_German",
+         "Description": [
+           "Adds The End's monologue from the base game to the Another Story battle.",
+         ]
+       },
+       {
+         "DisplayName": "Monologue on (Spanish)",
+		 "Value": "raw_SupremeBeast_talkOn_Spanish",
+         "Description": [
+           "Adds The End's monologue from the base game to the Another Story battle.",
+         ]
+       },
+       {
+         "DisplayName": "Monologue on (Japanese)",
+		 "Value": "raw_SupremeBeast_talkOn_Japanese",
+         "Description": [
+           "Adds The End's monologue from the base game to the Another Story battle.",
          ]
        },
        {
@@ -455,6 +1528,103 @@
 		 "Value": "raw_SupremeBeast_talkOff",
          "Description": [
            "Disables the monologue."
+		     ]
+		  },
+  	   ],
+	   "AmbientEnum": [
+		{
+         "DisplayName": "On",
+         "Value": "raw_ambientOn",
+         "Description": [
+           "Increases the volume of ambient sounds.",
+         ]
+       },
+       {
+		 "DisplayName": "Off",
+		 "Value": "raw_ambientOff",
+         "Description": [
+           "Keeps the ambient sounds unchanged."
+		     ]
+		  },
+  	   ],
+	   "KocoDLCEnum": [
+		{
+         "DisplayName": "English",
+         "Value": "raw_KocoEmoteDLC_talkOn_English",
+         "Description": [
+           "Adds English voice lines to Sonic Emote with Koco DLC."
+         ]
+       },
+       {
+		 "DisplayName": "Franch",
+		 "Value": "raw_KocoEmoteDLC_talkOn_Franch",
+         "Description": [
+           "Adds Franch voice lines to Sonic Emote with Koco DLC."
+         ]
+       },
+       {
+         "DisplayName": "Italian",
+		 "Value": "raw_KocoEmoteDLC_talkOn_Italian",
+         "Description": [
+           "Adds Italian voice lines to Sonic Emote with Koco DLC."
+         ]
+       },
+       {
+         "DisplayName": "German",
+		 "Value": "raw_KocoEmoteDLC_talkOn_German",
+         "Description": [
+           "Adds German voice lines to Sonic Emote with Koco DLC."
+         ]
+       },
+       {
+         "DisplayName": "Spanish",
+		 "Value": "raw_KocoEmoteDLC_talkOn_Spanish",
+         "Description": [
+           "Adds Spanish voice lines to Sonic Emote with Koco DLC."
+         ]
+       },
+       {
+         "DisplayName": "Japanese",
+		 "Value": "raw_KocoEmoteDLC_talkOn_Japanese",
+         "Description": [
+           "Adds Japanese voice lines to Sonic Emote with Koco DLC."
+         ]
+       },
+       {
+		 "DisplayName": "Mute",
+		 "Value": "raw_KocoEmoteDLC_talkOff",
+         "Description": [
+           "Sonic remains mute."
+		     ]
+		  },
+  	   ],
+	   "KoroneDLCEnum": [
+		{
+         "DisplayName": "Frontiers",
+         "Value": "raw_KoroneDLC_frontiers",
+         "Description": [
+           "Adds Frontiers sounds to Inugami Korone Collaboration DLC.\n\nYou must use the Vanilla Overhaul / Frontiers preset!"
+         ]
+       },
+       {
+		 "DisplayName": "Boost Era",
+		 "Value": "raw_KoroneDLC_boost",
+         "Description": [
+           "Adds Boost Era sounds to Inugami Korone Collaboration DLC.\n\nYou must use the Boost Era preset!"
+         ]
+       },
+       {
+         "DisplayName": "Dreamcast Era",
+		 "Value": "raw_KoroneDLC_dreamcast",
+         "Description": [
+           "Adds Dreamcast sounds to Inugami Korone Collaboration DLC.\n\nYou must use the Dreamcast Era preset!"
+         ]
+       },
+       {
+         "DisplayName": "Hybrid",
+		 "Value": "raw_KoroneDLC_hybrid",
+         "Description": [
+           "Adds Hybrid preset sounds to Inugami Korone Collaboration DLC.\n\nYou must use the Hybrid preset!"
          ]
        }
      ]
