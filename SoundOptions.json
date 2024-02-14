@@ -245,6 +245,240 @@
             ]
         },
         {
+    "Name": "Main",
+    "DisplayName": "Volume Adjuster",
+    "Elements": [
+        {
+      "Name": "cameragazeVolume",
+      "DisplayName": "Camera Gaze",
+      "Description": [
+        "Adjust the volume for the Camera Gaze. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "rollVolume",
+      "DisplayName": "Spin Dash / Roll Release",
+      "Description": [
+        "Adjust the volume for the Spin Dash / Roll Release. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "dreamcastlightdashVolume",
+      "DisplayName": "Dreamcast-styled Light Dash",
+      "Description": [
+        "Adjust the volume for the Dreamcast-styled Light Dash. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "boostjetVolume",
+      "DisplayName": "Boost Jet",
+      "Description": [
+        "Adjust the volume for the Boost Jet. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "quickstepVolume",
+      "DisplayName": "Quick Step",
+      "Description": [
+        "Adjust the volume for the Quick Step. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "skydiveVolume",
+      "DisplayName": "Sky Dive (Normal)",
+      "Description": [
+        "Adjust the volume for the Sky Dive (normal speed). Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "skydivefastVolume",
+      "DisplayName": "Sky Dive (Fast)",
+      "Description": [
+        "Adjust the volume for the Sky Dive (fast speed). Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "tailsstompVolume",
+      "DisplayName": "Tails Spin at Stomp",
+      "Description": [
+        "Adjust the volume for the Tails Spin at Stomp. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "knucklesclimbVolume",
+      "DisplayName": "2006-styled Climb",
+      "Description": [
+        "Adjust the volume for the 2006-styled Climb. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "heatknuckleVolume",
+      "DisplayName": "Heat Knuckle",
+      "Description": [
+        "Adjust the volume for the Heat Knuckle. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "superboostprimaryVolume",
+      "DisplayName": "Super Boost (Primary)",
+      "Description": [
+        "Adjust the volume for the Super Boost (Primary). Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "superboostsecondaryVolume",
+      "DisplayName": "Super Boost (Secondary)",
+      "Description": [
+        "Adjust the volume for the Super Boost (Secondary). Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "superdriftVolume",
+      "DisplayName": "Super Drift",
+      "Description": [
+        "Adjust the volume for the Super Drift. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "ss2Volume",
+      "DisplayName": "Starfall Super Sonic / Super Sonic 2 Aura",
+      "Description": [
+        "Adjust the volume for Starfall Super Sonic / Super Sonic 2's Aura. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "ss2transprimaryVolume",
+      "DisplayName": "Starfall Super Sonic / Super Sonic 2 Transformation (Primary)",
+      "Description": [
+        "Adjust the volume for Starfall Super Sonic / Super Sonic 2 Transformation (Primary) Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "ss2transsecondaryVolume",
+      "DisplayName": "Starfall Super Sonic / Super Sonic 2 Transformation (Secondary)",
+      "Description": [
+        "Adjust the volume for Starfall Super Sonic / Super Sonic 2 Transformation (Secondary) Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "tiredgruntVolume",
+      "DisplayName": "Tired Grunt",
+      "Description": [
+        "Adjust the volume for Tired Grunt. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "supergrantslamVolume",
+      "DisplayName": "Super Grand Slam Grunt",
+      "Description": [
+        "Adjust the volume for Super Grand Slam Grunt. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "pulleyVolume",
+      "DisplayName": "Pulley",
+      "Description": [
+        "Adjust the volume for the Pulley. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+                }
+            ]
+        },
+        {
             "Name": "Main",
             "DisplayName": "Gameplay",
             "Elements": [
