@@ -1,7 +1,6 @@
 ## Version 3.2.2
-Please reinstall the mod, sorry :(
+That should take care of the loud sounds.
 
-- Fixed extra sounds being too loud.
 - Added volume adjusters.
 
 
