@@ -1,3 +1,7 @@
+## Version 3.2.2
+- Fixed extra sounds being too loud.
+- Added volume adjusters.
+
 ## Version 3.2.1
 This hotfix is relevant for those who already downloaded version 3.2. If you haven't download it from GameBanana.
 
