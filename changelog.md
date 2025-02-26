@@ -1,3 +1,9 @@
+## Version 4.0
+
+*Please note, you'll need to download the updated files from GameBanana as the Update Server does not contain them!!!*
+
+----------------------------
+
 ## Version 3.2.2
 That should take care of the loud sounds.
 
