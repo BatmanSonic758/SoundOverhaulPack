@@ -30,9 +30,18 @@
         },
         {
             "Name": "Main",
-            "DisplayName": "Languages",
+            "DisplayName": "Voices and Languages",
             "Elements": [
                 {
+            "Name": "BoostGrunt",
+            "DisplayName": "Restore Boost Grunt",
+            "Description": [
+                "Restores the upbeat and serious boost grunts that Sonic used to make when boosting in previous titles.\nAlso applies to Tails, Knuckles and Amy..\n\nNote(s):\n- It does not apply to both Super Sonic and Tails, Knuckles and Amy's Power Boosts."
+            ],
+            "Type": "BoostGrunt",
+            "DefaultValue": 1
+        },
+        {
             "Name": "IncludeDir8",
             "DisplayName": "Titan Sequences Language",
             "Description": [
@@ -90,17 +99,35 @@
     "DisplayName": "Additional Sounds",
     "Elements": [
         {
-      "Name": "ZeroRingWarning",
-      "DisplayName": "Restore Zero Ring Warning Jingle",
+      "Name": "DrowningJingle",
+      "DisplayName": "Correct Drowning Jingle",
       "Description": [
-        "Restores an unused jingle that is meant to play when you have zero rings.\n\nNote(s):\n- This will play only when you have zero rings after taking damage.\n- The jingle will (normally) play when you start the tutorial. If you use the ''Keep Rings from Cyber Space on Islands'' code, it won't conflict :)"
+        "Fixes an oddity by adding the iconic drowning jingle to when the player is underwater for too long rather than when being trapped inside the Aquaball in Rhea and Ouranos.\nThe selected drowning jingle also applies to the Aquaball.\n\nInspired by Weezley's mod."
       ],
-      "Type": "ZeroRingWarning",
+      "Type": "DrowningJingle",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "DrowningAlertJingle",
+      "DisplayName": "Restore Drowning Alert Jingle",
+      "Description": [
+        "Restores the drowning alert jingles that plays when the player is underwater for too long."
+      ],
+      "Type": "DrowningAlertJingle",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "HomingReticle",
+      "DisplayName": "Homing Reticle Jingle",
+      "Description": [
+        "Choose your desired jingle for the Homing Reticle / lock-on."
+      ],
+      "Type": "HomingReticle",
       "DefaultValue": 1
     },
     {
       "Name": "RestoreCameraGaze",
-      "DisplayName": "Restore Camera Gaze Jingle",
+      "DisplayName": "Restore Lock-on Focus (Camera Gaze) Jingle",
       "Description": [
         "Restores an unused jingle that is meant to play when you press the analog stick when you lock on to a target."
       ],
@@ -108,12 +135,21 @@
       "DefaultValue": 1
     },
     {
-      "Name": "PulleyExtra",
-      "DisplayName": "Additional Pulley Sounds (W.I.P)",
+      "Name": "ZeroRingWarning",
+      "DisplayName": "Restore Zero Ring Warning Jingle",
       "Description": [
-        "Adds additional sounds for the pulley, a new sound will be added and stopped once the player is out of the pulley.\n\nNote(s):\n- Sometimes the sounds will play at random cases since the associated state is shared with others.\nMore particularly when interacting with the cannons in Another Story and the rocket in Portal 4-B."
+        "Restores an unused jingle that is meant to play when you have zero rings which oddly enough got reused in Shadow Generations.\n\nNote(s):\n- This will play only when you have zero rings after taking damage.\n- The jingle will (normally) play when you start the tutorial. If you use the ''Keep Rings from Cyber Space on Islands'' code, it won't conflict :)"
       ],
-      "Type": "PulleyExtra",
+      "Type": "ZeroRingWarning",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "AcceleCombo",
+      "DisplayName": "Unique Combat Sounds",
+      "Description": [
+        "Gives Sonic unique sounds for punching and kicking.\n\nIdea by Moke."
+      ],
+      "Type": "AcceleCombo",
       "DefaultValue": 1
     },
     {
@@ -123,6 +159,15 @@
         "Adds spinning sound when jumping and bouncing, similar to Sonic Forces\nIn Sonic Frontiers, the sound normally plays when jumping off an enemy.\n\nNote(s):\n- This is will not apply to the Double Jump. \n- It will play for Amy too, but only when she jumps out of a Spin Dash since she normally doesn't curl into a ball."
       ],
       "Type": "ForcesSpin",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "SpinDashImpact",
+      "DisplayName": "Lost World-styled Spin Dash / Roll",
+      "Description": [
+        "Adds the Spin Dash / Roll impact sound from Sonic Lost World, includes a mod compatibility."
+      ],
+      "Type": "SpinDashImpact",
       "DefaultValue": 1
     },
     {
@@ -136,11 +181,20 @@
     },
     {
       "Name": "BoostJet",
-      "DisplayName": "Boost Jet / Impact",
+      "DisplayName": "Restore Boost Jet",
       "Description": [
       "Restores the jet sound that plays when the player boosts, similar to previous titles.",
       ],
       "Type": "BoostJet",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "BoostJetSound",
+      "DisplayName": "Boost Jet Sound",
+      "Description": [
+      "Determine the sound for the Boost Jet.\n''Restore Boost Jet'' must be enabled in order to function!",
+      ],
+      "Type": "BoostJetSound",
       "DefaultValue": 1
     },
     {
@@ -171,12 +225,12 @@
       "DefaultValue": 1
     },
     {
-      "Name": "KnucklesClimb",
-      "DisplayName": "2006-styled Wall Climb",
+      "Name": "RestoreWallSlide",
+      "DisplayName": "Unleashed-styled Wall Slide",
       "Description": [
-        "Adds additional climb sounds for Knuckles from SONIC THE HEDGEHOG (2006)."
+        "Adds a slide sound when sliding off walls, similar to Sonic Unleashed."
       ],
-      "Type": "KnucklesClimb",
+      "Type": "RestoreWallSlide",
       "DefaultValue": 1
     },
     {
@@ -204,6 +258,15 @@
         "Gives Tails, Knuckles and Amy their Cyber form aura from the cutscenes into gameplay.\n\nRecommended for those who use / prefer their Cyber forms\n\nNote(s):\n- This code is experimental and may contain minor imperfections that are not expected to function flawlessly, thus I recommend for you to keep this option off for now until it'll be far more flashed. Or keep it on, totally up to you.\n- When you switch to Tails, Knuckles and Amy, the aura sound will not play until they're standing still or falling, for some reason.\n- The aura may reset or overplay when you perform some actions or become grounded."
       ],
       "Type": "CyberAuraFriends",
+      "DefaultValue": 2
+    },
+    {
+      "Name": "SuperTrans",
+      "DisplayName": "Super Transformation / Detransformation",
+      "Description": [
+        "Determines if you wish to add transformation and detransformation sounds for Super Sonic. Intended to be used with both Sora's Super Sonic and Pikachu's Super Effects mods."
+      ],
+      "Type": "SuperTrans",
       "DefaultValue": 1
     },
     {
@@ -241,6 +304,24 @@
       ],
       "Type": "SS2Aura",
       "DefaultValue": 1
+    },
+    {
+      "Name": "GrandSlamGiganto",
+      "DisplayName": "Giganto Grand Slam Impact",
+      "Description": [
+        "Adds Giganto's damage roar when colliding with Super Sonic's Grand Slam."
+      ],
+      "Type": "GrandSlamGiganto",
+      "DefaultValue": 1
+    },
+    {
+      "Name": "GrandSlamSupreme",
+      "DisplayName": "Supreme Grand Slam Impact",
+      "Description": [
+        "Adds Supreme's damage roar when colliding with Super Sonic's Grand Slam.\n\nNote(s):\n- This only applies to regular Supreme."
+      ],
+      "Type": "GrandSlamSupreme",
+      "DefaultValue": 1
                 }
             ]
         },
@@ -249,10 +330,58 @@
     "DisplayName": "Volume Adjuster",
     "Elements": [
         {
+      "Name": "drowningVolume",
+      "DisplayName": "Drowning Jingle",
+      "Description": [
+        "Adjust the volume for the Drowning Jingle. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "drowningalarmVolume",
+      "DisplayName": "Drowning Alert Jingle",
+      "Description": [
+        "Adjust the volume for the Drowning Alert Jingle. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "lockonVolume",
+      "DisplayName": "Homing Reticle",
+      "Description": [
+        "Adjust the volume for the Homing Reticle. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
       "Name": "cameragazeVolume",
       "DisplayName": "Camera Gaze",
       "Description": [
         "Adjust the volume for the Camera Gaze. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "combatVolume",
+      "DisplayName": "Unique Combat Sounds",
+      "Description": [
+        "Adjust the volume for the unique punches and kicks sounds. Min: 0, Max: 100",
         "(Default: 25)"
       ],
       "Type": "float",
@@ -333,22 +462,10 @@
       "MaxValue": "100"
     },
     {
-      "Name": "tailsstompVolume",
-      "DisplayName": "Tails Spin at Stomp",
+      "Name": "wallslideVolume",
+      "DisplayName": "Unleashed-styled Wall Slide",
       "Description": [
-        "Adjust the volume for the Tails Spin at Stomp. Min: 0, Max: 100",
-        "(Default: 25)"
-      ],
-      "Type": "float",
-      "DefaultValue": "25",
-      "MinValue": "0",
-      "MaxValue": "100"
-    },
-    {
-      "Name": "knucklesclimbVolume",
-      "DisplayName": "2006-styled Climb",
-      "Description": [
-        "Adjust the volume for the 2006-styled Climb. Min: 0, Max: 100",
+        "Adjust the volume for the Unleashed-styled Wall Slide. Min: 0, Max: 100",
         "(Default: 25)"
       ],
       "Type": "float",
@@ -465,10 +582,22 @@
       "MaxValue": "100"
     },
     {
-      "Name": "pulleyVolume",
-      "DisplayName": "Pulley",
+      "Name": "grantslamgigantoVolume",
+      "DisplayName": "Giganto Grand Slam Impact",
       "Description": [
-        "Adjust the volume for the Pulley. Min: 0, Max: 100",
+        "Adjust the volume for Giganto's Grand Slam impact. Min: 0, Max: 100",
+        "(Default: 25)"
+      ],
+      "Type": "float",
+      "DefaultValue": "25",
+      "MinValue": "0",
+      "MaxValue": "100"
+    },
+    {
+      "Name": "grantslamsupremeVolume",
+      "DisplayName": "Supreme Grand Slam Impact",
+      "Description": [
+        "Adjust the volume for Supreme's Grand Slam impact. Min: 0, Max: 100",
         "(Default: 25)"
       ],
       "Type": "float",
@@ -553,21 +682,12 @@
                     "MinValue": null,
                     "MaxValue": null,
                     "DefaultValue": "raw_SpinDash_faithful"
-                },
-                {
-                    "Name": "SpinDashImpact",
-                    "DisplayName": "Spin Dash / Roll Release (mod compatibility)",
-                    "Description": [
-                        "Choose to enable or disable mod compatibility."
-                    ],
-                    "Type": "SpinDashImpact",
-                    "DefaultValue": 1
                 }
             ]
         },
         {
     "Name": "Main",
-    "DisplayName": "Open Zone",
+    "DisplayName": "Miscellaneous",
     "Elements": [
         {
             "Name": "IncludeDir7",
@@ -654,17 +774,17 @@
     ],
     "SpinDashImpact": [
         {
-            "DisplayName": "Default",
+            "DisplayName": "Enable",
             "Value": "1",
             "Description": [
                 "Default settings."
             ]
         },
         {
-            "DisplayName": "Loco's Reimagined Slide",
+            "DisplayName": "Enable (Drop Dash over Slide)",
             "Value": "2",
             "Description": [
-                "Adds compatibility with Loco's Reimagined Slide."
+                "Adds compatibility with mods / codes that replaces the slide with the Drop Dash / roll."
             ]
         },
         {
@@ -691,6 +811,22 @@
             ]
         }
     ],
+    "SuperTrans": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Gives Super Sonic unique transformation and detransformation sounds."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "No sound will play during a transformation and detransformation."
+            ]
+        }
+    ],
     "BoostJet": [
         {
             "DisplayName": "Enable",
@@ -700,10 +836,40 @@
             ]
         },
         {
-            "DisplayName": "Disable",
+            "DisplayName": "Enable (Power Boost Only)",
             "Value": "2",
             "Description": [
+                "Enables Boost Jet sound only when Power Boost is active."
+            ]
+        },
+        {
+            "DisplayName": "Enable (Cyber Space Only)",
+            "Value": "3",
+            "Description": [
+                "Enables Boost Jet sound only in Cyber Space, akin to previous boost titles."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "4",
+            "Description": [
                 "Leaves the Boost unchanged."
+            ]
+        }
+    ],
+    "BoostJetSound": [
+        {
+            "DisplayName": "Legacy",
+            "Value": "1",
+            "Description": [
+                "The boost jet sound will use its legacy sound."
+            ]
+        },
+        {
+            "DisplayName": "Frontiers ",
+            "Value": "2",
+            "Description": [
+                "The boost jet sound will use the sound that plays when Sonic passes through the giant highway loop in Portal 4-2: Ephemeral."
             ]
         }
     ],
@@ -723,6 +889,96 @@
             ]
         }
     ],
+    "GrandSlamGiganto": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Adds Giganto's roar when collides with Super Sonic's Grand Slam."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "No sound will play when Giganto collides with Super Sonic's Grand Slam."
+            ]
+        }
+    ],
+    "GrandSlamSupreme": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Adds Supreme's roar when collides with Super Sonic's Grand Slam."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "No sound will play when Supreme collides with Super Sonic's Grand Slam."
+            ]
+        }
+    ],
+    "HomingReticle": [
+        {
+            "DisplayName": "Default",
+            "Value": "1",
+            "Description": [
+                "Keeps the old *click* sound."
+            ]
+        },
+        {
+            "DisplayName": "Legacy-styled",
+            "Value": "2",
+            "Description": [
+                "Uses a new lock-on sound to feel like the legacy sound.\nThis option is essentially the Lost World / Forces one without the secondary sound layer."
+            ]
+        },
+        {
+            "DisplayName": "Forces / Lost World",
+            "Value": "3",
+            "Description": [
+                "Uses the lock-on sound from Sonic Lost World / Forces."
+            ]
+        },
+        {
+            "DisplayName": "Legacy",
+            "Value": "4",
+            "Description": [
+                "Uses the iconic lock-on sound from Sonic Unleashed / Colors / Generations."
+            ]
+        },
+        {
+            "DisplayName": "Storybook",
+            "Value": "5",
+            "Description": [
+                "Uses the lock-on sound from Sonic and the Secret Rings."
+            ]
+        },
+        {
+            "DisplayName": "Gamma (Dreamcast)",
+            "Value": "6",
+            "Description": [
+                "Uses Gamma's lock-on sound from Sonic Adventure."
+            ]
+        },
+        {
+            "DisplayName": "Omega (2006)",
+            "Value": "7",
+            "Description": [
+                "Uses an unused (?) sound that would've been used for Omega's lock on attack in SONIC THE HEDGEHOG (2006)"
+            ]
+        },
+        {
+            "DisplayName": "Mute",
+            "Value": "8",
+            "Description": [
+                "No sound will play when the lock-on cursor is on."
+            ]
+        }
+    ],
     "ZeroRingWarning": [
         {
             "DisplayName": "Enable",
@@ -736,6 +992,82 @@
             "Value": "2",
             "Description": [
                 "No sound will play when the player has zero rings."
+            ]
+        }
+    ],
+    "AcceleCombo": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Gives Sonic unique combat sounds."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "Sonic's combat sounds remain unchanged."
+            ]
+        }
+    ],
+    "DrowningJingle": [
+        {
+            "DisplayName": "Colors / Frontiers",
+            "Value": "1",
+            "Description": [
+                "Uses the default drowning jingle."
+            ]
+        },
+        {
+            "DisplayName": "Generations / Dreamcast",
+            "Value": "2",
+            "Description": [
+                "Uses the drowning jingle from Sonic Adventure / Generations."
+            ]
+        },
+        {
+            "DisplayName": "Mania",
+            "Value": "3",
+            "Description": [
+                "Uses the drowning jingle from Sonic Mania."
+            ]
+        },
+        {
+            "DisplayName": "CD / Encore Mode",
+            "Value": "4",
+            "Description": [
+                "Uses the drowning jingle from Sonic CD / Mania Plus' Encore Mode."
+            ]
+        },
+        {
+            "DisplayName": "Genesis",
+            "Value": "5",
+            "Description": [
+                "Uses the drowning jingle from the classic Sonic games."
+            ]
+        },
+        {
+            "DisplayName": "Mute",
+            "Value": "6",
+            "Description": [
+                "No music will play when the player is underwater for too long."
+            ]
+        }
+    ],
+    "DrowningAlertJingle": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Restores the drowning alert jingle for when staying underwater for too long."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "No sound will play when the player is underwater for too long."
             ]
         }
     ],
@@ -813,7 +1145,7 @@
             "DisplayName": "Disable",
             "Value": "2",
             "Description": [
-                "No sound will play when Sonic boosts during a drift."
+                "No sound will play when Sonic boosts during a drift.\n\nNote: This also applies to Boost Jet / Impact!!!"
             ]
         }
     ],
@@ -881,29 +1213,6 @@
             ]
         }
     ],
-    "PulleyExtra": [
-        {
-            "DisplayName": "Sonic Unleashed",
-            "Value": "1",
-            "Description": [
-                "Adds additional sounds for the pulley from Sonic Unleashed."
-            ]
-        },
-        {
-            "DisplayName": "Dreamcast / 2006",
-            "Value": "2",
-            "Description": [
-                "Adds additional sounds for the pulley from the Dreamcast games / SONIC THE HEDGEHOG (2006)"
-            ]
-        },
-        {
-            "DisplayName": "Disable",
-            "Value": "3",
-            "Description": [
-                "No sound will play when you interact with the pulley."
-            ]
-        }
-    ],
     "QuickStep": [
         {
             "DisplayName": "Unleashed",
@@ -956,6 +1265,45 @@
             "Value": "2",
             "Description": [
                 "Leaves theSky Dive unchanged."
+            ]
+        }
+    ],
+    "RestoreWallSlide": [
+        {
+            "DisplayName": "Enable",
+            "Value": "1",
+            "Description": [
+                "Enables the wall slide sound from Sonic Unleashed."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "2",
+            "Description": [
+                "Leaves Wall Slide unchanged."
+            ]
+        }
+    ],
+    "BoostGrunt": [
+        {
+            "DisplayName": "Boost Only",
+            "Value": "1",
+            "Description": [
+                "Adds grunts when boosting."
+            ]
+        },
+        {
+            "DisplayName": "Boost + Spin Dash",
+            "Value": "2",
+            "Description": [
+                "Adds grunts when boosting and performing a Spin Dash as well."
+            ]
+        },
+        {
+            "DisplayName": "Disable",
+            "Value": "3",
+            "Description": [
+                "Leaves boosting unchanged."
             ]
         }
     ],
@@ -1396,21 +1744,28 @@
          "DisplayName": "Frontiers",
          "Value": "raw_frontiers_Objects",
          "Description": [
-           "Improving the vanilla sounds by restoring sound details inspired by previous titles and replacing existing sounds with higher quality versions."
+           "Offers slight alternations to the vanilla sound effects.\n\nRecommended to be used with either the Vanilla Overhaul or Boost Era preset.\n\nEdited sounds:\n- Pulley\n- Cyber Space tube tunnel"
          ]
        },
        {
          "DisplayName": "Dreamcast",
          "Value": "raw_dreamcast_Objects",
          "Description": [
-           "Replaces the vanilla footsteps sounds with those from previous titles."
+           "Replaces some of the vanilla object sounds with their Dreamcast counter parts.\n\nRecommended to be used with the Dreamcast Era preset.\n\nEdited sounds:\n- Pulley\n- Rainbow Ring\n- Dash Panel\n- Dash Ramp\n- Springs\n- Red Ring\n- Cyber Space tube tunnel \n- Enemy explosion"
          ]
        },
        {
          "DisplayName": "Hybrid",
          "Value": "raw_hybrid_Objects",
          "Description": [
-           "Replaces the vanilla footsteps sounds with those from previous titles."
+           "A mix between the first two object presets.\n\nRecommended to be used with the Hybrid preset.\n\nEdited sounds:\n- Pulley\n- Rainbow Ring\n- Cyber Space tube tunnel"
+         ]
+       },
+       {
+         "DisplayName": "Legacy",
+         "Value": "raw_legacy_Objects",
+         "Description": [
+           "Replaces some of the object sounds with alternatives from previous titles, specifically sounds from SONIC THE HEDGEHOG (2006) to Sonic Generations.\n\nEdited sounds:\n- Pulley\n- Button Switch\n- Cyber Space tube tunnel\n- Some object breaking sounds"
 		     ]
 		  },
   	   ],

@@ -2,18 +2,22 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
 //
     #lib "Player"
 	#lib "Sonic"
+	#lib "Lua"
+	#lib "BlackboardStatus"
 	
 	#import "Services"
 	
 	#load "System.Numerics.dll"
 
     using System.Numerics;
+	using System.Collections.Generic;
 
     static bool isAttackWindmill = false;
 	static bool isCycloneKick = false;   
     static bool isCrossSlash = false;        
 	static bool isPursuitKick = false;    
-	static bool isTakeDamage = false;      
+	static bool isTakeDamage = false;    
+	static bool isTakeDamageMisc = false;   	
 	static bool isBoxPush = false;      
 	static bool isBoxKick = false;      
 	static bool isSomersaultLand = false; 
@@ -27,12 +31,16 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
 	static bool isDeathLava = false;
 	static bool isDashRamp = false;
 	static bool isTrickFinish = false;
-	static bool isDriftGrunt = false;
+	static bool isDriftGrunt =  false;
 	static bool isClimbGrunt = false;
 	static bool isBreatheGrunt = false;
 	static bool isAnimalJump = false;
 	static bool isKocoJump = false;
 	static bool isPipeHotfix = false;
+	static bool isSuperSonicBrakeFix = false;
+	static bool isWallSlide = false;
+	static bool isHangPole = false;
+	static bool isLightDash = false;
 
 //
 {
@@ -44,7 +52,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     {
         if (!isAttackWindmill)
         {
-            Player.Sound.PlaySound("sa1013_1");
+            Lua.Call("PlayVoice", "sa1013_1");
 			Player.Sound.PlaySound("sn_triangle_jump");
             isAttackWindmill = true;
         }
@@ -62,7 +70,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     {
         if (!isCycloneKick)
         {
-            Player.Sound.PlaySound("sa1016");
+            Lua.Call("PlayVoice", "sa1016");
             isCycloneKick = true;
         }
     }
@@ -80,7 +88,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
         if (!isPursuitKick)
         {
             Player.Sound.PlaySound("sn_windmill_kick");
-            Player.Sound.PlaySound("sa1013_1");
+            Lua.Call("PlayVoice", "sa1013_1");
             isPursuitKick = true;
         }
     }
@@ -97,7 +105,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     {
         if (!isCrossSlash)
         {
-            Player.Sound.PlaySound("sa1016");
+            Lua.Call("PlayVoice", "sa1016");
             isCrossSlash = true;
         }
     }
@@ -114,13 +122,34 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     {
         if (!isTakeDamage)
         {
-            Player.Sound.PlaySound("sa1026");
+            Lua.Call("PlayVoice", "sa1026");
             isTakeDamage = true;
         }
     }
     else
     {
         isTakeDamage = false;
+    }
+
+    //Alternative damage grunts (misc)
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateGrindDamage ||
+	    Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateGrindDamageAir ||
+		Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDivingDamage ||
+		Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDivingSpecialDamage)
+    {
+        if (!isTakeDamageMisc)
+        {
+            Player.Sound.PlaySound("sn_damage");		
+            Lua.Call("PlayVoice", "sa1026");
+            isTakeDamageMisc = true;
+        }
+    }
+    else
+    {
+        isTakeDamageMisc = false;
     }
 
     //Somersault Landing (Sonic)  
@@ -132,7 +161,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
         if (!isSomersaultLand)
         {
             Player.Sound.PlaySound("sn_bump_jump_roll");
-			Player.Sound.PlaySound("sa1009");
+			Lua.Call("PlayVoice", "sa1009");
             isSomersaultLand = true;
         }
     }
@@ -149,7 +178,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     {
         if (!isBoxPush)
         {
-            Player.Sound.PlaySound("sa1036");
+            Lua.Call("PlayVoice", "sa1036");
             isBoxPush = true;
         }
     }
@@ -169,7 +198,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
             Player.Sound.PlaySound("obj_brk_standlight02");
             Player.Sound.PlaySound("sn_attack_hit_s");			
 			Player.Sound.PlaySound("sn_windmill_kick");			
-			Player.Sound.PlaySound("sa1038");
+			Lua.Call("PlayVoice", "sa1038");
             isBoxKick = true;
         }
     }
@@ -187,7 +216,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
         if (!isGrindStep)
         {
             Player.Sound.PlaySound("sn_triangle_jump");
-            Player.Sound.PlaySound("sa1007");
+            Lua.Call("PlayVoice", "sa1007");
             isGrindStep = true;
         }
     }
@@ -204,7 +233,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     {
         if (!isSpinJump)
         {
-			Player.Sound.PlaySound("sa1003");
+			Lua.Call("PlayVoice", "sa1003");
             isSpinJump = true;
         }
     }
@@ -217,11 +246,11 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     if (Player.GetPlayerType() != Player.PlayerType.Sonic)
         return;
     
-    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDoubleJump)
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDoubleJump && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateGrindDoubleJump)
     {
         if (!isDoubleJumpGrunt)
         {
-			Player.Sound.PlaySound("sa1005");
+			Lua.Call("PlayVoice", "sa1005");
             isDoubleJumpGrunt = true;
         }
     }
@@ -239,7 +268,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
         if (!isStompAttack)
         {
             Player.Sound.PlaySound("_sn_stomping_start");
-            Player.Sound.PlaySound("sa1004");
+            Lua.Call("PlayVoice", "sa1004");
             isStompAttack = true;
         }
     }
@@ -274,7 +303,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
         if (!isSquatGrunt)
         {
             Player.Sound.PlaySound("sn_climb_jump");
-			Player.Sound.PlaySound("sa1007");
+			Lua.Call("PlayVoice", "sa1007");
             isSquatGrunt = true;
         }
     }
@@ -289,9 +318,9 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     
     if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDead)
     {
-        if (!isDeath)
+        if ((!BlackboardStatus.IsSuper() || !Player.Status.IsUnderwater()) && !isDeath)
         {
-            Player.Sound.PlaySound("sa1027");
+            Lua.Call("PlayVoice", "sa1027");
             isDeath = true;
         }
     }
@@ -308,7 +337,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     {
         if (!isDeathLava)
         {
-            Player.Sound.PlaySound("sa1028");
+            Lua.Call("PlayVoice", "sa1028");
             isDeathLava = true;
         }
     }
@@ -317,20 +346,23 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
         isDeathLava = false;
     }
 
-    //Plays a somersault sound when Sonic finish tricks    
+    // Plays a somersault sound when Sonic finish tricks    
     if (Player.GetPlayerType() != Player.PlayerType.Sonic)
         return;
-    
-    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateRecoveryJump)
+
+    var currentState = Player.State.GetCurrentStateID<Sonic.StateID>();
+    var previousState = Player.State.GetPreviousStateID<Sonic.StateID>();
+
+    if (currentState == Sonic.StateID.StateRecoveryJump)
     {
         if (!isTrickFinish)
         {
             Player.Sound.PlaySound("sn_climb_balance_ok");
-            Player.Sound.PlaySound("sa1001");
+            Lua.Call("PlayVoice", "sa1001");
             isTrickFinish = true;
         }
     }
-    else
+    else if (currentState != Sonic.StateID.StateHomingAttack || previousState != Sonic.StateID.StateRecoveryJump)
     {
         isTrickFinish = false;
     }
@@ -343,7 +375,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     {
         if (!isDriftGrunt)
         {
-			Player.Sound.PlaySound("sa1010");
+			Lua.Call("PlayVoice", "sa1010");
             isDriftGrunt = true;
         }
     }
@@ -360,7 +392,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     {
         if (!isClimbGrunt)
         {
-            Player.Sound.PlaySound("sa1002");
+            Lua.Call("PlayVoice", "sa1002");
             isClimbGrunt = true;
         }
     }
@@ -381,7 +413,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
         {
              if (!isBreatheGrunt)
         {
-            Player.Sound.PlaySound("sa1033");
+            Lua.Call("PlayVoice", "sa1033");
             isBreatheGrunt = true;
         }
     }
@@ -399,7 +431,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
         if (!isKocoJump)
         {
 			Player.Sound.PlaySound("sn_triangle_jump");
-			Player.Sound.PlaySound("sa1003");
+			Lua.Call("PlayVoice", "sa1003");
             isKocoJump = true;
         }
     }
@@ -417,7 +449,7 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
         if (!isAnimalJump)
         {
 			Player.Sound.PlaySound("sn_triangle_jump");
-			Player.Sound.PlaySound("sa1003");
+			Lua.Call("PlayVoice", "sa1003");
             isAnimalJump = true;
         }
     }
@@ -462,32 +494,103 @@ Code "Extra Sounds (Sonic the Hedgehog)" by "Batman Sonic & SuperNova124"
     {
         isPipeHotfix = false;
     }
+
+    //Super Sonic Brake Fix
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateFlyTurn)
+    {
+        if (!isSuperSonicBrakeFix)
+        {
+            Player.Sound.PlaySound("sn_quick_turn");
+			Lua.Call("PlayVoice", "sa1007");
+            isSuperSonicBrakeFix = true;
+        }
+    }
+    else
+    {
+        isSuperSonicBrakeFix = false;
+    }
+
+    //Restore Wall Slide
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateWallJumpReady)
+    {
+        if (!isWallSlide)
+        {
+            Player.Sound.PlaySound("sn_land_conc");
+            isWallSlide = true;
+        }
+    }
+    else
+    {
+        isWallSlide = false;
+    }
+
+    //Restore Catch sound in pole swing
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateHangPole)
+    {
+        if (!isHangPole)
+        {
+            Player.Sound.PlaySound("sn_catch");
+            isHangPole = true;
+        }
+    }
+    else
+    {
+        isHangPole = false;
+    }
+
+    //More Light Dash grunts
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateLightDash)
+    {
+        if (!isLightDash)
+        {
+            List<string> lightdashVoices = new List<string>{"sa1038", "sa1039", "sa1040, sa1041", "sa1051", "sa1056"};
+            int randomIndex = new Random().Next(lightdashVoices.Count);
+            string selectedVoice = lightdashVoices[randomIndex];
+            Lua.Call("PlayVoice", selectedVoice);
+            isLightDash = true;
+        }
+    }
+    else
+    {
+        isLightDash = false;
+    }
 }
 
 Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
 //
     #lib "Player"
 	#lib "Tails"
+	#lib "Lua"
 	
 	#load "System.Numerics.dll"
 
     using System.Numerics;
 
-    static bool isSomersaultLand = false;
+    static bool isTakeDamageMisc = false;   
+	static bool isSomersaultLand = false;
     static bool isGrindStep = false;
 	static bool isSpinJump = false;
 	static bool isDoubleJumpGrunt = false;
-	static bool isStompAttackStart = false;
-	static bool isStompAttack = false;
 	static bool isSquatGrunt = false;
 	static bool isDeath = false;
 	static bool isDeathLava = false;
 	static bool isDashRamp = false;
 	static bool isTrickFinish = false;
-	static bool isDriftGrunt = false;
-	static bool isClimbGrunt = false;
 	static bool isBreatheGrunt = false;
 	static bool isCycloneStart = false;
+	static bool isHangPole = false;
 
 //
 {
@@ -500,13 +603,34 @@ Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
         if (!isGrindStep)
         {
             Player.Sound.PlaySound("sn_triangle_jump");
-            Player.Sound.PlaySound("sa1007");
+            Lua.Call("PlayVoice", "sa1007");
             isGrindStep = true;
         }
     }
     else
     {
         isGrindStep = false;
+    }
+
+    //Alternative damage grunts (misc)
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateGrindDamage ||
+	    Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateGrindDamageAir ||
+		Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateDivingDamage ||
+		Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateDivingSpecialDamage)
+    {
+        if (!isTakeDamageMisc)
+        {
+            Player.Sound.PlaySound("sn_damage");		
+            Lua.Call("PlayVoice", "sa1026");
+            isTakeDamageMisc = true;
+        }
+    }
+    else
+    {
+        isTakeDamageMisc = false;
     }
 
     //Somersault Landing (Tails)  
@@ -518,7 +642,7 @@ Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
         if (!isSomersaultLand)
         {
             Player.Sound.PlaySound("sn_bump_jump_roll");
-			Player.Sound.PlaySound("sa1036");
+			Lua.Call("PlayVoice", "sa1036");
             isSomersaultLand = true;
         }
     }
@@ -535,8 +659,7 @@ Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
     {
         if (!isSpinJump)
         {
-			Player.Sound.PlaySound("_sn_spin");
-			Player.Sound.PlaySound("sa1001");
+			Lua.Call("PlayVoice", "sa1001");
             isSpinJump = true;
         }
     }
@@ -549,53 +672,17 @@ Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
     if (Player.GetPlayerType() != Player.PlayerType.Tails)
         return;
     
-    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateDoubleJump)
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateDoubleJump && Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateGrindDoubleJump)
     {
         if (!isDoubleJumpGrunt)
         {
-			Player.Sound.PlaySound("sa1007");
+			Lua.Call("PlayVoice", "sa1007");
             isDoubleJumpGrunt = true;
         }
     }
     else
     {
         isDoubleJumpGrunt = false;
-    }
-
-    //Restores Tails's Stomp Attack sound    
-    if (Player.GetPlayerType() != Player.PlayerType.Tails)
-        return;
-    
-    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.TailsStateStomping)
-    {
-        if (!isStompAttackStart)
-        {
-            Player.Sound.PlaySound("sn_stomping_start");
-            Player.Sound.PlaySound("sa1110");
-            isStompAttackStart = true;
-        }
-    }
-    else
-    {
-        isStompAttackStart = false;
-    }
-
-    //Restores Tails's Stomp Attack sound    
-    if (Player.GetPlayerType() != Player.PlayerType.Tails)
-        return;
-    
-    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.TailsStateStompingDown)
-    {
-        if (!isStompAttack)
-        {
-            Player.Sound.PlaySound("sn_stomping_start_no");
-            Player.Sound.PlaySound("sa1011");
-            isStompAttack = true;
-        }
-    }
-    else
-    {
-        isStompAttack = false;
     }
 
     //Tails grunts while squatting    
@@ -607,7 +694,7 @@ Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
         if (!isSquatGrunt)
         {
             Player.Sound.PlaySound("sn_climb_jump");
-			Player.Sound.PlaySound("ta1100");
+			Lua.Call("PlayVoice", "ta1100");
             isSquatGrunt = true;
         }
     }
@@ -624,7 +711,7 @@ Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
     {
         if (!isDeath)
         {
-            Player.Sound.PlaySound("sa1027");
+            Lua.Call("PlayVoice", "sa1027");
             isDeath = true;
         }
     }
@@ -641,7 +728,7 @@ Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
     {
         if (!isDeathLava)
         {
-            Player.Sound.PlaySound("sa1028");
+            Lua.Call("PlayVoice", "sa1028");
             isDeathLava = true;
         }
     }
@@ -659,7 +746,7 @@ Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
         if (!isTrickFinish)
         {
             Player.Sound.PlaySound("sn_climb_balance_ok");
-            Player.Sound.PlaySound("ta1110");
+            Lua.Call("PlayVoice", "ta1110");
             isTrickFinish = true;
         }
     }
@@ -668,41 +755,7 @@ Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
         isTrickFinish = false;
     }
 
-    //Tails grunts while drifting.    
-    if (Player.GetPlayerType() != Player.PlayerType.Tails)
-        return;
-    
-    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateDrift)
-    {
-        if (!isDriftGrunt)
-        {
-            Player.Sound.PlaySound("sa1010");
-            isDriftGrunt = true;
-        }
-    }
-    else
-    {
-        isDriftGrunt = false;
-    }
-
-    //Tails grunts when climbing.    
-    if (Player.GetPlayerType() != Player.PlayerType.Tails)
-        return;
-    
-    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateClimbing)
-    {
-        if (!isClimbGrunt)
-        {
-            Player.Sound.PlaySound("sa1002");
-            isClimbGrunt = true;
-        }
-    }
-    else
-    {
-        isClimbGrunt = false;
-    }
-
-	//Tails grunts when exiting water.
+    //Tails grunts when exiting water.
     if (Player.GetPlayerType() != Player.PlayerType.Tails)
         return;
 
@@ -714,7 +767,7 @@ Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
         {
              if (!isBreatheGrunt)
         {
-            Player.Sound.PlaySound("sa1033");
+            Lua.Call("PlayVoice", "sa1033");
             isBreatheGrunt = true;
         }
     }
@@ -748,7 +801,7 @@ Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
     {
         if (!isCycloneStart)
         {
-            Player.Sound.PlaySound("ta1110");
+            Lua.Call("PlayVoice", "ta1110");
 			Player.Sound.PlaySound("sn_triangle_jump");
 			Player.Sound.PlaySound("sn_chaosemerald_guard");
             isCycloneStart = true;
@@ -758,12 +811,30 @@ Code "Extra Sounds (Miles "Tails" Prower)" by "Batman Sonic & SuperNova124"
     {
         isCycloneStart = false;
     }
+
+    //Restore Catch sound in pole swing
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateHangPole)
+    {
+        if (!isHangPole)
+        {
+            Player.Sound.PlaySound("sn_catch");
+            isHangPole = true;
+        }
+    }
+    else
+    {
+        isHangPole = false;
+    }
 }
 
 Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
 //
     #lib "Player"
 	#lib "Knuckles"
+	#lib "Lua"
 	
 	#load "System.Numerics.dll"
 
@@ -775,6 +846,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
 	static bool isHeatKnuckle = false;
 	static bool isHeatKnuckleFollow = false;
 	static bool isHeatKnuckleAfter = false;
+	static bool isTakeDamageMisc = false;   
     static bool isSomersaultLand = false;
     static bool isGrindStep = false;
 	static bool isSpinJump = false;
@@ -786,7 +858,6 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
 	static bool isDeathLava = false;
 	static bool isDashRamp = false;
 	static bool isTrickFinish = false;
-	static bool isDriftGrunt = false;
 	static bool isClimbGrunt = false;
 	static bool isBreatheGrunt = false;
 	static bool isDrillStart = false;
@@ -794,6 +865,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
 	static bool isCyknuckle = false;
 	static bool isCyknuckleGround = false;
 	static bool isCyknuckleWall = false;
+	static bool isHangPole = false;
 
 //
 {
@@ -805,7 +877,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
     {
         if (!isPunchOne)
         {
-            Player.Sound.PlaySound("sa1034");
+            Lua.Call("PlayVoice", "sa1034");
             isPunchOne = true;
         }
     }
@@ -822,7 +894,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
     {
         if (!isPunchTwo)
         {
-            Player.Sound.PlaySound("sa1024");
+            Lua.Call("PlayVoice", "sa1024");
             isPunchTwo = true;
         }
     }
@@ -839,7 +911,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
     {
         if (!isPunchThree)
         {
-            Player.Sound.PlaySound("sa1010");
+            Lua.Call("PlayVoice", "sa1010");
             isPunchThree = true;
         }
     }
@@ -856,7 +928,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
     {
         if (!isHeatKnuckle)
         {
-            Player.Sound.PlaySound("ka1202");
+            Lua.Call("PlayVoice", "ka1202");
 			Player.Sound.PlaySound("_sn_stomping_start");
             isHeatKnuckle = true;
         }
@@ -891,7 +963,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
     {
         if (!isHeatKnuckleAfter)
         {
-            Player.Sound.PlaySound("sa1034");
+            Lua.Call("PlayVoice", "sa1034");
 			Player.Sound.PlaySound("sn_lightdash");
             isHeatKnuckleAfter = true;
         }
@@ -910,13 +982,34 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
         if (!isGrindStep)
         {
             Player.Sound.PlaySound("sn_triangle_jump");
-            Player.Sound.PlaySound("sa1007");
+            Lua.Call("PlayVoice", "sa1007");
             isGrindStep = true;
         }
     }
     else
     {
         isGrindStep = false;
+    }
+
+    //Alternative damage grunts (misc)
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateGrindDamage ||
+	    Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateGrindDamageAir ||
+		Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateDivingDamage ||
+		Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateDivingSpecialDamage)
+    {
+        if (!isTakeDamageMisc)
+        {
+            Player.Sound.PlaySound("sn_damage");		
+            Lua.Call("PlayVoice", "sa1026");
+            isTakeDamageMisc = true;
+        }
+    }
+    else
+    {
+        isTakeDamageMisc = false;
     }
 
     //Somersault Landing (Knuckles)  
@@ -928,7 +1021,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
         if (!isSomersaultLand)
         {
             Player.Sound.PlaySound("sn_bump_jump_roll");
-			Player.Sound.PlaySound("sa1034");
+			Lua.Call("PlayVoice", "sa1034");
             isSomersaultLand = true;
         }
     }
@@ -945,8 +1038,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
     {
         if (!isSpinJump)
         {
-			Player.Sound.PlaySound("_sn_spin");
-			Player.Sound.PlaySound("sa1003");
+			Lua.Call("PlayVoice", "sa1003");
             isSpinJump = true;
         }
     }
@@ -959,11 +1051,11 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
     if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
         return;
     
-    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateDoubleJump)
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateDoubleJump && Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateGrindDoubleJump)
     {
         if (!isDoubleJumpGrunt)
         {
-			Player.Sound.PlaySound("sa1007");
+			Lua.Call("PlayVoice", "sa1007");
             isDoubleJumpGrunt = true;
         }
     }
@@ -980,7 +1072,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
     {
         if (!isStompAttack)
         {
-			Player.Sound.PlaySound("ka1202");
+			Lua.Call("PlayVoice", "ka1202");
             isStompAttack = true;
         }
     }
@@ -997,7 +1089,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
     {
         if (!isStompAttackLand)
         {
-			Player.Sound.PlaySound("ka1110");
+			Lua.Call("PlayVoice", "ka1110");
             isStompAttackLand = true;
         }
     }
@@ -1015,7 +1107,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
         if (!isSquatGrunt)
         {
             Player.Sound.PlaySound("sn_climb_jump");
-			Player.Sound.PlaySound("sa1001");
+			Lua.Call("PlayVoice", "sa1001");
             isSquatGrunt = true;
         }
     }
@@ -1032,7 +1124,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
     {
         if (!isDeath)
         {
-            Player.Sound.PlaySound("sa1027");
+            Lua.Call("PlayVoice", "sa1027");
             isDeath = true;
         }
     }
@@ -1049,7 +1141,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
     {
         if (!isDeathLava)
         {
-            Player.Sound.PlaySound("sa1028");
+            Lua.Call("PlayVoice", "sa1028");
             isDeathLava = true;
         }
     }
@@ -1067,30 +1159,13 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
         if (!isTrickFinish)
         {
             Player.Sound.PlaySound("sn_climb_balance_ok");
-            Player.Sound.PlaySound("ka1110");
+            Lua.Call("PlayVoice", "ka1110");
             isTrickFinish = true;
         }
     }
     else
     {
         isTrickFinish = false;
-    }
-
-    //Knuckles grunts while drifting.    
-    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
-        return;
-    
-    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateDrift)
-    {
-        if (!isDriftGrunt)
-        {
-            Player.Sound.PlaySound("sa1010");
-            isDriftGrunt = true;
-        }
-    }
-    else
-    {
-        isDriftGrunt = false;
     }
 
     //Knuckles grunts when climbing.    
@@ -1101,7 +1176,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
     {
         if (!isClimbGrunt)
         {
-            Player.Sound.PlaySound("sa1002");
+            Lua.Call("PlayVoice", "sa1002");
             isClimbGrunt = true;
         }
     }
@@ -1122,7 +1197,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
         {
              if (!isBreatheGrunt)
         {
-            Player.Sound.PlaySound("sa1033");
+            Lua.Call("PlayVoice", "sa1033");
             isBreatheGrunt = true;
         }
     }
@@ -1156,7 +1231,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
     {
         if (!isCyknuckleGround)
         {        
-			Player.Sound.PlaySound("sa1024");
+			Lua.Call("PlayVoice", "sa1024");
             isCyknuckleGround = true;
         }
     }
@@ -1173,7 +1248,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
     {
         if (!isCyknuckleWall)
         {        
-			Player.Sound.PlaySound("sa1010");
+			Lua.Call("PlayVoice", "sa1010");
             isCyknuckleWall = true;
         }
     }
@@ -1192,7 +1267,7 @@ Code "Extra Sounds (Knuckles the Echidna)" by "Batman Sonic & SuperNova124"
         {        
 			Player.Sound.PlaySound("sn_chaosemerald_guard");
 			Player.Sound.PlaySound("sn_skateboard_jump");
-			Player.Sound.PlaySound("ka1202");
+			Lua.Call("PlayVoice", "ka1202");
             isCyknuckle = true;
         }
     }
@@ -1212,7 +1287,7 @@ if ((Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.Knuc
 {
     if (!isDrillStart)
     {
-        Player.Sound.PlaySound("ka1110");            
+        Lua.Call("PlayVoice", "ka1110");         
         Player.Sound.PlaySound("_sn_stomping_start");
         isDrillStart = true;
     }
@@ -1239,19 +1314,42 @@ else
     {
         isDrillJump = false;
     }
+
+    //Restore Catch sound in pole swing
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+
+    if (Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateHangPole)
+    {
+        if (!isHangPole)
+        {
+            Player.Sound.PlaySound("sn_catch");
+            isHangPole = true;
+        }
+    }
+    else
+    {
+        isHangPole = false;
+    }
 }
 
 Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
 //
+
+    #include "BlackboardStatus" noemit
+
     #lib "Player"
 	#lib "Amy"
+	#lib "Lua"
 	
 	#load "System.Numerics.dll"
 
     using System.Numerics;
 
-    static bool isSomersaultLand = false;    
+	static bool isTakeDamageMisc = false;       
+	static bool isSomersaultLand = false;    
 	static bool isGrindStep = false;
+	static bool isSpinDashJump = false;
 	static bool isSpinJump = false;
 	static bool isDoubleJumpGrunt = false;
 	static bool isStompAttack = false;
@@ -1263,7 +1361,6 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
 	static bool isCyHammerGrunt = false;
 	static bool isHammerSwing = false;
 	static bool isHighJumpLalala = false;
-	static bool isClimbGrunt = false;
 	static bool isBreatheGrunt = false;
 	static bool isDriftCard = false;
 	static bool isPropellerHover = false;
@@ -1271,6 +1368,7 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
     static bool isCardJump = false;
 	static bool isCardSpinJump = false;
 	static bool isCardSpinDizzy = false;
+	static bool isHangPole = false;
 
 //
 {
@@ -1283,13 +1381,34 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
         if (!isGrindStep)
         {
             Player.Sound.PlaySound("sn_triangle_jump");
-            Player.Sound.PlaySound("sa1007");
+            Lua.Call("PlayVoice", "sa1007");
             isGrindStep = true;
         }
     }
     else
     {
         isGrindStep = false;
+    }
+
+    //Alternative damage grunts (misc)
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateGrindDamage ||
+	    Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateGrindDamageAir ||
+		Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateDivingDamage ||
+		Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateDivingSpecialDamage)
+    {
+        if (!isTakeDamageMisc)
+        {
+            Player.Sound.PlaySound("sn_damage");		
+            Lua.Call("PlayVoice", "sa1026");
+            isTakeDamageMisc = true;
+        }
+    }
+    else
+    {
+        isTakeDamageMisc = false;
     }
 
     //Somersault Landing (Amy)  
@@ -1301,13 +1420,31 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
         if (!isSomersaultLand)
         {
             Player.Sound.PlaySound("sn_bump_jump_roll");
-			Player.Sound.PlaySound("sa1033");
+			Lua.Call("PlayVoice", "sa1033");
             isSomersaultLand = true;
         }
     }
     else
     {
         isSomersaultLand = false;
+    }
+
+    //Spin sound when Amy jumps off of a Spin Dash    
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+    
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateJump &&
+	    Player.State.GetPreviousStateID<Amy.StateID>() == Amy.StateID.StateSpinBoost)
+    {
+        if (!isSpinDashJump)
+        {
+			Player.Sound.PlaySound("am_stomp_bounce");
+            isSpinDashJump = true;
+        }
+    }
+    else
+    {
+        isSpinDashJump = false;
     }
 
     //Amy grunts when jumping    
@@ -1318,8 +1455,7 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
     {
         if (!isSpinJump)
         {
-			Player.Sound.PlaySound("_sn_triangle_jump");
-			Player.Sound.PlaySound("sa1001");
+			Lua.Call("PlayVoice", "sa1001");
             isSpinJump = true;
         }
     }
@@ -1332,11 +1468,11 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
     if (Player.GetPlayerType() != Player.PlayerType.Amy)
         return;
     
-    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateDoubleJump)
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateDoubleJump && Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateGrindDoubleJump)
     {
         if (!isDoubleJumpGrunt)
         {
-			Player.Sound.PlaySound("sa1009");
+			Lua.Call("PlayVoice", "sa1009");
             isDoubleJumpGrunt = true;
         }
     }
@@ -1353,7 +1489,7 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
     {
         if (!isStompAttack)
         {
-			Player.Sound.PlaySound("sa1024");
+			Lua.Call("PlayVoice", "sa1024");
             isStompAttack = true;
         }
     }
@@ -1371,7 +1507,7 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
         if (!isSquatGrunt)
         {
             Player.Sound.PlaySound("sn_climb_jump");
-			Player.Sound.PlaySound("sa1038");
+			Lua.Call("PlayVoice", "sa1038");
             isSquatGrunt = true;
         }
     }
@@ -1388,7 +1524,7 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
     {
         if (!isDeath)
         {
-            Player.Sound.PlaySound("sa1027");
+            Lua.Call("PlayVoice", "sa1027");
             isDeath = true;
         }
     }
@@ -1405,7 +1541,7 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
     {
         if (!isDeathLava)
         {
-            Player.Sound.PlaySound("sa1028");
+            Lua.Call("PlayVoice", "sa1028");
             isDeathLava = true;
         }
     }
@@ -1423,7 +1559,7 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
         if (!isTrickFinish)
         {
             Player.Sound.PlaySound("sn_climb_balance_ok");
-            Player.Sound.PlaySound("sa1034");
+            Lua.Call("PlayVoice", "sa1034");
             isTrickFinish = true;
         }
     }
@@ -1440,7 +1576,7 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
     {
         if (!isCyHammerGrunt)
         {
-            Player.Sound.PlaySound("sa1024");
+            Lua.Call("PlayVoice", "sa1024");
             isCyHammerGrunt = true;
         }
     }
@@ -1449,24 +1585,7 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
         isCyHammerGrunt = false;
     }
 
-    //Amy grunts when climbing    
-    if (Player.GetPlayerType() != Player.PlayerType.Amy)
-        return;
-    
-    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateClimbing)
-    {
-        if (!isClimbGrunt)
-        {
-            Player.Sound.PlaySound("sa1002");
-            isClimbGrunt = true;
-        }
-    }
-    else
-    {
-        isClimbGrunt = false;
-    }
-
-	//Amy grunts when exiting water.
+    //Amy grunts when exiting water.
     if (Player.GetPlayerType() != Player.PlayerType.Amy)
         return;
 
@@ -1478,7 +1597,7 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
         {
              if (!isBreatheGrunt)
         {
-            Player.Sound.PlaySound("sa1033");
+            Lua.Call("PlayVoice", "sa1033");
             isBreatheGrunt = true;
         }
     }
@@ -1512,7 +1631,7 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
     {
         if (!isHighJumpLalala)
         {
-            Player.Sound.PlaySound("aa1100");
+            Lua.Call("PlayVoice", "aa1100");
             isHighJumpLalala = true;
         }
     }
@@ -1529,7 +1648,8 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
     {
         if (!isHammerSwing)
         {
-            Player.Sound.PlaySound("sa1024");
+            Lua.Call("PlayVoice", "sa1024");
+			Player.Sound.PlaySound("am_cyhammer_air_start");
             isHammerSwing = true;
         }
     }
@@ -1546,7 +1666,7 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
     {
         if (!isDriftCard)
         {
-            Player.Sound.PlaySound("aa1112");
+            Lua.Call("PlayVoice", "aa1112");
             isDriftCard = true;
         }
     }
@@ -1567,7 +1687,7 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
     {
         if (!isCardBuild)
         {
-            Player.Sound.PlaySound("aa1101");            
+            Lua.Call("PlayVoice", "aa1101");            
             isCardBuild = true;
         }
     }
@@ -1635,7 +1755,7 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
     {
         if (!isCardSpinDizzy)
         {
-            Player.Sound.PlaySound("sa1048");
+            Lua.Call("PlayVoice", "sa1048"); 
             isCardSpinDizzy = true;
         }
     }
@@ -1643,9 +1763,376 @@ Code "Extra Sounds (Amy Rose)" by "Batman Sonic & SuperNova124"
     {
         isCardSpinDizzy = false;
     }
+
+    //Restore Catch sound in pole swing
+    if (Player.GetPlayerType() != Player.PlayerType.Amy)
+        return;
+
+    if (Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateHangPole)
+    {
+        if (!isHangPole)
+        {
+            Player.Sound.PlaySound("sn_catch");
+            isHangPole = true;
+        }
+    }
+    else
+    {
+        isHangPole = false;
+    }
 }
 
 //Additional Sounds
+
+Code "Boost Grunt (Sonic)" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+
+#load "System.Numerics.dll"
+
+using System.Numerics;
+using System.Collections.Generic;
+
+static bool isBoostTalk = false;
+
+bool isBoost = IS_STATE_FLAG(IsBoost);
+bool isSuperSonic = BlackboardStatus.IsSuper()
+
+static bool IsConfigInitialized = false;
+static int conBoostGrunt = 0;
+
+if (!IsConfigInitialized)
+{
+    var modsQuery = HMM.FindModsByName("Sound Overhaul Pack");
+    if (modsQuery.Count == 1)
+    {
+        string modConfigIniPath = System.IO.Path.Combine(modsQuery[0].Path, "mod.ini");
+        var ini = INI.Read(modConfigIniPath);
+
+        conBoostGrunt = INI.Parse<int>(ini["Main"]["BoostGrunt"], conBoostGrunt);
+
+        IsConfigInitialized = true;
+    }
+}
+
+if (conBoostGrunt == 1 || conBoostGrunt == 2)
+{
+    if ((isBoost && !isSuperSonic && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateSpinBoost) || (conBoostGrunt == 2 && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoost))
+    {
+        if (!isBoostTalk)
+        {
+            if (Player.GetPlayerType() == Player.PlayerType.Sonic)
+            {
+                List<string> boostVoices = new List<string>{"sa1039", "sa1040", "sa1041", "sa1051"};
+                if (conBoostGrunt == 2 && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoost)
+                {
+                    boostVoices.Add("sa1008");
+                }
+                int randomIndex = new Random().Next(boostVoices.Count);
+                string selectedVoice = boostVoices[randomIndex];
+                Lua.Call("PlayVoice", selectedVoice);
+            }
+            isBoostTalk = true;
+        }
+    }
+    else
+    {
+        isBoostTalk = false;
+    }
+}
+// Disable sounds
+else if (conBoostGrunt == 3)
+{
+    // Disable sounds
+}
+
+Code "Boost Grunt (Tails)" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+
+#load "System.Numerics.dll"
+
+using System.Numerics;
+using System.Collections.Generic;
+
+static bool isBoostTalk = false;
+
+bool isBoost = IS_STATE_FLAG(IsBoost);
+bool isPowerBoost = IS_WORLD_FLAG(IsPowerBoost);
+
+List<Tails.StateID> CycloneStates = new()
+{
+    Tails.StateID.StateCycloneBoostRoot,
+    Tails.StateID.StateAirBoostCyclone,
+    Tails.StateID.StateCycloneAppear,
+    Tails.StateID.StateCycloneBoost,
+    Tails.StateID.StateLeftStepCyclone,
+    Tails.StateID.StateRightStepCyclone
+};
+
+bool isCyclone = CycloneStates.Contains(Player.State.GetCurrentStateID<Tails.StateID>());
+
+static bool IsConfigInitialized = false;
+static int conBoostGrunt = 0;
+
+if (!IsConfigInitialized)
+{
+    var modsQuery = HMM.FindModsByName("Sound Overhaul Pack");
+    if (modsQuery.Count == 1)
+    {
+        string modConfigIniPath = System.IO.Path.Combine(modsQuery[0].Path, "mod.ini");
+        var ini = INI.Read(modConfigIniPath);
+
+        conBoostGrunt = INI.Parse<int>(ini["Main"]["BoostGrunt"], conBoostGrunt);
+
+        IsConfigInitialized = true;
+    }
+}
+
+if (conBoostGrunt == 1 || conBoostGrunt == 2)
+{
+    if ((isBoost && !isCyclone && Player.State.GetCurrentStateID<Tails.StateID>() != Tails.StateID.StateSpinBoost) || (conBoostGrunt == 2 && Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateSpinBoost))
+    {
+        if (!isBoostTalk)
+        {
+            if (Player.GetPlayerType() == Player.PlayerType.Tails)
+            {
+                List<string> boostVoices = new List<string>{"sa1005", "sa1024", "sa1038", "ta1112", "ta1110"};
+                int randomIndex = new Random().Next(boostVoices.Count);
+                string selectedVoice = boostVoices[randomIndex];
+                Lua.Call("PlayVoice", selectedVoice);
+            }
+            isBoostTalk = true;
+        }
+    }
+    else
+    {
+        isBoostTalk = false;
+    }
+}
+// Disable sounds
+else if (conBoostGrunt == 3)
+{
+    // Disable sounds
+}
+
+Code "Boost Grunt (Knuckles)" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+
+#load "System.Numerics.dll"
+
+using System.Numerics;
+using System.Collections.Generic;
+
+static bool isBoostTalk = false;
+
+bool isBoost = IS_STATE_FLAG(IsBoost);
+
+List<Knuckles.StateID> DrillStates = new()
+{
+    Knuckles.StateID.KnucklesStateDrillBoostRoot,
+    Knuckles.StateID.KnucklesStateDrillBoost,
+    Knuckles.StateID.KnucklesStateDrillBoostJump,
+    Knuckles.StateID.KnucklesStateDrillBoostFall,
+    Knuckles.StateID.KnucklesStateDrillBoostStep,
+    Knuckles.StateID.KnucklesStateDrillBoostAir
+};
+
+bool isDrill = DrillStates.Contains(Player.State.GetCurrentStateID<Knuckles.StateID>());
+
+static bool IsConfigInitialized = false;
+static int conBoostGrunt = 0;
+
+if (!IsConfigInitialized)
+{
+    var modsQuery = HMM.FindModsByName("Sound Overhaul Pack");
+    if (modsQuery.Count == 1)
+    {
+        string modConfigIniPath = System.IO.Path.Combine(modsQuery[0].Path, "mod.ini");
+        var ini = INI.Read(modConfigIniPath);
+
+        conBoostGrunt = INI.Parse<int>(ini["Main"]["BoostGrunt"], conBoostGrunt);
+
+        IsConfigInitialized = true;
+    }
+}
+
+if (conBoostGrunt == 1 || conBoostGrunt == 2)
+{
+    if ((isBoost && !isDrill && Player.State.GetCurrentStateID<Knuckles.StateID>() != Knuckles.StateID.StateSpinBoost) || (conBoostGrunt == 2 && Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.StateSpinBoost))
+    {
+        if (!isBoostTalk)
+        {
+            if (Player.GetPlayerType() == Player.PlayerType.Knuckles)
+            {
+                List<string> boostVoices = new List<string>{"ka1112", "ka1100", "sa1010"};
+                int randomIndex = new Random().Next(boostVoices.Count);
+                string selectedVoice = boostVoices[randomIndex];
+                Lua.Call("PlayVoice", selectedVoice);
+            }
+            isBoostTalk = true;
+        }
+    }
+    else
+    {
+        isBoostTalk = false;
+    }
+}
+// Disable sounds
+else if (conBoostGrunt == 3)
+{
+    // Disable sounds
+}
+
+Code "Boost Grunt (Amy)" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+
+#load "System.Numerics.dll"
+
+using System.Numerics;
+using System.Collections.Generic;
+
+static bool isBoostTalk = false;
+
+bool isBoost = IS_STATE_FLAG(IsBoost);
+
+List<Amy.StateID> BikeStates = new()
+{
+    Amy.StateID.AmyStateTarotBoostAir,
+    Amy.StateID.AmyStateTarotBikeRoot,
+    Amy.StateID.AmyStateTarotBuildRoot,
+    Amy.StateID.AmyStateTarotBuild,
+    Amy.StateID.AmyStateTarotBuildAir,
+    Amy.StateID.AmyStateTarotBuildFall,
+    Amy.StateID.AmyStateTarotBoostRoot,
+    Amy.StateID.AmyStateTarotBoost,
+    Amy.StateID.AmyStateTarotBoostTurn,
+    Amy.StateID.AmyStateTarotBoostStep,
+    Amy.StateID.AmyStateTarotBoostJump,
+    Amy.StateID.AmyStateTarotBoostFall,
+    Amy.StateID.AmyStateTarotDrift
+};
+
+bool isBike = BikeStates.Contains(Player.State.GetCurrentStateID<Amy.StateID>());
+
+static bool IsConfigInitialized = false;
+static int conBoostGrunt = 0;
+
+if (!IsConfigInitialized)
+{
+    var modsQuery = HMM.FindModsByName("Sound Overhaul Pack");
+    if (modsQuery.Count == 1)
+    {
+        string modConfigIniPath = System.IO.Path.Combine(modsQuery[0].Path, "mod.ini");
+        var ini = INI.Read(modConfigIniPath);
+
+        conBoostGrunt = INI.Parse<int>(ini["Main"]["BoostGrunt"], conBoostGrunt);
+
+        IsConfigInitialized = true;
+    }
+}
+
+if (conBoostGrunt == 1 || conBoostGrunt == 2)
+{
+    if ((isBoost && !isBike && Player.State.GetCurrentStateID<Amy.StateID>() != Amy.StateID.StateSpinBoost) || (conBoostGrunt == 2 && Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.StateSpinBoost))
+    {
+        if (!isBoostTalk)
+        {
+            if (Player.GetPlayerType() == Player.PlayerType.Amy)
+            {
+                List<string> boostVoices = new List<string>{"sa1024", "sa1038", "aa1112", "aa1110"};
+                int randomIndex = new Random().Next(boostVoices.Count);
+                string selectedVoice = boostVoices[randomIndex];
+                Lua.Call("PlayVoice", selectedVoice);
+            }
+            isBoostTalk = true;
+        }
+    }
+    else
+    {
+        isBoostTalk = false;
+    }
+}
+// Disable sounds
+else if (conBoostGrunt == 3)
+{
+    // Disable sounds
+}
+
+Code "Flying Sound in Stomping" by "Batman Sonic"
+//
+
+#include "Reflection" noemit
+#include "BlackboardStatus" noemit
+
+#lib "Player"
+#lib "Tails"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+
+#import "States"
+	
+#load "System.Numerics.dll"
+
+using System.Numerics;
+
+static bool isTailSpin = false;
+static int soundTailSpin = -1; // Use a variable to keep track of the sound instance
+
+{
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+
+    // Assuming Player.State has a method like GetCurrentStateID
+    if (Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.TailsStateStompingDown)
+    {
+        if (!isTailSpin)
+        {
+            soundTailSpin = Player.Sound.PlaySound("ta_fly_loop");
+            isTailSpin = true;
+        }
+    }
+    else if (Player.State.GetCurrentStateID<Tails.StateID>() != Tails.StateID.TailsStateStompingDown)
+    {
+        if (isTailSpin)
+        {
+            // Use a fixed statement to get the address of soundTailSpin
+            fixed (int* ptrSoundTailSpin = &soundTailSpin)
+            {
+                Player.Sound.StopSound(ptrSoundTailSpin);
+            }
+            isTailSpin = false;
+        }
+    }
+}
 
 Code "Spin Dash Boost Sound Fix for Tails and Amy" by "Batman Sonic & SuperNova124"
 //Fixes Tails and Amy's boost sounds being missing during a Spin Dash.
@@ -1810,17 +2297,278 @@ bool isBoost = IS_STATE_FLAG(IsBoost);
     }
 }
 
+//Custom Sounds
+
+Code "Restore Wall Slide Sound" by "Batman Sonic & SuperNova124"
+//Restores the wall slide sound
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "HMM"
+#lib "INI"
+
+#load "WindowsBase.dll"
+#load "PresentationCore.dll"
+#load "System.Numerics.dll"
+
+using System.Numerics;
+using System.Collections.Generic;
+using System.Windows.Media;
+using System.IO;
+
+static MediaPlayer sound = new MediaPlayer();
+static float volumeLevel = 25.0f;
+static bool initialized = false;
+static bool soundPlayed = false;
+static string currentModDirectory;
+static bool isPaused = false; // Manages pause state
+static int conRestoreWallSlide = 0;
+static string soundFileName = "";
+
+// Initialization logic
+if (!initialized)
+{
+    var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+    if (mods.Count == 1)
+    {
+        currentModDirectory = mods[0].Path;
+        string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
+        var ini = INI.Read(modConfigIniPath);
+
+        conRestoreWallSlide = INI.Parse<int>(ini["Main"]["RestoreWallSlide"], conRestoreWallSlide);
+
+        // Change the sound file based on conRestoreWallSlide
+        switch (conRestoreWallSlide)
+        {
+            case 1:
+                soundFileName = "SFX_WallSlide.wav";
+                break;
+            case 2:
+                // Disable sounds
+                break;
+            default:
+                // Handle other cases if needed
+                break;
+        }
+
+        volumeLevel = INI.Parse<float>(ini["Main"]["wallslideVolume"], volumeLevel);
+    }
+    else
+    {
+        Console.WriteLine("[Sound Overhaul Pack] Failed to locate mod directory.");
+        return;
+    }
+
+    initialized = true;
+}
+
+// Define wall slide states
+List<Sonic.StateID> WallSlideStates = new()
+{
+    Sonic.StateID.StateWallJumpReady,
+    Sonic.StateID.StateWallSlideDown
+};
+
+// Check if the player is in a wall slide state
+bool isWallSlide = WallSlideStates.Contains(Player.State.GetCurrentStateID<Sonic.StateID>());
+
+if (conRestoreWallSlide == 2)
+{
+    // Disable sounds
+}
+else if (isWallSlide)
+{
+    if (Lua.GetState() != 0 && !soundPlayed)
+    {
+        // Play the wall slide sound
+        sound.Open(new Uri(Path.Combine(currentModDirectory, "raw_customAction", soundFileName)));
+        sound.Volume = volumeLevel / 100;
+        sound.Position = new TimeSpan(0);
+        sound.Play();
+        soundPlayed = true;
+        isPaused = false; // Reset pause state
+    }
+    else if (isPaused && Lua.GetState() != 0)
+    {
+        // Resume the sound if it was paused
+        sound.Play();
+        isPaused = false;
+    }
+}
+else
+{
+    if (soundPlayed)
+    {
+        // Stop the sound if not wall sliding
+        sound.Stop();
+        soundPlayed = false;
+    }
+}
+
+if (!isWallSlide)
+{
+    // Ensure soundPlayed is false when not wall sliding
+    soundPlayed = false;
+}
+
+if (Lua.GetState() == 0 && soundPlayed)
+{
+    if (!isPaused)
+    {
+        // Pause the sound when Lua state is 0
+        sound.Pause();
+        isPaused = true;
+    }
+}
+
+Code "Custom Homing Reticles" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "HMM"
+#lib "INI"
+
+#import "States"
+
+#load "WindowsBase.dll"
+#load "PresentationCore.dll"
+#load "System.Numerics.dll"
+
+using System.Numerics;
+using System.Collections.Generic;
+using System.Windows.Media;
+using System.IO;
+
+static MediaPlayer sound = new MediaPlayer();
+static float volumeLevel = 25.0f;
+static bool initialized = false;
+static bool soundPlayed = false;
+static string currentModDirectory;
+static bool isPaused = false; // Added variable to manage pause state
+static int conHomingReticle = 0;
+static string soundFileName = "";
+static IntPtr lastLockOnTarget = IntPtr.Zero; // Track the last lock-on target
+
+if (!initialized)
+{
+    var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+    if (mods.Count == 1)
+    {
+        currentModDirectory = mods[0].Path;
+        string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
+        var ini = INI.Read(modConfigIniPath);
+
+        conHomingReticle = INI.Parse<int>(ini["Main"]["HomingReticle"], conHomingReticle);
+
+        // Change the sound file based on conHomingReticle
+        switch (conHomingReticle)
+        {
+            case 1:
+                soundFileName = "SFX_LockOnFrontiers.wav";
+                break;
+            case 2:
+                soundFileName = "SFX_LockOnForces2.wav";
+                break;
+            case 3:
+                soundFileName = "SFX_LockOnForces1.wav";
+                break;
+            case 4:
+                soundFileName = "SFX_LockOnLegacy.wav";
+                break;
+            case 5:
+                soundFileName = "SFX_LockOnSecretRings.wav";
+                break;
+            case 6:
+                soundFileName = "SFX_LockOnGamma.wav";
+                break;
+            case 7:
+                soundFileName = "SFX_LockOnOmega.wav";
+                break;
+            case 8:
+                // Disable voices
+                break;
+            default:
+                // Handle other cases if needed
+                break;
+        }
+
+        volumeLevel = INI.Parse<float>(ini["Main"]["lockonVolume"], volumeLevel);
+    }
+    else
+    {
+        Console.WriteLine("[Sound Overhaul Pack] Failed to locate mod directory.");
+        return;
+    }
+
+    initialized = true;
+}
+
+var pGameObject = Player.Status.GetLockOnTarget();
+var currentLockOnTarget = new IntPtr(pGameObject);
+
+if (pGameObject != null)
+{
+    if (Lua.GetState() != 0)
+    {
+        if (!soundPlayed || currentLockOnTarget != lastLockOnTarget)
+        {
+            sound.Open(new Uri(Path.Combine(currentModDirectory, "raw_customUI", soundFileName)));
+            sound.Volume = volumeLevel / 100;
+            sound.Position = new TimeSpan(0);
+            sound.Play();
+            soundPlayed = true;
+        }
+        else if (isPaused)
+        {
+            sound.Play();
+            isPaused = false;
+        }
+    }
+}
+else
+{
+    if (soundPlayed)
+    {
+        if (!sound.HasAudio)
+        {
+            sound.Stop();
+            soundPlayed = false;
+        }
+    }
+}
+
+// Reset soundPlayed flag when there is no lock-on target
+if (pGameObject == null)
+{
+    soundPlayed = false;
+    isPaused = false; // Reset pause state when not pressing CameraGaze
+}
+
+// Update the last lock-on target
+lastLockOnTarget = currentLockOnTarget;
+
+if (Lua.GetState() == 0 && soundPlayed)
+{
+    if (!isPaused)
+    {
+        sound.Pause();
+        isPaused = true;
+    }
+}
+
 Code "Restore Camera Gaze Sound" by "Batman Sonic & SuperNova124"
 //Restores an unused sound that meant to play when the camera focuses on an object.
 
 #include "Reflection" noemit
+#include "BlackboardStatus" noemit
 
-#lib "GameObject"
 #lib "Player"
-#lib "Sonic"
-#lib "Tails"
-#lib "Knuckles"
-#lib "Amy"
+#lib "BlackboardStatus"
 #lib "Time"
 #lib "Lua"
 #lib "HMM"
@@ -1830,6 +2578,7 @@ Code "Restore Camera Gaze Sound" by "Batman Sonic & SuperNova124"
 #load "PresentationCore.dll"
 #load "System.Numerics.dll"
 
+using System;
 using System.Numerics;
 using System.Collections.Generic;
 using System.Windows.Media;
@@ -1881,17 +2630,15 @@ if (!initialized)
     initialized = true;
 }
 
-var pGameObject = Player.Status.GetLockOnTarget();
-
 if (conRestoreCameraGaze == 2)
 {
     // Disable sounds
 }
-else if (pGameObject != null && Player.Input.IsPressed(Player.InputActionType.CameraGaze))
+else if (Player.Status.IsLockOnCursorVisible() && Player.Input.IsPressed(Player.InputActionType.CameraGaze) && !IS_WORLD_FLAG(IsCyberSpace))
 {
     if (Lua.GetState() != 0 && !soundPlayed)
     {
-        sound.Open(new Uri(Path.Combine(currentModDirectory, "raw_customAction", soundFileName)));
+        sound.Open(new Uri(Path.Combine(currentModDirectory, "raw_customUI", soundFileName)));
         sound.Volume = volumeLevel / 100;
         sound.Position = new TimeSpan(0);
         sound.Play();
@@ -1918,6 +2665,238 @@ if (!Player.Input.IsPressed(Player.InputActionType.CameraGaze))
     soundPlayed = false;
 }
 
+if (Lua.GetState() == 0 && soundPlayed)
+{
+    if (!isPaused)
+    {
+        sound.Pause();
+        isPaused = true;
+    }
+}
+
+Code "Drowning Jingle" by "Batman Sonic & SuperNova124"
+//
+
+#lib "Player"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+
+#load "WindowsBase.dll"
+#load "PresentationCore.dll"
+
+using System.Windows.Media;
+using System.IO;
+
+static MediaPlayer sound = new MediaPlayer();
+static float drownjingleTime = 0.0f;
+static float musicTime = 8.0f;
+static float volumeLevel = 25.0f;
+static bool initialized = false;
+static bool musicPlayed = false;
+static bool isPaused = false;
+static string currentModDirectory;
+static int conDrowningJingle = 0;
+static string soundFileName = "";
+//
+{
+    if (!initialized)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+        if (mods.Count == 1)
+        {
+            currentModDirectory = mods[0].Path;
+            string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
+            var ini = INI.Read(modConfigIniPath);
+
+            conDrowningJingle = INI.Parse<int>(ini["Main"]["DrowningJingle"], conDrowningJingle);
+
+            // Change the sound file based on conDrowningJingle
+            switch (conDrowningJingle)
+            {
+                case 1:
+                    soundFileName = "BGM_DrowningFrontiers.wav";
+                    break;
+                case 2:
+                    soundFileName = "BGM_DrowningDreamcast.wav";
+                    break;
+                case 3:
+                    soundFileName = "BGM_DrowningMania.wav";
+                    break;
+                case 4:
+                    soundFileName = "BGM_DrowningCD.wav";
+                    break;
+                case 5:
+                    soundFileName = "BGM_DrowningGenesis.wav";
+                    break;
+                case 6:
+                    // Disable sounds
+                    return; // Exit the function
+                default:
+                    // Handle other cases if needed
+                    break;
+            }
+
+            volumeLevel = INI.Parse<float>(ini["Main"]["drowningVolume"], volumeLevel);
+        }
+        else
+        {
+            Console.WriteLine("[Sound Overhaul Pack] Failed to locate mod directory.");
+            return;
+        }
+
+        initialized = true;
+    }
+
+    if (Player.Status.IsUnderwater())
+    {
+        if (Lua.GetState() != 0)
+        {
+            drownjingleTime += Time.GetDeltaTime();
+        }
+    }
+    else if (!Player.Status.IsUnderwater())
+    {
+        drownjingleTime = 0.0f;
+        sound.Stop();
+        musicPlayed = false;
+    }
+
+    if (drownjingleTime >= musicTime)
+    {
+        if (conDrowningJingle != 4 || conDrowningJingle != 6) // Ensure bgm_jingle_drown does not play if conDrowningJingle is 4 or 6
+        {
+            Player.Sound.PlaySound("bgm_jingle_drown"); // stops current bgm, for some reason
+        }
+
+        if (!musicPlayed)
+        {
+            sound.Open(new Uri(Path.Combine(currentModDirectory, "raw_customUI", soundFileName)));
+            sound.Volume = volumeLevel / 100;
+            sound.Position = new TimeSpan(0);
+            sound.Play();
+            musicPlayed = true;
+        }
+        if (isPaused && Lua.GetState() != 0)
+        {
+            sound.Play();
+            isPaused = false;
+        }
+    }
+
+    if (Lua.GetState() == 0 && musicPlayed)
+    {
+        if (!isPaused)
+        {
+            sound.Pause();
+            isPaused = true;
+        }
+    }
+}
+
+Code "Drowning Alert Jingle" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "HMM"
+#lib "INI"
+
+#load "WindowsBase.dll"
+#load "PresentationCore.dll"
+#load "System.Numerics.dll"
+
+using System.Numerics;
+using System.Collections.Generic;
+using System.Windows.Media;
+using System.IO;
+
+static MediaPlayer sound = new MediaPlayer();
+static float volumeLevel = 25.0f;
+static bool initialized = false;
+static bool soundPlayed = false;
+static string currentModDirectory;
+static bool isPaused = false; // Added variable to manage pause state
+static int conDrowningAlertJingle = 0;
+static string soundFileName = "";
+static Random random = new Random(); // Random number generator
+
+if (!initialized)
+{
+    var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+    if (mods.Count == 1)
+    {
+        currentModDirectory = mods[0].Path;
+        string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
+        var ini = INI.Read(modConfigIniPath);
+
+        conDrowningAlertJingle = INI.Parse<int>(ini["Main"]["DrowningAlertJingle"], conDrowningAlertJingle);
+
+        // Change the sound file based on conDrowningAlertJingle
+        switch (conDrowningAlertJingle)
+        {
+            case 1:
+                soundFileName = "SFX_DrowningCounts.wav";
+                break;
+            case 2:
+                // Disable sounds
+                break;
+            default:
+                // Handle other cases if needed
+                break;
+        }
+
+        volumeLevel = INI.Parse<float>(ini["Main"]["drowningalarmVolume"], volumeLevel);
+    }
+    else
+    {
+        Console.WriteLine("[Sound Overhaul Pack] Failed to locate mod directory.");
+        return;
+    }
+
+    initialized = true;
+}
+
+bool isUnderwater = Player.Status.IsUnderwater();
+
+if (isUnderwater)
+{
+    if (conDrowningAlertJingle != 2 && !soundPlayed)
+    {
+        if (Lua.GetState() != 0)
+        {
+            // Check probability of 50% (5/10)
+            if (random.NextDouble() <= 0.5)
+            {
+                sound.Open(new Uri(Path.Combine(currentModDirectory, "raw_customUI", soundFileName)));
+                sound.Volume = volumeLevel / 100;
+                sound.Position = new TimeSpan(0);
+                sound.Play();
+                soundPlayed = true;
+            }
+        }
+    }
+
+    if (isPaused && Lua.GetState() != 0)
+    {
+        sound.Play();
+        isPaused = false;
+    }
+}
+else
+{
+    if (soundPlayed)
+    {
+        sound.Stop();
+        soundPlayed = false;
+    }
+}
+
+// Handle pause state
 if (Lua.GetState() == 0 && soundPlayed)
 {
     if (!isPaused)
@@ -2061,6 +3040,9 @@ if (Lua.GetState() == 0 && soundPlayed)
 Code "Unique Super Sonic Boost Sound (Secondary)" by "Batman Sonic & SuperNova124"
 //Restores Super Sonic's unique boost sound that he used to have.
 
+#import "GOComponents"
+#import "PlayerVisuals"
+
 #include "Reflection" noemit
 
 #lib "Player"
@@ -2088,6 +3070,8 @@ static string currentModDirectory;
 static bool isPaused = false; // Added variable to manage pause state
 static int conSuperSonicBoostSecondary = 0;
 static string soundFileName = "";
+static string superSonic2SoundFileName = ""; // New variable for SuperSonic2 sound
+static bool wasSuperSonic2 = false; // Track previous state
 
 bool isBoost = IS_STATE_FLAG(IsBoost);
 
@@ -2100,7 +3084,7 @@ if (!initialized)
         currentModDirectory = mods[0].Path;
         string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
         var ini = INI.Read(modConfigIniPath);
-		
+
         conSuperSonicBoostSecondary = INI.Parse<int>(ini["Main"]["SuperSonicBoostSecondary"], conSuperSonicBoostSecondary);
 
         // Change the sound file based on conSuperSonicBoostSecondary
@@ -2108,6 +3092,7 @@ if (!initialized)
         {
             case 1:
                 soundFileName = "SFX_SuperSonicSecondary.wav";
+                superSonic2SoundFileName = "SFX_SuperSonicSecondarySS2.wav";
                 break;
             case 2:
                 // Disable sounds
@@ -2140,19 +3125,42 @@ List<Sonic.StateID> SuperStates = new()
 
 bool isSuper = SuperStates.Contains(Player.State.GetCurrentStateID<Sonic.StateID>());
 
+var data = Player.GetPlayerData();
+if (data == null)
+    return;
+
+var gocVisual = GameObject.GetGOC<GOCPlayerVisual>(&data->GameObject);
+if (gocVisual == null)
+    return;
+
+var visual = gocVisual->GetVisual<VisualSuperSonic>();
+if (visual == null)
+    return;
+
 if (conSuperSonicBoostSecondary == 2)
 {
     // Disable sounds
 }
 else if (isSuper && isBoost)
 {
-    if (Lua.GetState() != 0 && !soundPlayed)
-    {
-        string supersecondSoundPath = Path.Combine(currentModDirectory, "raw_customSuper", soundFileName)));
+    bool isCurrentlySuperSonic2 = visual->IsSuperSonic2;
 
-        if (File.Exists(supersecondSoundPath))
+    if (Lua.GetState() != 0 && (!soundPlayed || wasSuperSonic2 != isCurrentlySuperSonic2))
+    {
+        string soundPath;
+
+        if (isCurrentlySuperSonic2)
         {
-            sound.Open(new Uri(supersecondSoundPath));
+            soundPath = Path.Combine(currentModDirectory, "raw_customSuper", superSonic2SoundFileName);
+        }
+        else
+        {
+            soundPath = Path.Combine(currentModDirectory, "raw_customSuper", soundFileName);
+        }
+
+        if (File.Exists(soundPath))
+        {
+            sound.Open(new Uri(soundPath));
             sound.Volume = volumeLevel / 100;
             sound.Position = new TimeSpan(0);
             sound.Play();
@@ -2162,6 +3170,8 @@ else if (isSuper && isBoost)
         {
             Console.WriteLine("[Sound Overhaul Pack] Boost sound file not found.");
         }
+
+        wasSuperSonic2 = isCurrentlySuperSonic2;
     }
 
     if (isPaused && Lua.GetState() != 0)
@@ -2219,9 +3229,13 @@ static bool soundPlayed = false;
 static string currentModDirectory;
 static bool isPaused = false; // Added variable to manage pause state
 static int conBoostJet = 0;
+static int conBoostJetSound = 0;
 static string soundFileName = "";
 
 bool isBoost = IS_STATE_FLAG(IsBoost);
+bool isPowerBoost = IS_WORLD_FLAG(IsPowerBoost);
+bool isCyberSpace = IS_WORLD_FLAG(IsCyberSpace);
+bool isSuperSonic = BlackboardStatus.IsSuper()
 
 if (!initialized)
 {
@@ -2232,17 +3246,18 @@ if (!initialized)
         currentModDirectory = mods[0].Path;
         string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
         var ini = INI.Read(modConfigIniPath);
-		
+
         conBoostJet = INI.Parse<int>(ini["Main"]["BoostJet"], conBoostJet);
+		conBoostJetSound = INI.Parse<int>(ini["Main"]["BoostJetSound"], conBoostJetSound);
 
         // Change the sound file based on conBoostJet
-        switch (conBoostJet)
+        switch (conBoostJetSound)
         {
             case 1:
                 soundFileName = "SFX_BoostImpact.wav";
                 break;
             case 2:
-                // Disable sounds
+                soundFileName = "SFX_BoostImpactFrontiers.wav";
                 break;
             default:
                 // Handle other cases if needed
@@ -2260,44 +3275,124 @@ if (!initialized)
     initialized = true;
 }
 
-if (conBoostJet == 2)
+if (conBoostJet == 4)
 {
     // Disable sounds
 }
-else if (isBoost || (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDrift &&
-         Player.Input.IsPressed(Player.InputActionType.PlayerBoost)))
+else if (conBoostJet == 1)
 {
-    if (Lua.GetState() != 0 && !soundPlayed)
+    if (isBoost)
     {
-        string boostSoundPath = Path.Combine(currentModDirectory, "raw_customAction", soundFileName)));
+        if (Lua.GetState() != 0 && !soundPlayed)
+        {
+            string boostSoundPath = Path.Combine(currentModDirectory, "raw_customAction", soundFileName);
 
-        if (File.Exists(boostSoundPath))
-        {
-            sound.Open(new Uri(boostSoundPath));
-            sound.Volume = volumeLevel / 100;
-            sound.Position = new TimeSpan(0);
-            sound.Play();
-            soundPlayed = true;
+            if (File.Exists(boostSoundPath))
+            {
+                sound.Open(new Uri(boostSoundPath));
+                sound.Volume = volumeLevel / 100;
+                sound.Position = new TimeSpan(0);
+                sound.Play();
+                soundPlayed = true;
+            }
+            else
+            {
+                Console.WriteLine("[Sound Overhaul Pack] Boost sound file not found.");
+            }
         }
-        else
+
+        if (isPaused && Lua.GetState() != 0)
         {
-            Console.WriteLine("[Sound Overhaul Pack] Boost sound file not found.");
+            sound.Play();
+            isPaused = false;
         }
     }
-
-    if (isPaused && Lua.GetState() != 0)
+    else
     {
-        sound.Play();
-        isPaused = false;
+        if (soundPlayed && !isBoost)
+        {
+            sound.Stop();
+            soundPlayed = false;
+        }
+    }
+}
+else if (conBoostJet == 2)
+{
+    if ((isBoost && isPowerBoost) || (isBoost && isCyberSpace && !isPowerBoost) || (isBoost && isSuperSonic && !isPowerBoost))
+    {
+        if (Lua.GetState() != 0 && !soundPlayed)
+        {
+            string boostSoundPath = Path.Combine(currentModDirectory, "raw_customAction", soundFileName);
+
+            if (File.Exists(boostSoundPath))
+            {
+                sound.Open(new Uri(boostSoundPath));
+                sound.Volume = volumeLevel / 100;
+                sound.Position = new TimeSpan(0);
+                sound.Play();
+                soundPlayed = true;
+            }
+            else
+            {
+                Console.WriteLine("[Sound Overhaul Pack] Boost sound file not found.");
+            }
+        }
+
+        if (isPaused && Lua.GetState() != 0)
+        {
+            sound.Play();
+            isPaused = false;
+        }
+    }
+    else
+    {
+        if (soundPlayed && (!isBoost || (!isPowerBoost && !isCyberSpace && !isSuperSonic)))
+        {
+            sound.Stop();
+            soundPlayed = false;
+        }
+    }
+}
+else if (conBoostJet == 3)
+{
+    if (isBoost && isCyberSpace)
+    {
+        if (Lua.GetState() != 0 && !soundPlayed)
+        {
+            string boostSoundPath = Path.Combine(currentModDirectory, "raw_customAction", soundFileName);
+
+            if (File.Exists(boostSoundPath))
+            {
+                sound.Open(new Uri(boostSoundPath));
+                sound.Volume = volumeLevel / 100;
+                sound.Position = new TimeSpan(0);
+                sound.Play();
+                soundPlayed = true;
+            }
+            else
+            {
+                Console.WriteLine("[Sound Overhaul Pack] Boost sound file not found.");
+            }
+        }
+
+        if (isPaused && Lua.GetState() != 0)
+        {
+            sound.Play();
+            isPaused = false;
+        }
+    }
+    else
+    {
+        if (soundPlayed && (!isBoost || !isCyberSpace))
+        {
+            sound.Stop();
+            soundPlayed = false;
+        }
     }
 }
 else
 {
-    if (soundPlayed && !isBoost && !Player.Input.IsDown(Player.InputActionType.PlayerBoost))
-    {
-        sound.Stop();
-        soundPlayed = false;
-    }
+    // Handle other cases if needed
 }
 
 // Handle pause state
@@ -2310,7 +3405,230 @@ if (Lua.GetState() == 0 && soundPlayed)
     }
 }
 
-Code "Dreamcast-styled Light Dash Impact" by "Batman Sonic & SuperNova124"
+Code "Restore Boost Jet (Drift Hotfix)" by "Batman Sonic & SuperNova124"
+// Restore Boost Jet by Batman Sonic & SuperNova124
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "BlackboardStatus"
+#lib "Sonic"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+
+// External DLLs
+#load "WindowsBase.dll"
+#load "PresentationCore.dll"
+#load "System.Numerics.dll"
+
+using System.Numerics;
+using System.Collections.Generic;
+using System.Windows.Media;
+using System.IO;
+
+static MediaPlayer sound = new MediaPlayer();
+static float volumeLevel = 25.0f;
+static bool initialized = false;
+static bool soundPlayed = false;
+static string currentModDirectory;
+static bool isPaused = false; // Added variable to manage pause state
+static int conBoostJet = 0;
+static int conBoostJetSound = 0;
+static int conSonicDriftBoost = 0;
+static string soundFileName = "";
+
+bool isBoost = IS_STATE_FLAG(IsBoost);
+bool isPowerBoost = IS_WORLD_FLAG(IsPowerBoost);
+bool isCyberSpace = IS_WORLD_FLAG(IsCyberSpace);
+bool isSuperSonic = BlackboardStatus.IsSuper();
+
+if (!initialized)
+{
+    var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+    if (mods.Count == 1)
+    {
+        currentModDirectory = mods[0].Path;
+        string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
+        var ini = INI.Read(modConfigIniPath);
+
+        conBoostJet = INI.Parse<int>(ini["Main"]["BoostJet"], conBoostJet);
+		conBoostJetSound = INI.Parse<int>(ini["Main"]["BoostJetSound"], conBoostJetSound);
+        conSonicDriftBoost = INI.Parse<int>(ini["Main"]["SonicDriftBoost"], conSonicDriftBoost);
+
+        // Change the sound file based on conBoostJet
+        switch (conBoostJetSound)
+        {
+            case 1:
+                soundFileName = "SFX_BoostImpact.wav";
+                break;
+            case 2:
+                soundFileName = "SFX_BoostImpactFrontiers.wav";
+                break;
+            default:
+                // Handle other cases if needed
+                break;
+        }
+
+        volumeLevel = INI.Parse<float>(ini["Main"]["boostjetVolume"], volumeLevel);
+    }
+    else
+    {
+        Console.WriteLine("[Sound Overhaul Pack] Failed to locate mod directory.");
+        return;
+    }
+
+    initialized = true;
+}
+
+if (conSonicDriftBoost == 1)
+{
+    if (conBoostJet == 1)
+    {
+        // Option 1 behavior
+        if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDrift && Player.Input.IsPressed(Player.InputActionType.PlayerBoost))
+        {
+            if (Lua.GetState() != 0 && !soundPlayed)
+            {
+                string boostSoundPath = Path.Combine(currentModDirectory, "raw_customAction", soundFileName);
+
+                if (File.Exists(boostSoundPath))
+                {
+                    sound.Open(new Uri(boostSoundPath));
+                    sound.Volume = volumeLevel / 100;
+                    sound.Position = new TimeSpan(0);
+                    sound.Play();
+                    soundPlayed = true;
+                }
+                else
+                {
+                    Console.WriteLine("[Sound Overhaul Pack] Boost sound file not found.");
+                }
+            }
+
+            if (isPaused && Lua.GetState() != 0)
+            {
+                sound.Play();
+                isPaused = false;
+            }
+        }
+        else
+        {
+            if (soundPlayed && !Player.Input.IsDown(Player.InputActionType.PlayerBoost))
+            {
+                sound.Stop();
+                soundPlayed = false;
+            }
+        }
+    }
+    else if (conBoostJet == 2)
+    {
+        // Option 2 behavior
+        if ((Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDrift && Player.Input.IsPressed(Player.InputActionType.PlayerBoost) && isPowerBoost) || (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDrift && Player.Input.IsPressed(Player.InputActionType.PlayerBoost) && isCyberSpace && !isPowerBoost) || (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDrift && Player.Input.IsPressed(Player.InputActionType.PlayerBoost) && isSuperSonic && !isPowerBoost))
+        {
+            if (Lua.GetState() != 0 && !soundPlayed)
+            {
+                string boostSoundPath = Path.Combine(currentModDirectory, "raw_customAction", soundFileName);
+
+                if (File.Exists(boostSoundPath))
+                {
+                    sound.Open(new Uri(boostSoundPath));
+                    sound.Volume = volumeLevel / 100;
+                    sound.Position = new TimeSpan(0);
+                    sound.Play();
+                    soundPlayed = true;
+                }
+                else
+                {
+                    Console.WriteLine("[Sound Overhaul Pack] Boost sound file not found.");
+                }
+            }
+
+            if (isPaused && Lua.GetState() != 0)
+            {
+                sound.Play();
+                isPaused = false;
+            }
+        }
+        else
+        {
+            if (soundPlayed && (!Player.Input.IsDown(Player.InputActionType.PlayerBoost) || (!isPowerBoost && !isCyberSpace && !isSuperSonic)))
+            {
+                sound.Stop();
+                soundPlayed = false;
+            }
+        }
+    }
+    else if (conBoostJet == 3)
+    {
+        // Option 3 behavior
+        if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDrift && Player.Input.IsPressed(Player.InputActionType.PlayerBoost) && isCyberSpace)
+        {
+            if (Lua.GetState() != 0 && !soundPlayed)
+            {
+                string boostSoundPath = Path.Combine(currentModDirectory, "raw_customAction", soundFileName);
+
+                if (File.Exists(boostSoundPath))
+                {
+                    sound.Open(new Uri(boostSoundPath));
+                    sound.Volume = volumeLevel / 100;
+                    sound.Position = new TimeSpan(0);
+                    sound.Play();
+                    soundPlayed = true;
+                }
+                else
+                {
+                    Console.WriteLine("[Sound Overhaul Pack] Boost sound file not found.");
+                }
+            }
+
+            if (isPaused && Lua.GetState() != 0)
+            {
+                sound.Play();
+                isPaused = false;
+            }
+        }
+        else
+        {
+            if (soundPlayed && (!Player.Input.IsDown(Player.InputActionType.PlayerBoost) || !isCyberSpace))
+            {
+                sound.Stop();
+                soundPlayed = false;
+            }
+        }
+    }
+    else
+    {
+        // Handle other cases if needed
+    }
+}
+else if (conSonicDriftBoost == 2 && conBoostJet == 4)
+{
+    // Option 4 behavior
+    if (soundPlayed && (!Player.Input.IsDown(Player.InputActionType.PlayerBoost)))
+    {
+        sound.Stop();
+        soundPlayed = false;
+    }
+}
+else
+{
+    // Handle other cases if needed
+}
+
+// Handle pause state
+if (Lua.GetState() == 0 && soundPlayed)
+{
+    if (!isPaused)
+    {
+        sound.Pause();
+        isPaused = true;
+    }
+}
+
+Code "Dreamcast-styled Light Dash" by "Batman Sonic & SuperNova124"
 //Adds the Light Dash impact from both Adventure titles
 
 #include "Reflection" noemit
@@ -2441,14 +3759,14 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using System.IO;
 
-static MediaPlayer sound = new MediaPlayer();
+static MediaPlayer voice = new MediaPlayer();
 static float volumeLevel = 25.0f;
 static bool initialized = false;
-static bool soundPlayed = false;
+static bool voicePlayed = false;
 static string currentModDirectory;
 static bool isPaused = false; // Added variable to manage pause state
 static int conSuperGrandSlam = 0;
-static string soundFileName = "";
+static string voiceFileName = "";
 
 if (!initialized)
 {
@@ -2462,29 +3780,29 @@ if (!initialized)
 
         conSuperGrandSlam = INI.Parse<int>(ini["Main"]["SuperGrandSlam"], conSuperGrandSlam);
 
-        // Change the sound file based on conSuperGrandSlam
+        // Change the voice file based on conSuperGrandSlam
         switch (conSuperGrandSlam)
         {
             case 1:
-                soundFileName = "Voice_SuperSonicGrandSlam_English.wav";
+                voiceFileName = "Voice_SuperSonicGrandSlam_English.wav";
                 break;
             case 2:
-                soundFileName = "Voice_SuperSonicGrandSlam_France.wav";
+                voiceFileName = "Voice_SuperSonicGrandSlam_France.wav";
                 break;
             case 3:
-                soundFileName = "Voice_SuperSonicGrandSlam_Italian.wav";
+                voiceFileName = "Voice_SuperSonicGrandSlam_Italian.wav";
                 break;
             case 4:
-                soundFileName = "Voice_SuperSonicGrandSlam_German.wav";
+                voiceFileName = "Voice_SuperSonicGrandSlam_German.wav";
                 break;
             case 5:
-                soundFileName = "Voice_SuperSonicGrandSlam_Spanish.wav";
+                voiceFileName = "Voice_SuperSonicGrandSlam_Spanish.wav";
                 break;
             case 6:
-                soundFileName = "Voice_SuperSonicGrandSlam_Japanese.wav";
+                voiceFileName = "Voice_SuperSonicGrandSlam_Japanese.wav";
                 break;
             case 7:
-                // Disable sounds
+                // Disable voices
                 break;
             default:
                 // Handle other cases if needed
@@ -2507,43 +3825,274 @@ if (Player.GetPlayerType() != Player.PlayerType.Sonic)
 
 if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSmashSS)
 {
-    if (conSuperGrandSlam != 3 && !soundPlayed)
+    if (conSuperGrandSlam != 3 && !voicePlayed)
     {
         if (Lua.GetState() != 0)
         {
-            sound.Open(new Uri(Path.Combine(currentModDirectory, "raw_customVoice", soundFileName)));
-            sound.Volume = volumeLevel / 100;
-            sound.Position = new TimeSpan(0);
-            sound.Play();
-            soundPlayed = true;
+            voice.Open(new Uri(Path.Combine(currentModDirectory, "raw_customVoice", voiceFileName)));
+            voice.Volume = volumeLevel / 100;
+            voice.Position = new TimeSpan(0);
+            voice.Play();
+            voicePlayed = true;
         }
     }
 
     if (isPaused && Lua.GetState() != 0)
     {
-        sound.Play();
+        voice.Play();
         isPaused = false;
     }
 }
 else
 {
-    if (soundPlayed && !sound.HasAudio)
+    if (voicePlayed && !voice.HasAudio)
     {
-        sound.Stop();
-        soundPlayed = false;
+        voice.Stop();
+        voicePlayed = false;
     }
 }
 
 if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateSmashSS)
 {
-    soundPlayed = false;
+    voicePlayed = false;
 }
 
-if (Lua.GetState() == 0 && soundPlayed)
+if (Lua.GetState() == 0 && voicePlayed)
 {
     if (!isPaused)
     {
-        sound.Pause();
+        voice.Pause();
+        isPaused = true;
+    }
+}
+
+Code "Giganto Grand Slam Impact" by "Batman Sonic & SuperNova124"
+// Adds Giganto damage roar when colliding with Super Sonic's Grand Slam.
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "BlackboardStatus"
+#lib "Sonic"
+#lib "HMM"
+#lib "INI"
+
+#import "Services"
+
+#load "WindowsBase.dll"
+#load "PresentationCore.dll"
+#load "System.Numerics.dll"
+
+using System.Numerics;
+using System.Collections.Generic;
+using System.Windows.Media;
+using System.IO;
+
+static MediaPlayer voice = new MediaPlayer();
+static float volumeLevel = 25.0f;
+static bool initialized = false;
+static bool voicePlayed = false;
+static string currentModDirectory;
+static bool isPaused = false; // Added variable to manage pause state
+static int conGrandSlamGiganto = 0;
+static string voiceFileName = "";
+
+if (!initialized)
+{
+    var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+    if (mods.Count == 1)
+    {
+        currentModDirectory = mods[0].Path;
+        string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
+        var ini = INI.Read(modConfigIniPath);
+
+        conGrandSlamGiganto = INI.Parse<int>(ini["Main"]["GrandSlamGiganto"], conGrandSlamGiganto);
+
+        // Change the voice file based on conGrandSlamGiganto
+        switch (conGrandSlamGiganto)
+        {
+            case 1:
+                voiceFileName = "Voice_GrandSlam_Giganto.wav";
+                break;
+            case 2:
+                // Disable voices
+                break;
+            default:
+                // Handle other cases if needed
+                break;
+        }
+
+        volumeLevel = INI.Parse<float>(ini["Main"]["grantslamgigantoVolume"], volumeLevel);
+    }
+    else
+    {
+        Console.WriteLine("[Sound Overhaul Pack] Failed to locate mod directory.");
+        return;
+    }
+
+    initialized = true;
+}
+
+if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+    return;
+
+string currentStage = LevelInfo.GetCurrentStageID();
+List<string> excludedStages = new List<string> { "w1r03", "w1r05", "w2r01", "w3r01", "w1r04", "w1r06" };
+
+if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSmashSS && !excludedStages.Contains(currentStage))
+{
+    if (conGrandSlamGiganto != 3 && !voicePlayed)
+    {
+        if (Lua.GetState() != 0)
+        {
+            voice.Open(new Uri(Path.Combine(currentModDirectory, "raw_customVoice", voiceFileName)));
+            voice.Volume = volumeLevel / 100;
+            voice.Position = new TimeSpan(0);
+            voice.Play();
+            voicePlayed = true;
+        }
+    }
+
+    if (isPaused && Lua.GetState() != 0)
+    {
+        voice.Play();
+        isPaused = false;
+    }
+}
+else
+{
+    if (voicePlayed && !voice.HasAudio)
+    {
+        voice.Stop();
+        voicePlayed = false;
+    }
+}
+
+if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateSmashSS)
+{
+    voicePlayed = false;
+}
+
+if (Lua.GetState() == 0 && voicePlayed)
+{
+    if (!isPaused)
+    {
+        voice.Pause();
+        isPaused = true;
+    }
+}
+
+Code "Supreme Grand Slam Impact" by "Batman Sonic & SuperNova124"
+//Adds Supreme damage roar when colliding with Super Sonic's Grand Slam.
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "BlackboardStatus"
+#lib "Sonic"
+#lib "HMM"
+#lib "INI"
+
+#import "Services"
+
+#load "WindowsBase.dll"
+#load "PresentationCore.dll"
+#load "System.Numerics.dll"
+
+using System.Numerics;
+using System.Collections.Generic;
+using System.Windows.Media;
+using System.IO;
+
+static MediaPlayer voice = new MediaPlayer();
+static float volumeLevel = 25.0f;
+static bool initialized = false;
+static bool voicePlayed = false;
+static string currentModDirectory;
+static bool isPaused = false; // Added variable to manage pause state
+static int conGrandSlamSupreme = 0;
+static string voiceFileName = "";
+
+if (!initialized)
+{
+    var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+    if (mods.Count == 1)
+    {
+        currentModDirectory = mods[0].Path;
+        string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
+        var ini = INI.Read(modConfigIniPath);
+
+        conGrandSlamSupreme = INI.Parse<int>(ini["Main"]["GrandSlamSupreme"], conGrandSlamSupreme);
+
+        // Change the voice file based on conGrandSlamSupreme
+        switch (conGrandSlamSupreme)
+        {
+            case 1:
+                voiceFileName = "Voice_GrandSlam_Supreme.wav";
+                break;
+            case 2:
+                // Disable voices
+                break;
+            default:
+                // Handle other cases if needed
+                break;
+        }
+
+        volumeLevel = INI.Parse<float>(ini["Main"]["grantslamsupremeVolume"], volumeLevel);
+    }
+    else
+    {
+        Console.WriteLine("[Sound Overhaul Pack] Failed to locate mod directory.");
+        return;
+    }
+
+    initialized = true;
+}
+
+if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+    return;
+
+if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSmashSS && (LevelInfo.GetCurrentStageID() == "w1r04" || LevelInfo.GetCurrentStageID() == "w1r06"))
+{
+    if (conGrandSlamSupreme != 3 && !voicePlayed)
+    {
+        if (Lua.GetState() != 0)
+        {
+            voice.Open(new Uri(Path.Combine(currentModDirectory, "raw_customVoice", voiceFileName)));
+            voice.Volume = volumeLevel / 100;
+            voice.Position = new TimeSpan(0);
+            voice.Play();
+            voicePlayed = true;
+        }
+    }
+
+    if (isPaused && Lua.GetState() != 0)
+    {
+        voice.Play();
+        isPaused = false;
+    }
+}
+else
+{
+    if (voicePlayed && !voice.HasAudio)
+    {
+        voice.Stop();
+        voicePlayed = false;
+    }
+}
+
+if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateSmashSS)
+{
+    voicePlayed = false;
+}
+
+if (Lua.GetState() == 0 && voicePlayed)
+{
+    if (!isPaused)
+    {
+        voice.Pause();
         isPaused = true;
     }
 }
@@ -2760,7 +4309,7 @@ if (conForcesSpin == 1)
                     Player.Sound.PlaySound("sn_spin");
                 }
                 Player.Sound.PlaySound("sn_jump");
-                Player.Sound.PlaySound("sa1007");
+                Lua.Call("PlayVoice", "sa1007"); 
                 isBoostWallJump = true;
             }
         }
@@ -2802,7 +4351,7 @@ else if (conForcesSpin == 2)
             if (!isBoostWallJump)
             {
                 Player.Sound.PlaySound("sn_jump");
-                Player.Sound.PlaySound("sa1007");
+                Lua.Call("PlayVoice", "sa1007"); 
                 isBoostWallJump = true;
             }
         }
@@ -3035,7 +4584,7 @@ static bool isFlyTired = false;
     if (pStateTailsFly == null)
         return;
 
-    if (pStateTailsFly->Phase == StateTailsFly.PhaseType.Tired)
+    if (pStateTailsFly->Phase == StateTailsFly.PhaseType.Tired || Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateRunawayBee)
     {
         if (!isFlyTired)
         {
@@ -3070,14 +4619,15 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using System.IO;
 
-static MediaPlayer sound = new MediaPlayer();
+static MediaPlayer voice = new MediaPlayer();
 static float volumeLevel = 25.0f;
 static bool initialized = false;
-static bool soundPlayed = false;
+static bool voicePlayed = false;
 static string currentModDirectory;
 static bool isPaused = false; // Added variable to manage pause state
 static int conFlightTired = 0;
-static string soundFileName = "";
+static string voiceFileName = "";
+static Random random = new Random(); // Random number generator
 
 if (!initialized)
 {
@@ -3091,29 +4641,29 @@ if (!initialized)
 
         conFlightTired = INI.Parse<int>(ini["Main"]["FlightTired"], conFlightTired);
 
-        // Change the sound file based on conFlightTired
+        // Change the voice file based on conFlightTired
         switch (conFlightTired)
         {
             case 1:
-                soundFileName = "Voice_TailsTired_English_Colleen.wav";
+                voiceFileName = "Voice_TailsTired_English_Colleen.wav";
                 break;
             case 2:
-                soundFileName = "Voice_TailsTired_France.wav";
+                voiceFileName = "Voice_TailsTired_France.wav";
                 break;
             case 3:
-                soundFileName = "Voice_TailsTired_Italian.wav";
+                voiceFileName = "Voice_TailsTired_Italian.wav";
                 break;
             case 4:
-                soundFileName = "Voice_TailsTired_German.wav";
+                voiceFileName = "Voice_TailsTired_German.wav";
                 break;
             case 5:
-                soundFileName = "Voice_TailsTired_Spanish.wav";
+                voiceFileName = "Voice_TailsTired_Spanish.wav";
                 break;
             case 6:
-                soundFileName = "Voice_TailsTired_Japanese.wav";
+                voiceFileName = "Voice_TailsTired_Japanese.wav";
                 break;
             case 7:
-                // Disable sounds
+                // Disable voices
                 break;
             default:
                 // Handle other cases if needed
@@ -3141,52 +4691,57 @@ if (pStateTailsFly == null)
 
 if (pStateTailsFly->Phase == StateTailsFly.PhaseType.Tired)
 {
-    if (conFlightTired != 3 && !soundPlayed)
+    if (conFlightTired != 3 && !voicePlayed)
     {
         if (Lua.GetState() != 0)
         {
-            sound.Open(new Uri(Path.Combine(currentModDirectory, "raw_customVoice", soundFileName)));
-            sound.Volume = volumeLevel / 100;
-            sound.Position = new TimeSpan(0);
-            sound.Play();
-            soundPlayed = true;
+            // Check probability of 50% (5/10)
+            if (random.NextDouble() <= 0.5)
+            {
+                voice.Open(new Uri(Path.Combine(currentModDirectory, "raw_customVoice", voiceFileName)));
+                voice.Volume = volumeLevel / 100;
+                voice.Position = new TimeSpan(0);
+                voice.Play();
+                voicePlayed = true;
+            }
         }
     }
 
     if (isPaused && Lua.GetState() != 0)
     {
-        sound.Play();
+        voice.Play();
         isPaused = false;
     }
 }
 else
 {
-    if (soundPlayed && !sound.HasAudio)
+    if (voicePlayed && !voice.HasAudio)
     {
-        sound.Stop();
-        soundPlayed = false;
+        voice.Stop();
+        voicePlayed = false;
     }
 }
 
-// Reset soundPlayed flag when Sonic is not in FlightTired state
+// Reset voicePlayed flag when Tails is not in FlightTired state
 if (pStateTailsFly->Phase != StateTailsFly.PhaseType.Tired)
 {
-    soundPlayed = false;
+    voicePlayed = false;
 }
 
-if (Lua.GetState() == 0 && soundPlayed)
+if (Lua.GetState() == 0 && voicePlayed)
 {
     if (!isPaused)
     {
-        sound.Pause();
+        voice.Pause();
         isPaused = true;
     }
 }
 
-Code "Super Sonic Wait Grunt Sound" by "Batman Sonic & SuperNova124"
+Code "Super Sonic Wait Grunt" by "Batman Sonic & SuperNova124"
 //Adds a grunt to Super Sonic when he waits after taking damage.
 
 #lib "Player"
+#lib "Lua"
 
 #import "Postures"
 #import "Services"
@@ -3206,7 +4761,7 @@ static bool isSuperWait = false;
     {
         if (!isSuperWait)
         {
-			Player.Sound.PlaySound("sa1014_1");
+			Lua.Call("PlayVoice", "sa1014_1"); 
             isSuperWait = true;
         }
     }
@@ -3248,7 +4803,6 @@ static bool isSuperBack = false;
         isSuperBack = false;
     }
 }
-
 
 Code "Additional Drift Sound for Amy" by "Batman Sonic & SuperNova124"
 //Adds Sonic's drifting sound to Amy's Tarot Card Drift.
@@ -3510,7 +5064,7 @@ static bool SomersaultFlip = false;
         if (!SomersaultFlip)
         {
             Player.Sound.PlaySound("sn_windmill_kick");
-            Player.Sound.PlaySound("sa1001");
+            Lua.Call("PlayVoice", "sa1001"); 
             SomersaultFlip = true;
         }
     }
@@ -3520,7 +5074,7 @@ static bool SomersaultFlip = false;
     }
 }
 
-Code "Spin Dash Impact" by "Batman Sonic & SuperNova124"
+Code "SLW-styled Spin Dash" by "Batman Sonic & SuperNova124"
 //
 
 #include "Reflection" noemit
@@ -3579,7 +5133,8 @@ List<Sonic.StateID> SpinDashStates = new List<Sonic.StateID>
 {
     Sonic.StateID.StateSpinBoost,
     Sonic.StateID.StateDropDash,
-    Sonic.StateID.StateSpin
+    Sonic.StateID.StateSpin,
+	Sonic.StateID.StateDriftDash
 };
 
 if (conSpinDashImpact == 2)
@@ -3641,15 +5196,17 @@ else if (conSpinDashImpact == 3)
 }
 
 Code "Restore Quick Step" by "Batman Sonic & SuperNova124"
-//Restores the Quick Step sounds from previous titles.
+// Restore Quick Step sounds from previous titles.
 
 #include "Reflection" noemit
+#include "BlackboardStatus" noemit
 
 #lib "Player"
 #lib "Sonic"
 #lib "Tails"
 #lib "Knuckles"
 #lib "Amy"
+#lib "BlackboardStatus"
 #lib "Time"
 #lib "Lua"
 #lib "HMM"
@@ -3659,6 +5216,7 @@ Code "Restore Quick Step" by "Batman Sonic & SuperNova124"
 #load "PresentationCore.dll"
 #load "System.Numerics.dll"
 
+using System;
 using System.Numerics;
 using System.Collections.Generic;
 using System.Windows.Media;
@@ -3724,13 +5282,35 @@ List<Sonic.StateID> QuickStepStates = new List<Sonic.StateID>
     Sonic.StateID.StateQuickStepRoot,
 };
 
+// Define list for Super Sonic quick step states
+List<Sonic.StateID> SuperSonicQuickStepStates = new List<Sonic.StateID>
+{
+    Sonic.StateID.StateAvoid,
+    Sonic.StateID.StateAvoidLocal,
+    Sonic.StateID.StateAvoidToTarget,
+    Sonic.StateID.StateAvoidUpper
+};
+
 bool isQuickStep = QuickStepStates.Contains(Player.State.GetCurrentStateID<Sonic.StateID>());
 
+bool isTailsQuickStep = Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateLeftStepCyclone ||
+                        Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateRightStepCyclone;
+						
+bool isKnucklesQuickStep = Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.KnucklesStateDrillBoostStep;
+
+bool isAmyQuickStep = Player.State.GetCurrentStateID<Amy.StateID>() == Amy.StateID.AmyStateTarotBoostStep;
+
+bool isSuperSonic = BlackboardStatus.IsSuper();
+
+// Define bool variable for Super Sonic quick step
+bool isQuickStepSuper = isSuperSonic && SuperSonicQuickStepStates.Contains(Player.State.GetCurrentStateID<Sonic.StateID>());
+
+// Check if any character is in their respective quick step state or if Super Sonic is in a quick step state and play the sound accordingly
 if (conQuickStep == 3)
 {
     // Disable sounds
 }
-else if (isQuickStep)
+else if (isQuickStep || isTailsQuickStep || isKnucklesQuickStep || isAmyQuickStep || isQuickStepSuper)
 {
     if (Lua.GetState() != 0 && !soundPlayed)
     {
@@ -3756,8 +5336,8 @@ else
     }
 }
 
-// Reset soundPlayed flag when Sonic is not in QuickStep state
-if (!isQuickStep)
+// Reset soundPlayed flag when no character is in a quick step state or when Super Sonic is not in a quick step state
+if (!isQuickStep && !isTailsQuickStep && !isKnucklesQuickStep && !isAmyQuickStep && !isQuickStepSuper)
 {
     soundPlayed = false;
 }
@@ -3775,9 +5355,157 @@ Code "Unleashed-Styled Sky Dive" by "Batman Sonic & SuperNova124"
 //Adds the high quality Sky Dive sounds from Sonic Unleashed.
 
 #include "Reflection" noemit
+#lib "Player"
+#lib "Sonic"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+// External DLLs
+#load "WindowsBase.dll"
+#load "PresentationCore.dll"
+#load "System.Numerics.dll"
+using System.Numerics;
+using System.Collections.Generic;
+using System.Windows.Media;
+using System.IO;
+
+// Check for sound overhaul pack
+static bool initialized = false;
+static string currentModDirectory;
+static string diveSoundFileName = "SFX_SkyDiveNormal.wav";
+static string divefastSoundFileName = "SFX_SkyDiveFast.wav";
+static bool soundPlayed = false;
+static bool isPaused = false;
+static bool wasDivingNormal = false;
+static MediaPlayer sound = new MediaPlayer();
+static float volumeLevel = 25.0f;
+static int conSkyDiveUnleashed = 0;
+static bool currentIsDiving = false;
+
+// Add loop configuration
+static Dictionary<string, (long start, long end)> loopConfig = new Dictionary<string, (long start, long end)>
+{
+    { "SFX_SkyDiveNormal.wav", (0, 190050) },
+    { "SFX_SkyDiveFast.wav", (0, 80508) }
+};
+
+// Add MediaPlayer loop handling at initialization
+sound.MediaEnded += (sender, e) => {
+    var currentFile = currentIsDiving ? diveSoundFileName : divefastSoundFileName;
+    if (loopConfig.ContainsKey(currentFile))
+    {
+        sound.Position = TimeSpan.FromTicks(loopConfig[currentFile].start);
+        sound.Play();
+    }
+};
+
+if (!initialized)
+{
+    var mods = HMM.FindModsByName("Sound Overhaul Pack");
+    if (mods.Count == 1)
+    {
+        currentModDirectory = mods[0].Path;
+        string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
+        if (File.Exists(modConfigIniPath))
+        {
+            var ini = INI.Read(modConfigIniPath);
+            conSkyDiveUnleashed = INI.Parse<int>(ini["Main"]["SkyDiveUnleashed"], conSkyDiveUnleashed);
+            switch (conSkyDiveUnleashed)
+            {
+                case 1:
+                    diveSoundFileName = "SFX_SkyDiveNormal.wav";
+                    divefastSoundFileName = "SFX_SkyDiveFast.wav";
+                    break;
+                case 2:
+                    // Disable sounds
+                    return;
+                default:
+                    Console.WriteLine("Invalid sound option. Defaulting to option 1.");
+                    break;
+            }
+            volumeLevel = INI.Parse<float>(ini["Main"]["skydiveVolume"], volumeLevel);
+        }
+        else
+        {
+            Console.WriteLine("[Sound Overhaul Pack] mod.ini not found.");
+            return;
+        }
+    }
+    else
+    {
+        Console.WriteLine("[Sound Overhaul Pack] Failed to locate mod directory.");
+        return;
+    }
+    initialized = true;
+}
+
+// Determine current state
+bool isDiving = Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDiving;
+bool isDivingFast = Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDivingFall;
+currentIsDiving = isDiving;
+
+// Handle sound playback based on state
+if (Lua.GetState() != 0)
+{
+    if (isDiving || isDivingFast)
+    {
+        string soundPath = isDiving ? Path.Combine(currentModDirectory, "raw_customAction", diveSoundFileName)
+                                    : Path.Combine(currentModDirectory, "raw_customAction", divefastSoundFileName);
+        if (File.Exists(soundPath))
+        {
+            if (!soundPlayed || wasDivingNormal != isDiving)
+            {
+                sound.Open(new Uri(soundPath));
+                sound.Volume = volumeLevel / 100;
+                // Set initial position based on loop configuration
+                string currentFile = isDiving ? diveSoundFileName : divefastSoundFileName;
+                if (loopConfig.ContainsKey(currentFile))
+                {
+                    sound.Position = TimeSpan.FromTicks(loopConfig[currentFile].start);
+                }
+                sound.Play();
+                soundPlayed = true;
+            }
+        }
+        else
+        {
+            Console.WriteLine($"[Sound Overhaul Pack] Sound file not found at: {soundPath}");
+        }
+        wasDivingNormal = isDiving;
+    }
+    else
+    {
+        // Stop the sound if Sonic is not in a diving state
+        if (soundPlayed)
+        {
+            sound.Stop();
+            soundPlayed = false;
+        }
+    }
+}
+
+// Handle pause state
+if (Lua.GetState() == 0 && soundPlayed)
+{
+    if (!isPaused)
+    {
+        sound.Pause();
+        isPaused = true;
+    }
+}
+else if (isPaused && Lua.GetState() != 0)
+{
+    sound.Play();
+    isPaused = false;
+}
+
+Code "Custom Combat Sounds" by "Batman Sonic & SuperNova124"
+// Adds unique punch and kick sounds for Sonic.
+
+#include "Reflection" noemit
 
 #lib "Player"
-#lib "BlackboardStatus"
 #lib "Sonic"
 #lib "Time"
 #lib "Lua"
@@ -3794,16 +5522,18 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using System.IO;
 
+// Check for sound overhaul pack
+static bool initialized = false;
+static string currentModDirectory;
+static string punchSoundFileName = "SFX_CombatPunch.wav";
+static string kickSoundFileName = "SFX_CombatKick.wav";
+static bool soundPlayed = false;
+static bool isPaused = false;
+static bool wasPunch = false;
+
 static MediaPlayer sound = new MediaPlayer();
 static float volumeLevel = 25.0f;
-static bool initialized = false;
-static bool soundPlayed = false;
-static string currentModDirectory;
-static bool isPaused = false; // Added variable to manage pause state
-static int conSkyDiveUnleashed = 0;
-static string soundFileName = "";
-
-bool isBoost = IS_STATE_FLAG(IsBoost);
+static int conAcceleCombo = 0;
 
 if (!initialized)
 {
@@ -3813,156 +5543,33 @@ if (!initialized)
     {
         currentModDirectory = mods[0].Path;
         string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
-        var ini = INI.Read(modConfigIniPath);
-		
-        conSkyDiveUnleashed = INI.Parse<int>(ini["Main"]["SkyDiveUnleashed"], conSkyDiveUnleashed);
 
-        // Change the sound file based on conSkyDiveUnleashed
-        switch (conSkyDiveUnleashed)
+        if (File.Exists(modConfigIniPath))
         {
-            case 1:
-                soundFileName = "SFX_SkyDiveNormal.wav";
-                break;
-            case 2:
-                // Disable sounds
-                break;
-            default:
-                // Handle other cases if needed
-                break;
-        }
+            var ini = INI.Read(modConfigIniPath);
+            conAcceleCombo = INI.Parse<int>(ini["Main"]["AcceleCombo"], conAcceleCombo);
 
-        volumeLevel = INI.Parse<float>(ini["Main"]["skydiveVolume"], volumeLevel);
-    }
-    else
-    {
-        Console.WriteLine("[Sound Overhaul Pack] Failed to locate mod directory.");
-        return;
-    }
+            switch (conAcceleCombo)
+            {
+                case 1:
+                    punchSoundFileName = "SFX_CombatPunch.wav";
+                    kickSoundFileName = "SFX_CombatKick.wav";
+                    break;
+                case 2:
+                    // Disable sounds
+                    return;
+                default:
+                    Console.WriteLine("Invalid sound option. Defaulting to option 1.");
+                    break;
+            }
 
-    initialized = true;
-}
-
-List<Sonic.StateID> SkyDiveStates = new List<Sonic.StateID>
-{
-    Sonic.StateID.StateDiving,
-    Sonic.StateID.StateDivingDamage,
-    Sonic.StateID.StateDivingFall,
-    Sonic.StateID.StateDivingRoot
-};
-
-bool isSkyDive = SkyDiveStates.Contains(Player.State.GetCurrentStateID<Sonic.StateID>());
-
-if (conSkyDiveUnleashed == 2)
-{
-    // Disable sounds
-}
-
-else if (isSkyDive)
-{
-    if (Lua.GetState() != 0 && !soundPlayed)
-    {
-        string skydiveSoundPath = Path.Combine(currentModDirectory, "raw_customAction", soundFileName)));
-
-        if (File.Exists(skydiveSoundPath))
-        {
-            sound.Open(new Uri(skydiveSoundPath));
-            sound.Volume = volumeLevel / 100;
-            sound.Position = new TimeSpan(0);
-            sound.Play();
-            soundPlayed = true;
+            volumeLevel = INI.Parse<float>(ini["Main"]["combatVolume"], volumeLevel);
         }
         else
         {
-            Console.WriteLine("[Sound Overhaul Pack] Boost sound file not found.");
+            Console.WriteLine("[Sound Overhaul Pack] mod.ini not found.");
+            return;
         }
-    }
-
-    if (isPaused && Lua.GetState() != 0)
-    {
-        sound.Play();
-        isPaused = false;
-    }
-}
-else
-{
-    if (soundPlayed && !isBoost)
-    {
-        sound.Stop();
-        soundPlayed = false;
-    }
-}
-
-// Handle pause state
-if (Lua.GetState() == 0 && soundPlayed)
-{
-    if (!isPaused)
-    {
-        sound.Pause();
-        isPaused = true;
-    }
-}
-
-Code "Unleashed-Styled Sky Dive (Boost Hotfix)" by "Batman Sonic & SuperNova124"
-//Adds the high quality Sky Dive sounds from Sonic Unleashed.
-
-#include "Reflection" noemit
-
-#lib "Player"
-#lib "BlackboardStatus"
-#lib "Sonic"
-#lib "Time"
-#lib "Lua"
-#lib "HMM"
-#lib "INI"
-
-// External DLLs
-#load "WindowsBase.dll"
-#load "PresentationCore.dll"
-#load "System.Numerics.dll"
-
-using System.Numerics;
-using System.Collections.Generic;
-using System.Windows.Media;
-using System.IO;
-
-static MediaPlayer sound = new MediaPlayer();
-static float volumeLevel = 25.0f;
-static bool initialized = false;
-static bool soundPlayed = false;
-static string currentModDirectory;
-static bool isPaused = false; // Added variable to manage pause state
-static int conSkyDiveUnleashed = 0;
-static string soundFileName = "";
-
-bool isBoost = IS_STATE_FLAG(IsBoost);
-
-if (!initialized)
-{
-    var mods = HMM.FindModsByName("Sound Overhaul Pack");
-
-    if (mods.Count == 1)
-    {
-        currentModDirectory = mods[0].Path;
-        string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
-        var ini = INI.Read(modConfigIniPath);
-		
-        conSkyDiveUnleashed = INI.Parse<int>(ini["Main"]["SkyDiveUnleashed"], conSkyDiveUnleashed);
-
-        // Change the sound file based on conSkyDiveUnleashed
-        switch (conSkyDiveUnleashed)
-        {
-            case 1:
-                soundFileName = "SFX_SkyDiveFast.wav";
-                break;
-            case 2:
-                // Disable sounds
-                break;
-            default:
-                // Handle other cases if needed
-                break;
-        }
-
-        volumeLevel = INI.Parse<float>(ini["Main"]["skydiveVolume"], volumeLevel);
     }
     else
     {
@@ -3973,175 +5580,47 @@ if (!initialized)
     initialized = true;
 }
 
-List<Sonic.StateID> SkyDiveStates = new List<Sonic.StateID>
-{
-    Sonic.StateID.StateDiving,
-    Sonic.StateID.StateDivingDamage,
-    Sonic.StateID.StateDivingFall,
-    Sonic.StateID.StateDivingRoot
-};
+if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+    return;
 
-bool isSkyDive = SkyDiveStates.Contains(Player.State.GetCurrentStateID<Sonic.StateID>());
+// Determine current state
+bool isAcceleCombo1 = Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAcceleCombo1;
+bool isAcceleCombo2 = Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAcceleCombo2;
 
-if (conSkyDiveUnleashed == 2)
+if (Lua.GetState() != 0 && (!soundPlayed || wasPunch != isAcceleCombo1))
 {
-    // Disable sounds
-}
+    string soundPath;
 
-else if (isSkyDive &&
-	     Player.Input.IsPressed(Player.InputActionType.PlayerBoost))
-{
-    if (Lua.GetState() != 0 && !soundPlayed)
+    if (isAcceleCombo1)
     {
-        string skydiveSoundPath = Path.Combine(currentModDirectory, "raw_customAction", soundFileName)));
-
-        if (File.Exists(skydiveSoundPath))
-        {
-            sound.Open(new Uri(skydiveSoundPath));
-            sound.Volume = volumeLevel / 100;
-            sound.Position = new TimeSpan(0);
-            sound.Play();
-            soundPlayed = true;
-        }
-        else
-        {
-            Console.WriteLine("[Sound Overhaul Pack] Boost sound file not found.");
-        }
+        soundPath = Path.Combine(currentModDirectory, "raw_customAction", punchSoundFileName);
     }
-
-    if (isPaused && Lua.GetState() != 0)
+    else if (isAcceleCombo2)
     {
-        sound.Play();
-        isPaused = false;
-    }
-}
-else
-{
-    if (soundPlayed && !Player.Input.IsDown(Player.InputActionType.PlayerBoost))
-    {
-        sound.Stop();
-        soundPlayed = false;
-    }
-}
-
-// Handle pause state
-if (Lua.GetState() == 0 && soundPlayed)
-{
-    if (!isPaused)
-    {
-        sound.Pause();
-        isPaused = true;
-    }
-}
-
-Code "Additional Knuckles Climb" by "Batman Sonic & SuperNova124"
-//Adds additional climb sounds for Knuckles
-
-#include "Reflection" noemit
-#include "BlackboardStatus" noemit
-
-#lib "Player"
-#lib "Knuckles"
-#lib "Time"
-#lib "Lua"
-#lib "HMM"
-#lib "INI"
-
-#load "WindowsBase.dll"
-#load "PresentationCore.dll"
-#load "System.Numerics.dll"
-
-using System.Numerics;
-using System.Collections.Generic;
-using System.Windows.Media;
-using System.IO;
-
-static MediaPlayer sound = new MediaPlayer();
-static float volumeLevel = 25.0f;
-static bool initialized = false;
-static bool soundPlayed = false;
-static string currentModDirectory;
-static bool isPaused = false; // Added variable to manage pause state
-static int conKnucklesClimb = 0;
-static string soundFileName = "";
-
-if (!initialized)
-{
-    var mods = HMM.FindModsByName("Sound Overhaul Pack");
-
-    if (mods.Count == 1)
-    {
-        currentModDirectory = mods[0].Path;
-        string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
-        var ini = INI.Read(modConfigIniPath);
-		
-        conKnucklesClimb = INI.Parse<int>(ini["Main"]["KnucklesClimb"], conKnucklesClimb);
-
-        // Change the sound file based on conKnucklesClimb
-        switch (conKnucklesClimb)
-        {
-            case 1:
-                soundFileName = "SFX_KnucklesClimb06.wav";
-                break;
-            case 2:
-                // Disable sounds
-                break;
-            default:
-                // Handle other cases if needed
-                break;
-        }
-
-        volumeLevel = INI.Parse<float>(ini["Main"]["knucklesclimbVolume"], volumeLevel);
+        soundPath = Path.Combine(currentModDirectory, "raw_customAction", kickSoundFileName);
     }
     else
     {
-        Console.WriteLine("[Sound Overhaul Pack] Failed to locate mod directory.");
         return;
     }
 
-    initialized = true;
-}
-
-   var kinematics = Player.Kinematics.Get();
-
-   if (kinematics == null)
-        return;
-
-   float wallspeed = Player.Kinematics.GetMagnitude();
-   
-   if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
-        return;
-	
-	if (conKnucklesClimb == 2)
+    if (File.Exists(soundPath))
     {
-    // Disable sounds
-   }
-   else if (wallspeed >= 1.0f && Player.State.GetCurrentStateID<Knuckles.StateID>() == Knuckles.StateID.KnucklesStateWallMove)
-  {
-    if (Lua.GetState() != 0 && !soundPlayed)
-    {
-        sound.Open(new Uri(Path.Combine(currentModDirectory, "raw_customAction", soundFileName)));
+        sound.Open(new Uri(soundPath));
         sound.Volume = volumeLevel / 100;
         sound.Position = new TimeSpan(0);
         sound.Play();
         soundPlayed = true;
     }
+    else
+    {
+        Console.WriteLine("[Sound Overhaul Pack] Combat sound file not found.");
+    }
 
-    if (isPaused && Lua.GetState() != 0)
-    {
-        sound.Play();
-        isPaused = false;
-    }
-}
-else
-{
-    if (soundPlayed && wallspeed < 1.0f || Player.State.GetCurrentStateID<Knuckles.StateID>() != Knuckles.StateID.KnucklesStateWallMove)
-    {
-        sound.Stop();
-        soundPlayed = false;
-    }
+    wasPunch = isAcceleCombo1;
 }
 
+// Handle pause state
 if (Lua.GetState() == 0 && soundPlayed)
 {
     if (!isPaused)
@@ -4150,9 +5629,14 @@ if (Lua.GetState() == 0 && soundPlayed)
         isPaused = true;
     }
 }
+else if (isPaused && Lua.GetState() != 0)
+{
+    sound.Play();
+    isPaused = false;
+}
 
 Code "Heat Knuckle Charge" by "Batman Sonic & SuperNova124"
-//Adds a Heat Knuckle charge sound
+// Adds a Heat Knuckle charge sound and additional sounds for the aura and lock-on cursor
 
 #include "Reflection" noemit
 
@@ -4174,10 +5658,14 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using System.IO;
 
-static MediaPlayer sound = new MediaPlayer();
+static MediaPlayer chargeSound = new MediaPlayer();
+static MediaPlayer auraSound = new MediaPlayer();
+static MediaPlayer lockOnSound = new MediaPlayer();
 static float volumeLevel = 25.0f;
 static bool initialized = false;
-static bool soundPlayed = false;
+static bool chargeSoundPlayed = false;
+static bool auraSoundPlayed = false;
+static bool lockOnSoundPlayed = false;
 static string currentModDirectory;
 static bool isPaused = false; // Added variable to manage pause state
 
@@ -4210,213 +5698,91 @@ if (!initialized)
     initialized = true;
 }
 
-   if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
-        return;
-	
-	var pGameObject = Player.Status.GetLockOnTarget();
+if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+    return;
 
-    if (pGameObject == null)
-        return;
-		
-    else if (GameObject.GetGOC(pGameObject, "GOCHealth") != null && Player.Input.IsDown(Player.InputActionType.PlayerAttack))
-  {
-    if (Lua.GetState() != 0 && !soundPlayed)
+var pGameObject = Player.Status.GetLockOnTarget();
+
+if (pGameObject == null)
+    return;
+
+else if (GameObject.GetGOC(pGameObject, "GOCHealth") != null && Player.Input.IsDown(Player.InputActionType.PlayerAttack))
+{
+    if (Lua.GetState() != 0 && !chargeSoundPlayed)
     {
-        string heatknuckleSoundPath = Path.Combine(currentModDirectory, "raw_customAction", "SFX_HeatKnuckleCharge.wav");
+        string chargeSoundPath = Path.Combine(currentModDirectory, "raw_customAction", "SFX_HeatKnuckleCharge.wav");
+        string auraSoundPath = Path.Combine(currentModDirectory, "raw_customAction", "SFX_HeatKnuckleAura.wav");
+        string lockOnSoundPath = Path.Combine(currentModDirectory, "raw_customUI", "SFX_LockOnHeatKnuckle.wav");
 
-        if (File.Exists(heatknuckleSoundPath))
+        if (File.Exists(chargeSoundPath))
         {
-            sound.Open(new Uri(heatknuckleSoundPath));
-            sound.Volume = volumeLevel / 100;
-            sound.Position = new TimeSpan(0);
-            sound.Play();
-            soundPlayed = true;
+            chargeSound.Open(new Uri(chargeSoundPath));
+            chargeSound.Volume = volumeLevel / 100;
+            chargeSound.Position = new TimeSpan(0);
+            chargeSound.Play();
+            chargeSoundPlayed = true;
         }
         else
         {
-            Console.WriteLine("[Sound Overhaul Pack] Boost sound file not found.");
+            Console.WriteLine("[Sound Overhaul Pack] Heat Knuckle charge sound file not found.");
+        }
+
+        if (File.Exists(auraSoundPath))
+        {
+            auraSound.Open(new Uri(auraSoundPath));
+            auraSound.Volume = volumeLevel / 100;
+            auraSound.Position = new TimeSpan(0);
+            auraSound.Play();
+            auraSoundPlayed = true;
+        }
+        else
+        {
+            Console.WriteLine("[Sound Overhaul Pack] Heat Knuckle aura sound file not found.");
+        }
+
+        if (File.Exists(lockOnSoundPath))
+        {
+            lockOnSound.Open(new Uri(lockOnSoundPath));
+            lockOnSound.Volume = volumeLevel / 100;
+            lockOnSound.Position = new TimeSpan(0);
+            lockOnSound.Play();
+            lockOnSoundPlayed = true;
+        }
+        else
+        {
+            Console.WriteLine("[Sound Overhaul Pack] Heat Knuckle lock-on sound file not found.");
         }
     }
 
     if (isPaused && Lua.GetState() != 0)
     {
-        sound.Play();
+        chargeSound.Play();
+        auraSound.Play();
+        lockOnSound.Play();
         isPaused = false;
     }
 }
 else
 {
-    if (soundPlayed && !Player.Input.IsDown(Player.InputActionType.PlayerAttack))
+    if (chargeSoundPlayed && Player.Input.IsReleased(Player.InputActionType.PlayerAttack))
     {
-        sound.Stop();
-        soundPlayed = false;
+        chargeSound.Stop();
+        auraSound.Stop();
+        lockOnSound.Stop();
+        chargeSoundPlayed = false;
+        auraSoundPlayed = false;
+        lockOnSoundPlayed = false;
     }
 }
 
 // Handle pause state
-if (Lua.GetState() == 0 && soundPlayed)
+if (Lua.GetState() == 0 && chargeSoundPlayed)
 {
     if (!isPaused)
     {
-        sound.Pause();
-        isPaused = true;
-    }
-}
-
-Code "Additional Pulley Sounds" by "Batman Sonic & SuperNova124"
-//more pulley
-
-#include "Reflection" noemit
-
-#lib "Player"
-#lib "Sonic"
-#lib "Tails"
-#lib "Knuckles"
-#lib "Amy"
-#lib "Time"
-#lib "Lua"
-#lib "HMM"
-#lib "INI"
-
-#import "Plugins"
-#import "Services"
-#import "States"
-
-// External DLLs
-#load "WindowsBase.dll"
-#load "PresentationCore.dll"
-#load "System.Numerics.dll"
-
-using System.Numerics;
-using System.Collections.Generic;
-using System.Windows.Media;
-using System.IO;
-
-// Check for sound overhaul pack
-static bool initialized = false;
-static string currentModDirectory;
-static string boostSoundFileName = "SFX_Pulley.wav";
-static string stopSoundFileName = "SFX_PulleyStop.wav";
-static bool soundPlayed = false;
-static bool isPaused = false;
-
-static MediaPlayer sound = new MediaPlayer();
-static float volumeLevel = 25.0f;
-static int conPulleyExtra = 0;
-
-bool isBattle = IS_WORLD_FLAG(IsBattle);
-bool isAutoRun = IS_WORLD_FLAG(IsAutoRun);
-
-if (!initialized)
-{
-    var mods = HMM.FindModsByName("Sound Overhaul Pack");
-
-    if (mods.Count == 1)
-    {
-        currentModDirectory = mods[0].Path;
-        string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
-
-        if (File.Exists(modConfigIniPath))
-        {
-            var ini = INI.Read(modConfigIniPath);
-            conPulleyExtra = INI.Parse<int>(ini["Main"]["PulleyExtra"], conPulleyExtra);
-
-        switch (conPulleyExtra)
-        {
-            case 1:
-                    boostSoundFileName = "SFX_Pulley.wav";
-                    stopSoundFileName = "SFX_PulleyStop.wav";
-                    break;
-                case 2:
-                    boostSoundFileName = "SFX_PulleyDreamcast.wav";
-                    stopSoundFileName = "SFX_PulleyDreamcastStop.wav";
-                    break;
-                case 3:
-                    // Disable sounds
-                    return;
-                default:
-                    Console.WriteLine("Invalid sound option. Defaulting to option 1.");
-                    break;
-        }
-
-        volumeLevel = INI.Parse<float>(ini["Main"]["pulleyVolume"], volumeLevel);
-    }
-    else
-    {
-            Console.WriteLine("[Sound Overhaul Pack] mod.ini not found.");
-            return;
-        }
-    }
-    else
-    {
-        Console.WriteLine("[Sound Overhaul Pack] Failed to locate mod directory.");
-        return;
-    }
-
-    initialized = true;
-}
-
-// Check if the current level should disable the sound
-bool disableSound = false;
-string currentStageID = LevelInfo.GetCurrentStageID();
-List<string> disabledLevels = new List<string>()
-{
-    "w6d01", "w6d08", "w6d05", "w6d10", "w6d09", "w6d02", "w6d07", "w6d06", "w6d03",
-    "w7d02", "w7d07", "w7d08",
-    "w8d02", "w8d03", "w8d04", "w8d05",
-    "w9d07", "w9d04", "w9d06", "w9d02", "w9d05", "w9d03", "w9d23"
-};
-
-if (disabledLevels.Contains(currentStageID))
-{
-    disableSound = true;
-}
-
-if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateCaught && !isBattle && !isAutoRun && !isPaused && !disableSound)
-{
-    if (Lua.GetState() != 0 && !soundPlayed)
-    {
-        string pulleySoundPath = Path.Combine(currentModDirectory, "raw_customAction", boostSoundFileName);
-
-        if (File.Exists(pulleySoundPath))
-        {
-            sound.Open(new Uri(pulleySoundPath));
-            sound.Volume = volumeLevel / 100;
-            sound.Position = new TimeSpan(0);
-            sound.Play();
-            soundPlayed = true;
-        }
-        else
-        {
-            Console.WriteLine("[Sound Overhaul Pack] Boost sound file not found.");
-        }
-    }
-}
-
-// Additional logic for stopping the sound when conditions are not met
-if (soundPlayed && ((Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateCaught || isBattle || isAutoRun || isPaused) || disableSound))
-{
-    string stopSoundPath = Path.Combine(currentModDirectory, "raw_customAction", stopSoundFileName);
-    if (File.Exists(stopSoundPath))
-    {
-        sound.Open(new Uri(stopSoundPath));
-        sound.Volume = volumeLevel / 100;
-        sound.Position = new TimeSpan(0);
-        sound.Play();
-        soundPlayed = false;
-    }
-    else
-    {
-        Console.WriteLine("[Sound Overhaul Pack] Stop sound file not found.");
-    }
-}
-
-// Handle pause state
-if (Lua.GetState() == 0 && soundPlayed)
-{
-    if (!isPaused)
-    {
-        sound.Pause();
+        chargeSound.Pause();
+        auraSound.Pause();
+        lockOnSound.Pause();
         isPaused = true;
     }
 }
@@ -4547,7 +5913,7 @@ if (!IsConfigInitialized)
 // Check if the spin sound should be enabled
 if (conZeroRingWarning == 1)
 {
-    if (LevelInfo.GetCurrentStageID().StartsWith("w1r03"))
+    if (LevelInfo.GetCurrentStageID() == "w1r02_1")
     {
         RestoreZeroRingsWarning();
     }
@@ -4839,7 +6205,7 @@ static bool WallGrunt = false;
     {
         if (!WallGrunt)
         {
-            Player.Sound.PlaySound("sa1036");
+            Lua.Call("PlayVoice", "sa1036"); 
             WallGrunt = true;
         }
     }
@@ -4849,109 +6215,50 @@ static bool WallGrunt = false;
     }
 }
 
-Code "Tails Spin in Stomping" by "Batman Sonic & SuperNova124"
-//Adds a tails spin sound when Tails stomps.
+//Miscellaneous
+
+Code "StateSpin / StateDriftDash Missing Sounds Fix" by "Batman Sonic & SuperNova124"
+//
 
 #include "Reflection" noemit
+#include "BlackboardStatus" noemit
 
 #lib "Player"
-#lib "Tails"
+#lib "Time"
 #lib "Lua"
 #lib "HMM"
 #lib "INI"
 
-#load "WindowsBase.dll"
-#load "PresentationCore.dll"
+#import "States"
+	
 #load "System.Numerics.dll"
 
 using System.Numerics;
-using System.Collections.Generic;
-using System.Windows.Media;
-using System.IO;
 
-static MediaPlayer sound = new MediaPlayer();
-static float volumeLevel = 25.0f;
-static bool initialized = false;
-static bool soundPlayed = false;
-static string currentModDirectory;
-static bool isPaused = false; // Added variable to manage pause state
+static bool isSpinSound = false;
+static int soundSpinSound = -1; // Use a variable to keep track of the sound instance
 
-if (!initialized)
 {
-    var mods = HMM.FindModsByName("Sound Overhaul Pack");
-
-    if (mods.Count == 1)
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpin || Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDriftDash)
     {
-        currentModDirectory = mods[0].Path;
-        string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
-        var ini = INI.Read(modConfigIniPath);
-
-        volumeLevel = INI.Parse<float>(ini["Main"]["tailsstompVolume"], volumeLevel);
+        if (!isSpinSound)
+        {
+            soundSpinSound = Player.Sound.PlaySound("sn_spindash");
+            isSpinSound = true;
+        }
     }
-    else
+    else if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateSpin || Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateDriftDash)
     {
-        Console.WriteLine("[Sound Overhaul Pack] Failed to locate mod directory.");
-        return;
+        if (isSpinSound)
+        {
+            // Use a fixed statement to get the address of soundSpinSound
+            fixed (int* ptrsoundSpinSound = &soundSpinSound)
+            {
+                Player.Sound.StopSound(ptrsoundSpinSound);
+            }
+            isSpinSound = false;
+        }
     }
-
-    initialized = true;
-}
-
-List<Tails.StateID> TailsStompState = new List<Tails.StateID>
-{
-    Tails.StateID.TailsStateStompingDown
-};
-}
-
-bool isTailsStomp = TailsStompState.Contains(Player.State.GetCurrentStateID<Tails.StateID>());
-
-    if (Player.GetPlayerType() != Player.PlayerType.Tails)
-        return;
-
-    if (isTailsStomp)
-{
-    if (Lua.GetState() != 0 && !soundPlayed)
-    {
-        sound.Open(new Uri(Path.Combine(currentModDirectory, "raw_customAction", "SFX_TailsSpin.wav")));
-        sound.Volume = volumeLevel / 100;
-        sound.Position = new TimeSpan(0);
-        sound.Play();
-        soundPlayed = true;
-    }
-
-    if (isPaused && Lua.GetState() != 0)
-    {
-        sound.Play();
-        isPaused = false;
-    }
-}
-else
-{
-    if (soundPlayed)
-    {
-        sound.Stop();
-        soundPlayed = false;
-    }
-}
-
-if (Lua.GetState() == 0 && soundPlayed)
-{
-    if (!isPaused)
-    {
-        sound.Pause();
-        isPaused = true;
-    }
-}
-
-//Miscellaneous
-
-Code "Fix Cyber Space Roll Sounds" by "Batman Sonic & SuperNova124"
-//Fixes the Cyber Space roll missing sounds.
-
-    #lib "Player"
-//
-{
-	Player.State.Redirect<Sonic.StateID>(Sonic.StateID.StateSpin, Sonic.StateID.StateDropDash);
 }
 
 //Super Transformation Sounds
@@ -4965,13 +6272,32 @@ Code "Super Transformation Sounds" by "Batman Sonic & SuperNova124"
 
 #lib "GameObject"
 #lib "Player"
+#lib "Lua"
 #lib "BlackboardStatus"
 
 static bool SS1Trans = false;
 static bool SS2Trans = false;
 
-{
+static bool IsConfigInitialized = false;
+static int conSuperTrans = 0;
 
+if (!IsConfigInitialized)
+{
+    var modsQuery = HMM.FindModsByName("Sound Overhaul Pack");
+    if (modsQuery.Count == 1)
+    {
+        string modConfigIniPath = System.IO.Path.Combine(modsQuery[0].Path, "mod.ini");
+        var ini = INI.Read(modConfigIniPath);
+
+        conSuperTrans = INI.Parse<int>(ini["Main"]["SuperTrans"], conSuperTrans);
+
+        IsConfigInitialized = true;
+    }
+}
+
+// Check if the spin sound should be enabled
+if (conSuperTrans == 1)
+{
     if (!BlackboardStatus.IsSuper())
     {
         SS1Trans = false;
@@ -4998,8 +6324,8 @@ static bool SS2Trans = false;
         if (!SS1Trans)
         {
             Player.Sound.PlaySound("sn_ss_change");
-			Player.Sound.PlaySound("sn_skateboard_grind");
-			Player.Sound.PlaySound("sa1016");
+			Player.Sound.PlaySound("sn_chaosemerald_guard");
+			Lua.Call("PlayVoice", "sa1016"); 
             SS1Trans = true;
         }
     }
@@ -5008,12 +6334,14 @@ static bool SS2Trans = false;
     {
         if (!SS2Trans)
         {
-            Player.Sound.PlaySound("!obj_battingmachine_return_hit");
-			Player.Sound.PlaySound("!sn_skateboard_grind");
-			Player.Sound.PlaySound("sa1019_1");
+			Lua.Call("PlayVoice", "sa1019_1"); 
             SS2Trans = true;
         }
     }
+}
+else if (conSuperTrans == 2)
+{
+    // Do nothing, i.e., let the sounds play
 }
 
 Code "Super Detransformation Sounds" by "Batman Sonic & SuperNova124"
@@ -5032,6 +6360,25 @@ Code "Super Detransformation Sounds" by "Batman Sonic & SuperNova124"
 static bool SS1Detrans = false;
 static bool SS2Detrans = false;
 
+static bool IsConfigInitialized = false;
+static int conSuperTrans = 0;
+
+if (!IsConfigInitialized)
+{
+    var modsQuery = HMM.FindModsByName("Sound Overhaul Pack");
+    if (modsQuery.Count == 1)
+    {
+        string modConfigIniPath = System.IO.Path.Combine(modsQuery[0].Path, "mod.ini");
+        var ini = INI.Read(modConfigIniPath);
+
+        conSuperTrans = INI.Parse<int>(ini["Main"]["SuperTrans"], conSuperTrans);
+
+        IsConfigInitialized = true;
+    }
+}
+
+// Check if the spin sound should be enabled
+if (conSuperTrans == 1)
 {
     if (Player.GetPlayerType() != Player.PlayerType.Sonic)
         return;
@@ -5061,6 +6408,10 @@ static bool SS2Detrans = false;
             SS2Detrans = true;
         }
     }
+}
+else if (conSuperTrans == 2)
+{
+    // Do nothing, i.e., let the sounds play
 }
 
 Code "Super Transformation Sounds (SS2) - Primary" by "Batman Sonic & SuperNova124"
@@ -5094,6 +6445,8 @@ static bool initialized = false;
 static bool soundPlayed = false;
 static string currentModDirectory;
 static bool isPaused = false; // Added variable to manage pause state
+static int conSuperTrans = 0;
+static string soundFileName = "";
 
 if (!initialized)
 {
@@ -5107,7 +6460,24 @@ if (!initialized)
         if (File.Exists(modConfigIniPath))
         {
             var ini = INI.Read(modConfigIniPath);
-            volumeLevel = INI.Parse<float>(ini["Main"]["ss2transprimaryVolume"], volumeLevel);
+		
+        conSuperTrans = INI.Parse<int>(ini["Main"]["SuperTrans"], conSuperTrans);
+
+        // Change the sound file based on conSuperTrans
+        switch (conSuperTrans)
+        {
+            case 1:
+                soundFileName = "SFX_SuperAttack.wav";
+                break;
+            case 2:
+                // Disable sounds
+                break;
+            default:
+                // Handle other cases if needed
+                break;
+        }
+
+        volumeLevel = INI.Parse<float>(ini["Main"]["ss2transprimaryVolume"], volumeLevel);
         }
         else
         {
@@ -5142,12 +6512,12 @@ if (!initialized)
     var visual = gocVisual->GetVisual<VisualSuperSonic>();
     if (visual == null)
         return;
-		
-    else if (visual->IsSuperSonic2)
-  {
-    if (Lua.GetState() != 0 && !soundPlayed)
+
+if (visual->IsSuperSonic2)
+{
+    if (conSuperTrans == 1 && Lua.GetState() != 0 && !soundPlayed)
     {
-        string ss2transSoundPath = Path.Combine(currentModDirectory, "raw_customSuper", "SFX_SuperAttack.wav");
+        string ss2transSoundPath = Path.Combine(currentModDirectory, "raw_customSuper", soundFileName);
 
         if (File.Exists(ss2transSoundPath))
         {
@@ -5159,7 +6529,7 @@ if (!initialized)
         }
         else
         {
-            Console.WriteLine("[Sound Overhaul Pack] Boost sound file not found.");
+            Console.WriteLine("[Sound Overhaul Pack] Super Transformation sound file not found.");
         }
     }
 
@@ -5219,6 +6589,8 @@ static bool initialized = false;
 static bool soundPlayed = false;
 static string currentModDirectory;
 static bool isPaused = false; // Added variable to manage pause state
+static int conSuperTrans = 0;
+static string soundFileName = "";
 
 if (!initialized)
 {
@@ -5232,7 +6604,24 @@ if (!initialized)
         if (File.Exists(modConfigIniPath))
         {
             var ini = INI.Read(modConfigIniPath);
-            volumeLevel = INI.Parse<float>(ini["Main"]["ss2transsecondaryVolume"], volumeLevel);
+		
+        conSuperTrans = INI.Parse<int>(ini["Main"]["SuperTrans"], conSuperTrans);
+
+        // Change the sound file based on conSuperTrans
+        switch (conSuperTrans)
+        {
+            case 1:
+                soundFileName = "SFX_SS2RageImpact.wav";
+                break;
+            case 2:
+                // Disable sounds
+                break;
+            default:
+                // Handle other cases if needed
+                break;
+        }
+
+        volumeLevel = INI.Parse<float>(ini["Main"]["ss2transsecondaryVolume"], volumeLevel);
         }
         else
         {
@@ -5267,12 +6656,12 @@ if (!initialized)
     var visual = gocVisual->GetVisual<VisualSuperSonic>();
     if (visual == null)
         return;
-		
-    else if (visual->IsSuperSonic2)
-  {
-    if (Lua.GetState() != 0 && !soundPlayed)
+
+if (visual->IsSuperSonic2)
+{
+    if (conSuperTrans == 1 && Lua.GetState() != 0 && !soundPlayed)
     {
-        string ss2transSoundPath = Path.Combine(currentModDirectory, "raw_customSuper", "SFX_SS2RageImpact.wav");
+        string ss2transSoundPath = Path.Combine(currentModDirectory, "raw_customSuper", soundFileName);
 
         if (File.Exists(ss2transSoundPath))
         {
@@ -5284,7 +6673,7 @@ if (!initialized)
         }
         else
         {
-            Console.WriteLine("[Sound Overhaul Pack] Boost sound file not found.");
+            Console.WriteLine("[Sound Overhaul Pack] Super Transformation sound file not found.");
         }
     }
 
