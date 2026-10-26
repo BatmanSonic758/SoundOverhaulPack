@@ -1,3 +1,67 @@
+## Version 4.1
+
+*Please note, you'll need to download the updated files from GameBanana as the Update Server does not contain them!!!*
+
+- Added support for Quality of Life Additions.
+
+- Code was completely redone to reduce framedrops, it's a sound mod how the hell did it cause FPS drops :(
+
+- All external custom sound files are now in-game sound labels, since it uses the Spin Dash's sound bank file, the Spin Dash sound setting itself was reworked as well!
+
+- Restored Jump Panel sound is now associated with Cyber Space's objects sound bank rather than in the players' sound bank.
+
+- Added an option for Sonic Generations (2024)'s Drop Dash sounds. I've also added one that adds the incorrect sounds from Shadow Generations' unused Drop Dash restoration code because why not :)
+
+- Added pitch shifting Spin Dash charge.
+
+- Added Doom Spear lock-on sound from Shadow Generations.
+
+- Cyber Ghost Aura for Tails, Knuckles and Amy is now fully functional and ready to be used.
+
+- Jump grunt applies for grind jump too.
+
+- Added more grunts for Sonic and Amy's drift.
+
+- Added grunts for various actions, such as Quick Step, Light Dash etc.
+
+- Added a boost fail sound when trying to boost when the gauge is empty, like Sonic Forces and Shadow Generations. It is more noticable when using Quality of Life Additions.
+
+- Added support for StateDriftDash (known for its use in Sonic Frontiers New Genesis and Quality of Life Additions) and for more obscure states.
+
+- Fixed Tails' tail spin during Spike Stomp not playing or playing but never stops. It does play but sometimes HMM updates break it :/
+
+- The Drop Dash charge and rolling sounds from the players' sound banks (sn_spindash) are now muted in favor of Update 2's Spin Dash sounds (sn_spinboost) for more consistency.
+
+- Grand Slam and Spin Slash sounds now uses whatever option you chose for the Spin Dash for consistency sake. Meaning that you can now enjoy using Grand Slam without your ears bleeding :)
+
+- Altered Amy's jump pitch in Vanilla Overhaul to match Boost Era / Hybrid.
+
+- Dreamcast Era sounds are now more faithful and replaces more sounds.
+
+- Tweaked configuration descriptions to give proper context to what each feature does.
+
+- Unleashed-styled Sky Dive was renamed to Hedgehog Engine 1-styled Sky Dive and now supports the storm section during the Tank fight.
+
+- Removed Quick Step sounds from Tails and Amy's Power Boost.
+
+- Removed Wall Slide Sound.
+
+- Removed trick sound from the Skateboard. Finally. The long awaited patch.
+
+- Increased volume for sn_catch.
+
+- Drowning Jingle now supports when you're captured by the Balloon... yes, that aqua ball's name is Balloon. I did not know that until now.
+
+- Jumping and spinning are loaded separately. Meaning that, for example, the regular jumping sound plays when jumping off rails. Basically like how Amy's jumping sounds.
+
+----------------------------
+
+## Version 4.0
+
+*Please note, you'll need to download the updated files from GameBanana as the Update Server does not contain them!!!*
+
+----------------------------
+
 ## Version 3.2.2
 That should take care of the loud sounds.
 
