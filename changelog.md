@@ -6,7 +6,7 @@
 
 - Fixed the loud Grand Slam sound.
 
-- Aerial Spin Dash sounds now apply for the original Drop Dash charge under a separate config.
+- Aerial Spin Dash sounds now apply for the vanilla Drop Dash charge under a separate config.
 
 ----------------------------
 
