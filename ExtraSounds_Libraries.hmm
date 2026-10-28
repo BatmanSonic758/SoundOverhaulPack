@@ -1,0 +1,183 @@
+Library "SoundCommonParameter"
+{
+    #load "System.Numerics.dll"
+
+    using System.Numerics;
+    using System.Runtime.InteropServices;
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x0C)]
+    public struct BGMVolumeChangeInfo
+    {
+        [FieldOffset(0x00)] public float value;
+        [FieldOffset(0x04)] public float delayTime;
+        [FieldOffset(0x08)] public float fadeTime;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x54)]
+    public struct BGMVolumeChangeInfoList
+    {
+        [FieldOffset(0x00)] public BGMVolumeChangeInfo playerStop;
+        [FieldOffset(0x0C)] public BGMVolumeChangeInfo playerWalk;
+        [FieldOffset(0x18)] public BGMVolumeChangeInfo playerRun;
+        [FieldOffset(0x24)] public BGMVolumeChangeInfo fishingHitIn;
+        [FieldOffset(0x30)] public BGMVolumeChangeInfo fishingHitOut;
+        [FieldOffset(0x3C)] public BGMVolumeChangeInfo musicBoxIn;
+        [FieldOffset(0x48)] public BGMVolumeChangeInfo musicBoxOut;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x08)]
+    public struct AisacChangeInfo
+    {
+        [FieldOffset(0x00)] public float value;
+        [FieldOffset(0x04)] public float fadeTime;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x28)]
+    public struct AisacChangeInfoList
+    {
+        [FieldOffset(0x00)] public AisacChangeInfo sunny;
+        [FieldOffset(0x08)] public AisacChangeInfo cloudy;
+        [FieldOffset(0x10)] public AisacChangeInfo rainy;
+        [FieldOffset(0x18)] public AisacChangeInfo beginUnderWater;
+        [FieldOffset(0x20)] public AisacChangeInfo finishUnderWater;
+    }
+
+    public enum Priority : sbyte
+    {
+        PRIORITY_LOW = 0,
+        PRIORITY_DEFAULT = 1,
+        PRIORITY_HIGH = 2,
+        PRIORITY_SUPER_HIGH = 3,
+        NUM_PRIORITY = 4,
+        PRIORITY_INVALID = -1
+    }
+
+    public enum InterruptType : sbyte
+    {
+        INTERRUPT_TYPE_STOP = 0,
+        INTERRUPT_TYPE_PAUSE = 1,
+        INTERRUPT_TYPE_OVERLAP = 2,
+        NUM_INTERRUPT_TYPE = 3
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8)]
+    public struct UnmanagedString
+    {
+        [FieldOffset(0)] public long pValue;
+
+        public string Value
+        {
+            get
+            {
+                if (pValue == 0)
+                    return string.Empty;
+
+                return Marshal.PtrToStringAnsi((nint)pValue);
+            }
+
+            set => pValue = (long)Marshal.StringToHGlobalAnsi(value);
+        }
+
+        public UnmanagedString(string in_value)
+        {
+            Value = in_value;
+        }
+
+        public static implicit operator UnmanagedString(string in_value)
+        {
+            return new UnmanagedString(in_value);
+        }
+
+        public static bool operator ==(UnmanagedString in_left, string in_right)
+        {
+            return in_left.Value == in_right;
+        }
+
+        public static bool operator !=(UnmanagedString in_left, string in_right)
+        {
+            return !(in_left == in_right);
+        }
+
+        public override bool Equals(object in_obj)
+        {
+            if (in_obj is string str)
+                return Value == str;
+
+            return base.Equals(in_obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return Value;
+        }
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x40)]
+    public struct BGMInfo
+    {
+        [FieldOffset(0x00)] public UnmanagedString cueName;
+        [FieldOffset(0x10)] public int blockId;
+        [FieldOffset(0x14)] public float fadeInTime;
+        [FieldOffset(0x18)] public float fadeOutTime;
+        [FieldOffset(0x1C)] public float delayTime;
+        [FieldOffset(0x20)] public UnmanagedString aisacName;
+        [FieldOffset(0x30)] public float aisacValue;
+        [FieldOffset(0x34)] public float aisacFadeTime;
+        [FieldOffset(0x38)] public bool isVolumeControl;
+        [FieldOffset(0x39)] public bool isOverlapPlay;
+        [FieldOffset(0x3A)] public Priority priority;
+        [FieldOffset(0x3B)] public InterruptType interruptType;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x30)]
+    public struct BGMTransitInfo
+    {
+        [FieldOffset(0x00)] public UnmanagedString tagName;
+        [FieldOffset(0x10)] public int beforeId;
+        [FieldOffset(0x14)] public int beforeIdMax;
+        [FieldOffset(0x18)] public int afterId;
+        [FieldOffset(0x1C)] public InterruptType type;
+        [FieldOffset(0x20)] public float fadeOutTime;
+        [FieldOffset(0x24)] public float fadeInTime;
+        [FieldOffset(0x28)] public float delayTime;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x3890)]
+    public struct Root
+    {
+        [FieldOffset(0x00)] public float pauseFadeOutTime;
+        [FieldOffset(0x04)] public float pauseFadeInTime;
+        [FieldOffset(0x08)] public float enterCyberFadeOutTime;
+        [FieldOffset(0x0C)] public float leaveCyberResultFadeOutTime;
+        [FieldOffset(0x10)] public BGMVolumeChangeInfoList bgmVolumeInfo;
+        [FieldOffset(0x64)] public AisacChangeInfoList aisacInfo;
+
+        [FieldOffset(0x90)] public unsafe fixed byte /* BGMInfo[128] */ _changeBgmInfo[8192];
+
+        public unsafe BGMInfo* changeBgmInfo
+        {
+            get
+            {
+                fixed (byte* p_changeBgmInfo = _changeBgmInfo)
+                    return (BGMInfo*)p_changeBgmInfo;
+            }
+        }
+
+        [FieldOffset(0x2090)] public unsafe fixed byte /* BGMTransitInfo[128] */ _transitBgmInfo[6144];
+
+        public unsafe BGMTransitInfo* transitBgmInfo
+        {
+            get
+            {
+                fixed (byte* p_transitBgmInfo = _transitBgmInfo)
+                    return (BGMTransitInfo*)p_transitBgmInfo;
+            }
+        }
+    }
+
+}

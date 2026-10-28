@@ -1,0 +1,102 @@
+Code "Super Transformation Sounds" by "Batman Sonic & SuperNova124"
+//
+	#include "Reflection" noemit
+
+	#import "GOComponents"
+	#import "PlayerVisuals"
+
+	#lib "GameObject"
+	#lib "Player"
+	#lib "BlackboardStatus"
+	#lib "Lua"
+	#lib "HMM"
+	#lib "INI"
+
+	static bool? configInitCache = null;
+	static int conSuperTrans = 0;
+	static bool isDependencies = false;
+
+	static bool SS1Transform = false;
+	static bool SS2Transform = false;
+//
+{
+	if (configInitCache == null)
+	{
+		isDependencies = HMM.FindModsByName("Super Sonic").Count > 0 &&
+		                 HMM.FindModsByName("SS Transformation Effects").Count > 0;
+
+		var modsQuery = HMM.FindModsByName("Sound Overhaul Pack");
+		
+		if (modsQuery.Count != 1)
+		{
+			Console.WriteLine("[Sound Overhaul Pack] Failed to locate mod directory.");
+			configInitCache = false;
+			return;
+		}
+
+		string modConfigIniPath = System.IO.Path.Combine(modsQuery[0].Path, "mod.ini");
+		if (!System.IO.File.Exists(modConfigIniPath))
+		{
+			Console.WriteLine("[Sound Overhaul Pack] mod.ini not found.");
+			configInitCache = false;
+			return;
+		}
+
+		var ini = INI.Read(modConfigIniPath);
+		conSuperTrans = INI.Parse<int>(ini["Main"]["SuperTrans"], 0);
+		configInitCache = true;
+	}
+
+	if (configInitCache == false || conSuperTrans != 1 || !isDependencies)
+		return;
+
+	if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+		return;
+
+	bool isSuper = BlackboardStatus.IsSuper();
+
+	if (!isSuper)
+	{
+		SS1Transform = false;
+		SS2Transform = false;
+		return;
+	}
+
+	var data = Player.GetPlayerData();
+	
+	if (data == null)
+		return;
+
+	var gocVisual = GameObject.GetGOC<GOCPlayerVisual>(&data->GameObject);
+	
+	if (gocVisual == null)
+		return;
+
+	var visual = gocVisual->GetVisual<VisualSuperSonic>();
+	
+	if (visual == null)
+		return;
+
+	bool isSS2 = visual->IsSuperSonic2;
+
+	// Super Sonic transformation
+	if (!SS1Transform)
+	{
+		Player.Sound.PlaySound("sn_supersonic_transform");
+		Lua.Call("PlayVoice", "sa1016");
+		SS1Transform = true;
+	}
+
+	// Super Sonic 2 transformation
+	if (isSS2 && !SS2Transform)
+	{
+		Player.Sound.PlaySound("sn_supersonic2_transform");
+		Player.Sound.PlaySound("sn_supersonic_superattack");
+		Lua.Call("PlayVoice", "sa1019_1");
+		SS2Transform = true;
+	}
+	else if (!isSS2)
+	{
+		SS2Transform = false;
+	}
+}

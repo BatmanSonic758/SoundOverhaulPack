@@ -1,0 +1,1936 @@
+// UI
+
+Code "Custom Homing Reticles" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "HMM"
+#lib "INI"
+
+#import "States"
+
+using System;
+using System.IO;
+
+static bool? configInitCache = null;
+static int conHomingReticle = 0;
+
+static bool soundPlayed = false;
+static IntPtr lastLockOnTarget = IntPtr.Zero;
+
+{
+    if (configInitCache == null)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+        if (mods.Count == 1)
+        {
+            string iniPath = Path.Combine(mods[0].Path, "mod.ini");
+
+            if (File.Exists(iniPath))
+            {
+                var ini = INI.Read(iniPath);
+                conHomingReticle = INI.Parse<int>(ini["Main"]["HomingReticle"], 0);
+            }
+        }
+
+        configInitCache = true;
+    }
+
+    if (conHomingReticle == 9)
+        return;
+
+    var pGameObject = Player.Status.GetLockOnTarget();
+
+    if (pGameObject == null)
+    {
+        soundPlayed = false;
+        lastLockOnTarget = IntPtr.Zero;
+        return;
+    }
+
+    var currentLockOnTarget = new IntPtr(pGameObject);
+
+    if (soundPlayed &&
+        currentLockOnTarget == lastLockOnTarget)
+        return;
+
+    switch (conHomingReticle)
+    {
+        case 1:
+        default:
+            Player.Sound.PlaySound("sn_lockon_rangers");
+            break;
+
+        case 2:
+            Player.Sound.PlaySound("sn_lockon_wars_2");
+            break;
+
+        case 3:
+            Player.Sound.PlaySound("sn_lockon_wars_1");
+            break;
+
+        case 4:
+            Player.Sound.PlaySound("sn_lockon_anniversary");
+            break;
+
+        case 5:
+            Player.Sound.PlaySound("sn_lockon_wildfire");
+            break;
+
+        case 6:
+            Player.Sound.PlaySound("sn_lockon_sa1");
+            break;
+
+        case 7:
+            Player.Sound.PlaySound("sn_lockon_next");
+            break;
+
+        case 8:
+            Player.Sound.PlaySound("sn_lockon_miller");
+            break;
+    }
+
+    soundPlayed = true;
+    lastLockOnTarget = currentLockOnTarget;
+}
+
+Code "Restore Camera Gaze Sound" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+#include "BlackboardStatus" noemit
+
+#lib "Player"
+#lib "BlackboardStatus"
+#lib "HMM"
+#lib "INI"
+
+using System.IO;
+
+static bool? configInitCache = null;
+static int conRestoreCameraGaze = 0;
+
+static bool soundPlayed = false;
+static bool cameraGazeWasEnabled = false;
+
+{
+    if (configInitCache == null)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+        if (mods.Count == 1)
+        {
+            string iniPath = Path.Combine(mods[0].Path, "mod.ini");
+
+            if (File.Exists(iniPath))
+            {
+                var ini = INI.Read(iniPath);
+
+                conRestoreCameraGaze = INI.Parse<int>(ini["Main"]["RestoreCameraGaze"], 0);
+            }
+        }
+
+        configInitCache = true;
+    }
+
+    if (conRestoreCameraGaze != 1)
+        return;
+
+    bool isCameraGazePressed = Player.Input.IsPressed(Player.InputActionType.CameraGaze);
+
+    bool isLockOnVisible = Player.Status.IsLockOnCursorVisible();
+
+    // Lost lock-on
+    if (!isLockOnVisible && cameraGazeWasEnabled)
+        cameraGazeWasEnabled = false;
+
+    if (!isCameraGazePressed)
+    {
+        soundPlayed = false;
+        return;
+    }
+
+    bool canUseCameraGaze = isLockOnVisible && !IS_WORLD_FLAG(IsCyberSpace);
+
+    if (canUseCameraGaze)
+    {
+        // Play only when enabling Camera Gaze
+        if (!cameraGazeWasEnabled && !soundPlayed)
+        {
+            Player.Sound.PlaySound("sn_camera_gaze");
+            soundPlayed = true;
+        }
+
+        cameraGazeWasEnabled = !cameraGazeWasEnabled;
+    }
+}
+
+Code "Restore Boost Fail" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+
+#import "Plugins"
+
+static bool isBoostFailSound = false;
+
+{
+    var boost = Player.State.GetStatePlugin<StatePluginBoost>();
+
+    if (boost == null)
+        return;
+
+    bool isBoostFail = Player.Input.IsDown(Player.InputActionType.PlayerBoost) && boost->BoostAmount <= 0;
+
+    if (isBoostFail && !isBoostFailSound)
+    {
+        Player.Sound.PlaySound("sn_boost_fail");
+        isBoostFailSound = true;
+    }
+
+    if (Player.Input.IsReleased(Player.InputActionType.PlayerBoost))
+        isBoostFailSound = false;
+}
+
+Code "Heat Knuckle Charge" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "GameObject"
+#lib "Player"
+#lib "Knuckles"
+#lib "HMM"
+#lib "INI"
+
+using System.IO;
+
+static bool? qolConfigCache = null;
+static int conScrewdriverAbility = 0;
+
+static int chargeHandle = 0;
+static int auraHandle = 0;
+
+static bool chargeSoundPlayed = false;
+
+{
+    if (qolConfigCache == null)
+    {
+        var qolMods = HMM.FindModsByName("Quality of Life Additions");
+        if (qolMods.Count == 1)
+        {
+            string qolConfigIniPath = Path.Combine(qolMods[0].Path, "mod.ini");
+            if (File.Exists(qolConfigIniPath))
+            {
+                var qolIni = INI.Read(qolConfigIniPath);
+                conScrewdriverAbility = INI.Parse<int>(qolIni["Main"]["ScrewdriverAbility"], 0);
+            }
+        }
+        qolConfigCache = true;
+    }
+
+    if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+        return;
+
+    var pGameObject = Player.Status.GetLockOnTarget();
+	
+    if (pGameObject == null)
+        return;
+
+    bool hasHealthComponent = GameObject.GetGOC(pGameObject, "GOCHealth") != null;
+    bool isAttackButtonDown = Player.Input.IsDown(Player.InputActionType.PlayerAttack);
+    bool isAttackButtonReleased = Player.Input.IsReleased(Player.InputActionType.PlayerAttack);
+
+    if (hasHealthComponent && isAttackButtonDown)
+    {
+        if (!chargeSoundPlayed)
+        {
+            // Lock-on sound always plays, no stop needed
+            Player.Sound.PlaySound("kn_heat_knuckle_lockon");
+
+            // Charge and aura only play if Screwdriver is disabled
+            if (conScrewdriverAbility != 1)
+            {
+                chargeHandle = Player.Sound.PlaySound("kn_heat_knuckle_charge");
+                auraHandle = Player.Sound.PlaySound("kn_heat_knuckle_aura");
+            }
+
+            // Mark as played even if Screwdriver is enabled (prevents re-triggering)
+            chargeSoundPlayed = true;
+        }
+    }
+    // Stop sounds when attack button released
+    else if (chargeSoundPlayed && isAttackButtonReleased)
+    {
+        int localChargeHandle = chargeHandle;
+        Player.Sound.StopSound(&localChargeHandle);
+
+        int localAuraHandle = auraHandle;
+        Player.Sound.StopSound(&localAuraHandle);
+
+        chargeSoundPlayed = false;
+    }
+}
+
+Code "Cyber Ghost Aura for Friends" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "HMM"
+#lib "INI"
+
+using System;
+using System.IO;
+
+static bool? configInitCache = null;
+static int conCyberAuraFriends = 0;
+
+static bool isIdleSound = false;
+static int idleHandle = 0;
+static Player.PlayerType lastPlayerType = Player.PlayerType.Sonic;
+static IntPtr lastPlayer = IntPtr.Zero;
+
+{
+    if (configInitCache == null)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+        if (mods.Count == 1)
+        {
+            string iniPath = Path.Combine(mods[0].Path, "mod.ini");
+            if (File.Exists(iniPath))
+            {
+                var ini = INI.Read(iniPath);
+                conCyberAuraFriends = INI.Parse<int>(ini["Main"]["CyberAuraFriends"], 0);
+            }
+        }
+        configInitCache = true;
+    }
+
+    if (conCyberAuraFriends == 2)
+        return;
+
+    var data = Player.GetPlayerData();
+	
+    IntPtr player = data != null ? new IntPtr(data) : IntPtr.Zero;
+
+    if (player != lastPlayer)
+    {
+        if (isIdleSound)
+        {
+            int dead = idleHandle;
+            Player.Sound.StopSound(&dead);
+        }
+        isIdleSound = false;
+        idleHandle = 0;
+        lastPlayer = player;
+    }
+
+    if (player == IntPtr.Zero)
+        return;
+
+    var currentType = Player.GetPlayerType();
+
+    if (currentType == Player.PlayerType.Sonic)
+    {
+        if (isIdleSound)
+        {
+            int stop = idleHandle;
+            Player.Sound.StopSound(&stop);
+            isIdleSound = false;
+        }
+        lastPlayerType = currentType;
+        return;
+    }
+
+    if (isIdleSound && currentType == lastPlayerType)
+        return;
+
+    // Swapped straight from one friend to another
+    if (isIdleSound)
+    {
+        int stop = idleHandle;
+        Player.Sound.StopSound(&stop);
+    }
+
+    idleHandle = Player.Sound.PlaySound("obj_friends_idle");
+    isIdleSound = true;
+    lastPlayerType = currentType;
+}
+
+// Gameplay
+
+Code "Restore Boost Jet" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "BlackboardStatus"
+#lib "Sonic"
+#lib "HMM"
+#lib "INI"
+
+#load "System.Numerics.dll"
+
+using System.Numerics;
+using System.IO;
+
+static bool? configInitCache = null;
+static int conBoostJet = 0;
+static int conSonicDriftBoost = 0;
+static string boostJetSoundName = "sn_boost_jet_rangers";
+
+static int boostJetHandle = 0;
+static bool soundPlayed = false;
+
+{
+    if (configInitCache == null)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+        if (mods.Count != 1)
+        {
+            configInitCache = false;
+            return;
+        }
+
+        string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
+        if (!File.Exists(modConfigIniPath))
+        {
+            configInitCache = false;
+            return;
+        }
+
+        var ini = INI.Read(modConfigIniPath);
+        conBoostJet = INI.Parse<int>(ini["Main"]["BoostJet"], 0);
+        int conBoostJetSound = INI.Parse<int>(ini["Main"]["BoostJetSound"], 0);
+        conSonicDriftBoost = INI.Parse<int>(ini["Main"]["SonicDriftBoost"], 0);
+
+        boostJetSoundName = (conBoostJetSound == 1) ? "sn_boost_jet" : "sn_boost_jet_rangers";
+
+        configInitCache = true;
+    }
+
+    if (configInitCache == false || conBoostJet == 4)
+        return;
+
+    // Disable for Super Sonic
+    if (BlackboardStatus.IsSuper())
+        return;
+
+    bool isBoost = IS_STATE_FLAG(IsBoost);
+    bool isPowerBoost = IS_WORLD_FLAG(IsPowerBoost);
+    bool isCyberSpace = IS_WORLD_FLAG(IsCyberSpace);
+    bool isDrifting = Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDrift;
+
+    if (!isBoost && !isDrifting && !soundPlayed)
+        return;
+
+    bool shouldPlay = false;
+
+    if (isDrifting && conSonicDriftBoost == 1)
+    {
+        // Drift boost - check button held
+        bool isBoostHeld = Player.Input.IsDown(Player.InputActionType.PlayerBoost);
+        if (isBoostHeld)
+        {
+            switch (conBoostJet)
+            {
+                case 1: shouldPlay = true; break;
+                case 2: shouldPlay = isPowerBoost || isCyberSpace; break;
+                case 3: shouldPlay = isCyberSpace; break;
+            }
+        }
+    }
+    else if (!isDrifting && isBoost)
+    {
+        // Normal boost
+        switch (conBoostJet)
+        {
+            case 1: shouldPlay = true; break;
+            case 2: shouldPlay = isPowerBoost || isCyberSpace; break;
+            case 3: shouldPlay = isCyberSpace; break;
+        }
+    }
+
+    if (shouldPlay)
+    {
+        if (!soundPlayed)
+        {
+            boostJetHandle = Player.Sound.PlaySound(boostJetSoundName);
+            soundPlayed = true;
+        }
+    }
+    else
+    {
+        if (soundPlayed)
+        {
+            int stop = boostJetHandle;
+            Player.Sound.StopSound(&stop);
+            soundPlayed = false;
+        }
+    }
+}
+
+Code "Dreamcast-styled Light Dash" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "HMM"
+#lib "INI"
+
+#load "System.Numerics.dll"
+
+using System.Numerics;
+using System.Collections.Generic;
+using System.IO;
+
+static bool? configInitCache = null;
+static int conLightDashImpact = 0;
+
+static int poseHandle = 0;
+static bool isPoseSound = false;
+
+{
+    if (configInitCache == null)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+        if (mods.Count == 1)
+        {
+            string iniPath = Path.Combine(mods[0].Path, "mod.ini");
+            if (File.Exists(iniPath))
+            {
+                var ini = INI.Read(iniPath);
+                conLightDashImpact = INI.Parse<int>(ini["Main"]["LightDashImpact"], 0);
+            }
+        }
+        configInitCache = true;
+    }
+
+    if (conLightDashImpact == 2)
+        return;
+
+    var currentState = Player.State.GetCurrentStateID<Sonic.StateID>();
+
+    if (currentState == Sonic.StateID.StateLightDash)
+    {
+        if (!isPoseSound)
+        {
+            poseHandle = Player.Sound.PlaySound("sn_lightdash_pose");
+            isPoseSound = true;
+        }
+    }
+    else
+    {
+        if (isPoseSound)
+        {
+            int stop = poseHandle;
+            Player.Sound.StopSound(&stop);
+            isPoseSound = false;
+        }
+    }
+}
+
+Code "Restore Quick Step" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+#include "BlackboardStatus" noemit
+
+#lib "Player"
+#lib "HMM"
+#lib "INI"
+
+using System.Collections.Generic;
+using System.IO;
+
+static bool? configInitCache = null;
+static int conQuickStep = 0;
+
+static bool soundPlayed = false;
+
+static List<Sonic.StateID> QuickStepStates = new List<Sonic.StateID>
+{
+    Sonic.StateID.StateLeftStep,
+    Sonic.StateID.StateLeftStepRun,
+    Sonic.StateID.StateRightStep,
+    Sonic.StateID.StateRightStepRun,
+    Sonic.StateID.StateQuickStepLeft,
+    Sonic.StateID.StateQuickStepRight,
+    Sonic.StateID.StateQuickStepRoot
+};
+
+static List<Sonic.StateID> SuperSonicQuickStepStates = new List<Sonic.StateID>
+{
+    Sonic.StateID.StateAvoid,
+    Sonic.StateID.StateAvoidLocal,
+    Sonic.StateID.StateAvoidToTarget,
+    Sonic.StateID.StateAvoidUpper
+};
+
+{
+    if (configInitCache == null)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+        if (mods.Count == 1)
+        {
+            string iniPath = Path.Combine(mods[0].Path, "mod.ini");
+
+            if (File.Exists(iniPath))
+            {
+                var ini = INI.Read(iniPath);
+                conQuickStep = INI.Parse<int>(ini["Main"]["QuickStep"], 0);
+            }
+        }
+
+        configInitCache = true;
+    }
+
+    if (conQuickStep == 3)
+        return;
+
+    var currentStateSonic = Player.State.GetCurrentStateID<Sonic.StateID>();
+    var currentStateKnuckles = Player.State.GetCurrentStateID<Knuckles.StateID>();
+
+    bool isQuickStep = QuickStepStates.Contains(currentStateSonic);
+    bool isKnucklesQuickStep = currentStateKnuckles == Knuckles.StateID.KnucklesStateDrillBoostStep;
+    bool isQuickStepSuper = BlackboardStatus.IsSuper() && SuperSonicQuickStepStates.Contains(currentStateSonic);
+
+    bool anyQuickStepActive = isQuickStep || isKnucklesQuickStep || isQuickStepSuper;
+
+    if (anyQuickStepActive && !soundPlayed)
+    {
+        switch (conQuickStep)
+        {
+            case 1:
+                Player.Sound.PlaySound("sn_quickstep_swa");
+                break;
+
+            case 2:
+                Player.Sound.PlaySound("sn_quickstep_anniversary");
+                break;
+        }
+
+        soundPlayed = true;
+    }
+
+    if (!anyQuickStepActive)
+    {
+        soundPlayed = false;
+    }
+}
+
+Code "Lost World-styled Spin Dash" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "HMM"
+#lib "INI"
+
+#load "System.Numerics.dll"
+
+using System.Numerics;
+using System.Collections.Generic;
+using System.IO;
+
+static bool? configInitCache = null;
+static int conSpinDashImpact = 0;
+
+static List<Sonic.StateID> SpinDashStates = null;
+
+static int poseHandle = 0;
+static bool isPoseSound = false;
+
+{
+    if (configInitCache == null)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+        if (mods.Count == 1)
+        {
+            string iniPath = Path.Combine(mods[0].Path, "mod.ini");
+            if (File.Exists(iniPath))
+            {
+                var ini = INI.Read(iniPath);
+                conSpinDashImpact = INI.Parse<int>(ini["Main"]["SpinDashImpact"], 0);
+            }
+        }
+
+        SpinDashStates = new List<Sonic.StateID>
+        {
+            Sonic.StateID.StateQuickStepDoubleJump,
+            Sonic.StateID.StateSpinBoost,
+            Sonic.StateID.StateDriftDash,
+            Sonic.StateID.StateDropDash,
+            Sonic.StateID.StateSpin
+        };
+
+        configInitCache = true;
+    }
+
+    if (conSpinDashImpact == 2 || SpinDashStates == null)
+        return;
+
+    var currentState = Player.State.GetCurrentStateID<Sonic.StateID>();
+    bool inSpinDashState = SpinDashStates.Contains(currentState);
+
+    if (inSpinDashState)
+    {
+        if (!isPoseSound)
+        {
+            poseHandle = Player.Sound.PlaySound("sn_spindash_pose");
+            isPoseSound = true;
+        }
+    }
+    else
+    {
+        if (isPoseSound)
+        {
+            int stop = poseHandle;
+            Player.Sound.StopSound(&stop);
+            isPoseSound = false;
+        }
+    }
+}
+
+Code "HE1 Sky Dive" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "HMM"
+#lib "INI"
+
+using System.IO;
+
+static bool? configInitCache = null;
+static int conSkyDiveUnleashed = 1;
+
+static int handleNormal = 0;
+static int handleFast = 0;
+
+// 0 = not diving, 1 = normal, 2 = fast
+static int currentDiveState = 0;
+
+{
+    if (configInitCache == null)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+        if (mods.Count != 1)
+        {
+            configInitCache = false;
+            return;
+        }
+
+        string iniPath = Path.Combine(mods[0].Path, "mod.ini");
+
+        if (!File.Exists(iniPath))
+        {
+            configInitCache = false;
+            return;
+        }
+
+        var ini = INI.Read(iniPath);
+        conSkyDiveUnleashed = INI.Parse<int>(ini["Main"]["SkyDiveUnleashed"], 1);
+
+        configInitCache = true;
+    }
+
+    if (configInitCache == false)
+        return;
+
+    if (conSkyDiveUnleashed == 2)
+        return;
+
+    // Fast takes priority — both flags can be true at the same time
+    bool isDivingFast = IS_STATE_FLAG(IsDivingBoost);
+
+    bool isDivingNormal = !isDivingFast && (IS_STATE_FLAG(IsDiving) ||
+                          Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStorm);
+
+    int targetState = isDivingFast ? 2 : (isDivingNormal ? 1 : 0);
+
+    if (targetState == currentDiveState)
+        return;
+
+    // Stop whatever was playing
+    if (currentDiveState == 1)
+    {
+        int stopHandle = handleNormal;
+        Player.Sound.StopSound(&stopHandle);
+    }
+    else if (currentDiveState == 2)
+    {
+        int stopHandle = handleFast;
+        Player.Sound.StopSound(&stopHandle);
+    }
+
+    // Start new state
+    if (targetState == 1)
+        handleNormal = Player.Sound.PlaySound("sn_dive_pose");
+    else if (targetState == 2)
+        handleFast = Player.Sound.PlaySound("sn_fast_dive_pose");
+
+    currentDiveState = targetState;
+}
+
+Code "Custom Combat Sounds" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "HMM"
+#lib "INI"
+
+using System.IO;
+
+static bool? configInitCache = null;
+static int conAcceleCombo = 0;
+
+static bool soundPlayed = false;
+static bool wasPunch = false;
+
+{
+    if (configInitCache == null)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+        if (mods.Count == 1)
+        {
+            string iniPath = Path.Combine(mods[0].Path, "mod.ini");
+
+            if (File.Exists(iniPath))
+            {
+                var ini = INI.Read(iniPath);
+                conAcceleCombo = INI.Parse<int>(ini["Main"]["AcceleCombo"], 0);
+            }
+        }
+
+        configInitCache = true;
+    }
+
+    if (conAcceleCombo != 1)
+        return;
+
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+
+    var currentState = Player.State.GetCurrentStateID<Sonic.StateID>();
+
+    bool isPunch = currentState == Sonic.StateID.StateAcceleCombo1;
+
+    bool isKick = currentState == Sonic.StateID.StateAcceleCombo2;
+
+    bool isInCombo = isPunch || isKick;
+
+    if (!isInCombo && !soundPlayed)
+        return;
+
+    if (isInCombo)
+    {
+        if (!soundPlayed || wasPunch != isPunch)
+        {
+            if (isPunch)
+            {
+                Player.Sound.PlaySound("sn_punch_pose");
+            }
+            else if (isKick)
+            {
+                Player.Sound.PlaySound("sn_kick_pose");
+            }
+
+            soundPlayed = true;
+            wasPunch = isPunch;
+        }
+    }
+    else
+    {
+        soundPlayed = false;
+        wasPunch = false;
+    }
+}
+
+Code "Custom Spin Dash Sounds" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "HMM"
+#lib "INI"
+
+#import "States"
+
+using System;
+using System.IO;
+
+static bool? configInitCache = null;
+static int conSpinDashSound = 0;
+static int conSpinDashAirSound = 0;
+static int conDropDashAirSound = 0;
+static int conSpinDashChargeFaithful = 0;
+
+static int ChargeLevel = 0;
+static bool WasSonicboomDown = false;
+static bool wasCharging = false;
+
+// Case 1 (pitch-shift tiers) - layered, all 5 tracked independently
+static int[] tierHandles = new int[5];
+static bool[] tierActive = new bool[5];
+
+// Single-layer charge (cases 2,3,4,5,6,7,9)
+static int chargeSoundHandle = -1;
+static bool chargeSoundActive = false;
+
+// Case 8 (Brawl) - two simultaneous layers
+static int brawlHandle1 = -1;
+static int brawlHandle2 = -1;
+static bool brawlChargeActive = false;
+
+static bool wasChargingAir = false;
+static bool wasReleaseState = false;
+static bool isFaithfulLayer = false;
+static int faithfulHandle = -1;
+static int airSoundHandle = -1;
+static bool airSoundActive = false;
+static int millerLoopHandle = 0;
+static bool millerLoopActive = false;
+static bool wasChargingDropDash = false;
+static int dropDashAirHandle = -1;
+static bool dropDashAirActive = false;
+{
+    if (configInitCache == null)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+        if (mods.Count == 1)
+        {
+            string iniPath = Path.Combine(mods[0].Path, "mod.ini");
+            if (File.Exists(iniPath))
+            {
+                var ini = INI.Read(iniPath);
+                conSpinDashSound = INI.Parse<int>(ini["Main"]["SpinDashSound"], 0);
+                conSpinDashAirSound = INI.Parse<int>(ini["Main"]["SpinDashAirSound"], 0);
+                // GetField so an older mod.ini without this key doesn't throw and kill the whole config read
+                conDropDashAirSound = INI.GetField<int>(ini, "Main", "DropDashAirSound", 0);
+                conSpinDashChargeFaithful = INI.Parse<int>(ini["Main"]["SpinDashChargeFaithful"], 0);
+            }
+        }
+        configInitCache = true;
+    }
+
+    var currentState = Player.State.GetCurrentStateID<Sonic.StateID>();
+	
+    bool charging = currentState == Sonic.StateID.StateSpinBoostCharge;
+    bool chargingAir = charging && !Player.Status.IsGrounded();
+	
+    bool releasing =
+        currentState == Sonic.StateID.StateSpinBoost ||
+        currentState == Sonic.StateID.StateDropDash ||
+        currentState == Sonic.StateID.StateDriftDash ||
+        currentState == Sonic.StateID.StateSpin ||
+        currentState == Sonic.StateID.StateQuickStepDoubleJump;
+		
+    bool sonicboomDown = Player.Input.IsDown(Player.InputActionType.PlayerSonicboom);
+
+    // Suppress ground charge-mash sound while a distinct aerial sound is active
+    bool suppressGroundCharge = chargingAir && conSpinDashAirSound != 4;
+
+    bool justEnteredCharge = charging && !wasCharging;
+    bool freshMash = charging && sonicboomDown && !WasSonicboomDown;
+    bool shouldTriggerCharge = (justEnteredCharge || freshMash) && !suppressGroundCharge;
+
+    // Charge sounds
+    if (shouldTriggerCharge)
+    {
+        switch (conSpinDashSound)
+        {
+            case 1:
+            default:
+                {
+                    int tierIndex = ChargeLevel > 4 ? 4 : ChargeLevel;
+                    string tierSound;
+                    switch (ChargeLevel)
+                    {
+                        case 0:
+                            tierSound = "sn_spinboost_charge_rangers";
+                            break;
+                        case 1:
+                            tierSound = "sn_spinboost_charge_rangers_2nd";
+                            break;
+                        case 2:
+                            tierSound = "sn_spinboost_charge_rangers_3rd";
+                            break;
+                        case 3:
+                            tierSound = "sn_spinboost_charge_rangers_4th";
+                            break;
+                        default:
+                            tierSound = "sn_spinboost_charge_rangers_top";
+                            break;
+                    }
+                    tierHandles[tierIndex] = Player.Sound.PlaySound(tierSound);
+                    tierActive[tierIndex] = true;
+                    if (ChargeLevel < 4)
+                        ChargeLevel++;
+                }
+                break;
+            case 2:
+                if (chargeSoundActive)
+                {
+                    int stopHandle = chargeSoundHandle;
+                    Player.Sound.StopSound(&stopHandle);
+                }
+                chargeSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_rangers");
+                chargeSoundActive = true;
+                break;
+            case 3:
+                if (chargeSoundActive)
+                {
+                    int stopHandle = chargeSoundHandle;
+                    Player.Sound.StopSound(&stopHandle);
+                }
+                chargeSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_swa");
+                chargeSoundActive = true;
+                break;
+            case 4:
+                if (chargeSoundActive)
+                {
+                    int stopHandle = chargeSoundHandle;
+                    Player.Sound.StopSound(&stopHandle);
+                }
+                chargeSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_sxsg");
+                chargeSoundActive = true;
+                break;
+            case 5:
+                if (chargeSoundActive)
+                {
+                    int stopHandle = chargeSoundHandle;
+                    Player.Sound.StopSound(&stopHandle);
+                }
+                chargeSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_miller");
+                chargeSoundActive = true;
+                break;
+            case 6:
+                if (chargeSoundActive)
+                {
+                    int stopHandle = chargeSoundHandle;
+                    Player.Sound.StopSound(&stopHandle);
+                }
+                chargeSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_next");
+                chargeSoundActive = true;
+                break;
+            case 7:
+                if (chargeSoundActive)
+                {
+                    int stopHandle = chargeSoundHandle;
+                    Player.Sound.StopSound(&stopHandle);
+                }
+                chargeSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_sa1");
+                chargeSoundActive = true;
+                break;
+            case 8:
+                if (brawlChargeActive)
+                {
+                    int stopHandle1 = brawlHandle1;
+                    int stopHandle2 = brawlHandle2;
+                    Player.Sound.StopSound(&stopHandle1);
+                    Player.Sound.StopSound(&stopHandle2);
+                }
+                brawlHandle1 = Player.Sound.PlaySound("sn_spinboost_charge_brawl_1st");
+                brawlHandle2 = Player.Sound.PlaySound("sn_spinboost_charge_brawl_2nd");
+                brawlChargeActive = true;
+                break;
+            case 9:
+                if (chargeSoundActive)
+                {
+                    int stopHandle = chargeSoundHandle;
+                    Player.Sound.StopSound(&stopHandle);
+                }
+                chargeSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_ultimate");
+                chargeSoundActive = true;
+                break;
+        }
+    }
+    if (!charging)
+    {
+        ChargeLevel = 0;
+
+        for (int i = 0; i < 5; i++)
+        {
+            if (tierActive[i])
+            {
+                int stopTier = tierHandles[i];
+                Player.Sound.StopSound(&stopTier);
+                tierActive[i] = false;
+            }
+        }
+        if (chargeSoundActive)
+        {
+            int localChargeHandle = chargeSoundHandle;
+            Player.Sound.StopSound(&localChargeHandle);
+            chargeSoundActive = false;
+        }
+        if (brawlChargeActive)
+        {
+            int stopHandle1 = brawlHandle1;
+            int stopHandle2 = brawlHandle2;
+            Player.Sound.StopSound(&stopHandle1);
+            Player.Sound.StopSound(&stopHandle2);
+            brawlChargeActive = false;
+        }
+    }
+
+    // Aerial charge pose sound
+    if (chargingAir && !wasChargingAir)
+    {
+        switch (conSpinDashAirSound)
+        {
+            case 1:
+            default:
+                airSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_pose");
+                airSoundActive = true;
+                break;
+            case 2:
+                airSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_air_mania");
+                airSoundActive = true;
+                break;
+            case 3:
+                airSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_air_anniversary");
+                airSoundActive = true;
+                break;
+            case 4:
+                break;
+        }
+    }
+    if (!chargingAir && wasChargingAir)
+    {
+        if (airSoundActive)
+        {
+            int localAirHandle = airSoundHandle;
+            Player.Sound.StopSound(&localAirHandle);
+            airSoundActive = false;
+        }
+    }
+    wasChargingAir = chargingAir;
+
+    // Drop Dash charge sound
+    bool chargingDropDash = Player.GetPlayerType() == Player.PlayerType.Sonic && Player.Status.IsDropDashCharge();
+    if (chargingDropDash && !wasChargingDropDash)
+    {
+        switch (conDropDashAirSound)
+        {
+            case 1:
+            default:
+                dropDashAirHandle = Player.Sound.PlaySound("sn_spinboost_charge_pose");
+                dropDashAirActive = true;
+                break;
+            case 2:
+                dropDashAirHandle = Player.Sound.PlaySound("sn_spinboost_charge_air_mania");
+                dropDashAirActive = true;
+                break;
+            case 3:
+                dropDashAirHandle = Player.Sound.PlaySound("sn_spinboost_charge_air_anniversary");
+                dropDashAirActive = true;
+                break;
+            case 4:
+                break;
+        }
+    }
+    if (!chargingDropDash && wasChargingDropDash)
+    {
+        if (dropDashAirActive)
+        {
+            int localDropDashHandle = dropDashAirHandle;
+            Player.Sound.StopSound(&localDropDashHandle);
+            dropDashAirActive = false;
+        }
+    }
+    wasChargingDropDash = chargingDropDash;
+
+    // Release sound
+    if (releasing && !wasReleaseState)
+    {
+        switch (conSpinDashSound)
+        {
+            case 1:
+            case 2:
+            case 3:
+            default:
+                Player.Sound.PlaySound("sn_spinboost_rangers");
+                break;
+            case 4:
+                Player.Sound.PlaySound("sn_spinboost_sxsg");
+                break;
+            case 5:
+                Player.Sound.PlaySound("sn_spinboost_miller_1st");
+                if (millerLoopActive)
+                {
+                    int stopLoop = millerLoopHandle;
+                    Player.Sound.StopSound(&stopLoop);
+                }
+                millerLoopHandle = Player.Sound.PlaySound("sn_spinboost_miller_2nd");
+                millerLoopActive = true;
+                break;
+            case 6:
+                Player.Sound.PlaySound("sn_spinboost_next");
+                break;
+            case 7:
+                Player.Sound.PlaySound("sn_spinboost_sa1");
+                break;
+            case 8:
+                Player.Sound.PlaySound("sn_spinboost_brawl");
+                break;
+            case 9:
+                Player.Sound.PlaySound("sn_spinboost_ultimate");
+                break;
+        }
+    }
+
+    // sn_spinboost_miller_2nd loops, so drop it once the boost / dash states end
+    if (!releasing && millerLoopActive)
+    {
+        int stopLoop = millerLoopHandle;
+        Player.Sound.StopSound(&stopLoop);
+        millerLoopActive = false;
+    }
+
+    wasReleaseState = releasing;
+
+    // Faithful charge pose layer (Frontiers / Unleashed only)
+    bool faithfulActive = charging &&
+        (!chargingAir || conSpinDashAirSound == 4) &&
+        conSpinDashChargeFaithful == 1 &&
+        (conSpinDashSound == 1 || conSpinDashSound == 2 || conSpinDashSound == 3);
+    if (faithfulActive)
+    {
+        if (!isFaithfulLayer)
+        {
+            faithfulHandle = Player.Sound.PlaySound("sn_spinboost_charge_pose");
+            isFaithfulLayer = true;
+        }
+    }
+    else
+    {
+        if (isFaithfulLayer)
+        {
+            int stop = faithfulHandle;
+            Player.Sound.StopSound(&stop);
+            isFaithfulLayer = false;
+        }
+    }
+
+    wasCharging = charging;
+    WasSonicboomDown = sonicboomDown;
+}
+
+// Super Sonic
+
+Code "Super Sonic Boost Sound" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "BlackboardStatus"
+#lib "HMM"
+#lib "INI"
+
+#import "GOComponents"
+#import "PlayerVisuals"
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+static bool? configInitCache = null;
+static int conPrimary = 0;
+static int conSecondary = 0;
+
+static int handlePrimary = 0;
+static int handleSecondary = 0;
+
+static bool primaryPlaying = false;
+static bool secondaryPlaying = false;
+static bool wasSuperSonic2 = false;
+
+// Super states
+static List<Sonic.StateID> SuperStates = new List<Sonic.StateID>
+{
+    Sonic.StateID.StateFly,
+    Sonic.StateID.StateFlyLocal,
+    Sonic.StateID.StateFlyLocal2D,
+    Sonic.StateID.StateFlyOnPath,
+    Sonic.StateID.StateFlyTurn,
+    Sonic.StateID.StateAvoid
+};
+
+{
+    if (configInitCache == null)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+        if (mods.Count != 1)
+        {
+            configInitCache = false;
+            return;
+        }
+
+        string iniPath = Path.Combine(mods[0].Path, "mod.ini");
+
+        if (!File.Exists(iniPath))
+        {
+            configInitCache = false;
+            return;
+        }
+
+        var ini = INI.Read(iniPath);
+        conPrimary = INI.Parse<int>(ini["Main"]["SuperSonicBoostPrimary"], 0);
+        conSecondary = INI.Parse<int>(ini["Main"]["SuperSonicBoostSecondary"], 0);
+
+        configInitCache = true;
+    }
+
+    if (configInitCache == false)
+        return;
+
+    if (conPrimary != 1 && conSecondary != 1)
+        return;
+
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+
+    bool isBoost = IS_STATE_FLAG(IsBoost);
+    bool isSuperStates = SuperStates.Contains(Player.State.GetCurrentStateID<Sonic.StateID>());
+    bool isSuperSonicBoost = isSuperStates && isBoost;
+
+    if (!isSuperSonicBoost && !primaryPlaying && !secondaryPlaying)
+        return;
+
+    // Check if Sonic is Super Sonic 2
+    bool isCurrentlySS2 = false;
+
+    if (conSecondary == 1 && isSuperSonicBoost)
+    {
+        var data = Player.GetPlayerData();
+
+        if (data != null)
+        {
+            var gocVisual = GameObject.GetGOC<GOCPlayerVisual>(&data->GameObject);
+
+            if (gocVisual != null)
+            {
+                var visual = gocVisual->GetVisual<VisualSuperSonic>();
+
+                if (visual != null)
+                    isCurrentlySS2 = visual->IsSuperSonic2;
+            }
+        }
+    }
+
+    // Primary Sound
+    if (conPrimary == 1)
+    {
+        if (isSuperSonicBoost)
+        {
+            if (!primaryPlaying)
+            {
+                handlePrimary = Player.Sound.PlaySound("sn_supersonic_boost_1");
+                primaryPlaying = true;
+            }
+        }
+        else
+        {
+            if (primaryPlaying)
+            {
+                int stopHandle = handlePrimary;
+                Player.Sound.StopSound(&stopHandle);
+                primaryPlaying = false;
+            }
+        }
+    }
+
+    // Secondary Sound (SS2 variant swaps in if Sonic is Super Sonic 2)
+    if (conSecondary == 1)
+    {
+        if (isSuperSonicBoost)
+        {
+            // SS2 state changed mid-boost, restart with the correct variant
+            if (secondaryPlaying && wasSuperSonic2 != isCurrentlySS2)
+            {
+                int stopHandle = handleSecondary;
+                Player.Sound.StopSound(&stopHandle);
+                secondaryPlaying = false;
+            }
+
+            if (!secondaryPlaying)
+            {
+                string sfx = isCurrentlySS2 ? "sn_supersonic2_boost_2" : "sn_supersonic_boost_2";
+                handleSecondary = Player.Sound.PlaySound(sfx);
+                secondaryPlaying = true;
+                wasSuperSonic2 = isCurrentlySS2;
+            }
+        }
+        else
+        {
+            if (secondaryPlaying)
+            {
+                int stopHandle = handleSecondary;
+                Player.Sound.StopSound(&stopHandle);
+                secondaryPlaying = false;
+                wasSuperSonic2 = false;
+            }
+        }
+    }
+}
+
+Code "Additional Drift Sound for Super Sonic" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "HMM"
+#lib "INI"
+
+using System.IO;
+
+static bool? configInitCache = null;
+static int conSuperSonicDrift = 0;
+
+static int handleDrift = 0;
+static bool driftPlaying = false;
+
+{
+    if (configInitCache == null)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+        if (mods.Count != 1)
+        {
+            configInitCache = false;
+            return;
+        }
+
+        string iniPath = Path.Combine(mods[0].Path, "mod.ini");
+
+        if (!File.Exists(iniPath))
+        {
+            configInitCache = false;
+            return;
+        }
+
+        var ini = INI.Read(iniPath);
+        conSuperSonicDrift = INI.Parse<int>(ini["Main"]["SuperSonicDrift"], 0);
+
+        configInitCache = true;
+    }
+
+    if (configInitCache == false)
+        return;
+
+    if (conSuperSonicDrift != 1)
+        return;
+
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+
+    var currentState = Player.State.GetCurrentStateID<Sonic.StateID>();
+
+    bool isSuperDrift = currentState == Sonic.StateID.StateDriftAir;
+
+    if (isSuperDrift && !driftPlaying)
+    {
+        handleDrift = Player.Sound.PlaySound("sn_supersonic_drift");
+        driftPlaying = true;
+    }
+    else if (!isSuperDrift && driftPlaying)
+    {
+        int stopHandle = handleDrift;
+        Player.Sound.StopSound(&stopHandle);
+        driftPlaying = false;
+    }
+}
+
+Code "Super Sonic Aura" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "BlackboardStatus"
+#lib "HMM"
+#lib "INI"
+
+#import "GOComponents"
+#import "PlayerVisuals"
+
+using System.IO;
+
+static bool? configInitCache = null;
+static int conSS2Aura = 0;
+
+static int handleIdle = 0;
+static bool idlePlaying = false;
+
+static int handleAura1 = 0;
+static int handleAura2 = 0;
+
+static bool ss2AuraPlaying = false;
+{
+    if (configInitCache == null)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+        if (mods.Count != 1)
+        {
+            configInitCache = false;
+            return;
+        }
+        string iniPath = Path.Combine(mods[0].Path, "mod.ini");
+
+        if (!File.Exists(iniPath))
+        {
+            configInitCache = false;
+            return;
+        }
+        var ini = INI.Read(iniPath);
+        conSS2Aura = INI.Parse<int>(ini["Main"]["SS2Aura"], 0);
+        configInitCache = true;
+    }
+
+    if (configInitCache == false)
+        return;
+
+    bool isSonic = Player.GetPlayerType() == Player.PlayerType.Sonic;
+    bool isSuper = isSonic && BlackboardStatus.IsSuper();
+
+    if (!isSuper)
+    {
+        if (idlePlaying)
+        {
+            int stopIdle = handleIdle;
+            Player.Sound.StopSound(&stopIdle);
+            idlePlaying = false;
+        }
+        if (ss2AuraPlaying)
+        {
+            int stop1 = handleAura1;
+            int stop2 = handleAura2;
+            Player.Sound.StopSound(&stop1);
+            Player.Sound.StopSound(&stop2);
+            ss2AuraPlaying = false;
+        }
+        return;
+    }
+
+    var data = Player.GetPlayerData();
+
+    if (data == null)
+        return;
+
+    var gocVisual = GameObject.GetGOC<GOCPlayerVisual>(&data->GameObject);
+
+    if (gocVisual == null)
+        return;
+
+    var visual = gocVisual->GetVisual<VisualSuperSonic>();
+
+    if (visual == null)
+        return;
+
+    bool isSuperSonic2 = visual->IsSuperSonic2;
+
+    bool wantSS2Aura = isSuperSonic2 && conSS2Aura == 1;
+    bool wantIdle = !wantSS2Aura;
+
+    if (wantIdle && !idlePlaying)
+    {
+        handleIdle = Player.Sound.PlaySound("sn_supersonic_idle");
+        idlePlaying = true;
+    }
+    else if (!wantIdle && idlePlaying)
+    {
+        int stopIdle = handleIdle;
+        Player.Sound.StopSound(&stopIdle);
+        idlePlaying = false;
+    }
+
+    if (wantSS2Aura && !ss2AuraPlaying)
+    {
+        handleAura1 = Player.Sound.PlaySound("sn_supersonic2_1");
+        handleAura2 = Player.Sound.PlaySound("sn_supersonic2_2");
+        ss2AuraPlaying = true;
+    }
+    else if (!wantSS2Aura && ss2AuraPlaying)
+    {
+        int stop1 = handleAura1;
+        int stop2 = handleAura2;
+        Player.Sound.StopSound(&stop1);
+        Player.Sound.StopSound(&stop2);
+        ss2AuraPlaying = false;
+    }
+}
+
+// Miscellaneous
+
+Code "Drowning Jingle" by "Batman Sonic & SuperNova124"
+//
+
+#lib "Player"
+#lib "Sonic"
+#lib "Time"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+#lib "GameManager"
+
+using System.Collections.Generic;
+using System.IO;
+
+// Cue resolved once at init from mod.ini; "" = disabled / not found
+static string drownCue = "";
+static int drownHandle = 0;
+static bool initialized = false;
+
+static float drownjingleTime = 0.0f;
+static float musicTime = 8.0f;
+static bool musicPlayed = false;
+
+// Brief water-detection dropouts shouldn't reset the timer
+static float outOfContextTime = 0.0f;
+static float graceTime = 0.25f;
+
+// AquaBall (Balloon) states + the drowning-death state. Shared player states (all characters)
+static bool wasInAquaBall = false;
+static List<Sonic.StateID> AquaBallStates = new List<Sonic.StateID>
+{
+    Sonic.StateID.StateAquaBallJump,
+    Sonic.StateID.StateAquaBallStand,
+    Sonic.StateID.StateAquaBallStomping,
+    Sonic.StateID.StateSuffocatingDead
+};
+
+{
+    if (!initialized)
+    {
+        initialized = true;
+
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+        if (mods.Count != 1)
+        {
+            return;
+        }
+
+        string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
+        if (!File.Exists(modConfigIniPath))
+        {
+            return;
+        }
+
+        var ini = INI.Read(modConfigIniPath);
+        int sel = INI.Parse<int>(ini["Main"]["DrowningJingle"], 0);
+
+        // Same numbering as the original config; .wav swapped for the matching ACB cue
+        switch (sel)
+        {
+            case 1: drownCue = "bgm_jingle_drown_rangers";     break; // Frontiers
+            case 2: drownCue = "bgm_jingle_drown_anniversary"; break; // Dreamcast  (verify pairing)
+            case 3: drownCue = "bgm_jingle_drown_mania";       break; // Mania
+            case 4: drownCue = "bgm_jingle_drown_cd";          break; // CD - plays OVER the music
+            case 5: drownCue = "bgm_jingle_drown_classic";     break; // Genesis
+            default: return;                                          // 0 / 6 = disabled
+        }
+        Console.WriteLine($"[Sound Overhaul Pack] Drowning Jingle cue: {drownCue}");
+    }
+
+    if (drownCue == "")
+        return;
+
+    // Determine drowning context: real water OR AquaBall (Balloon) - all characters
+    bool underwater = Player.Status.IsUnderwater();
+
+    var currentState = Player.State.GetCurrentStateID<Sonic.StateID>();
+    bool isAquaBall = AquaBallStates.Contains(currentState);
+    bool isCaught = currentState == Sonic.StateID.StateCaught;
+
+    if (isAquaBall)
+        wasInAquaBall = true;
+
+    // Treat the StateCaught that follows an AquaBall as a continuation, not an exit
+    bool isDrowningContext = underwater || isAquaBall || (isCaught && wasInAquaBall);
+
+    // Clear the latch only once we're genuinely out of the whole sequence
+    if (!underwater && !isAquaBall && !isCaught)
+        wasInAquaBall = false;
+
+    // Accumulate / reset the timer. A pause menu / photo mode freezes it.
+    bool isPaused = GameManager.GetGameObject("MainMenu") != null ||
+                    GameManager.GetGameObject("MapMenu") != null ||
+                    GameManager.GetGameObject("PhotoMode") != null;
+
+    if (isDrowningContext)
+    {
+        outOfContextTime = 0.0f;
+        if (Lua.GetState() != 0 && !isPaused)
+            drownjingleTime += Time.GetDeltaTime();
+    }
+    else
+    {
+        if (Lua.GetState() != 0 && !isPaused)
+            outOfContextTime += Time.GetDeltaTime();
+
+        if (outOfContextTime >= graceTime)
+        {
+            drownjingleTime = 0.0f;
+            if (musicPlayed)
+            {
+                int h = drownHandle;
+                Player.Sound.StopSound(&h); // stop the looping jingle -> level BGM resumes
+                drownHandle = 0;
+                musicPlayed = false;
+            }
+        }
+    }
+
+    // Fire once at the threshold; the cue loops until we stop it
+    if (drownjingleTime >= musicTime && !musicPlayed)
+    {
+        drownHandle = Player.Sound.PlaySound(drownCue);
+        musicPlayed = true;
+    }
+}
+
+Code "Drowning Alert Jingle" by "Batman Sonic & SuperNova124"
+//
+
+#lib "Player"
+#lib "Sonic"
+#lib "Lua"
+#lib "HMM"
+#lib "INI"
+
+using System.Collections.Generic;
+using System.IO;
+
+// Resolved once at init from mod.ini
+static bool enabled = false;
+static int alertHandle = 0;
+static bool initialized = false;
+
+static bool soundPlayed = false;
+
+// AquaBall (Balloon) states + the drowning-death state. Shared player states (all characters)
+static bool wasInAquaBall = false;
+static List<Sonic.StateID> AquaBallStates = new List<Sonic.StateID>
+{
+    Sonic.StateID.StateAquaBallJump,
+    Sonic.StateID.StateAquaBallStand,
+    Sonic.StateID.StateAquaBallStomping,
+    Sonic.StateID.StateSuffocatingDead
+};
+
+{
+    if (!initialized)
+    {
+        initialized = true;
+
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+        if (mods.Count != 1)
+        {
+            return;
+        }
+
+        string modConfigIniPath = Path.Combine(mods[0].Path, "mod.ini");
+        if (!File.Exists(modConfigIniPath))
+        {
+            return;
+        }
+
+        var ini = INI.Read(modConfigIniPath);
+        int sel = INI.Parse<int>(ini["Main"]["DrowningAlertJingle"], 0);
+        enabled = (sel == 1);   // 1 = on, 0 / 2 = disabled
+        if (enabled)
+            Console.WriteLine("[Sound Overhaul Pack] Drowning Alert Jingle cue: sys_jingle_drown");
+    }
+
+    if (!enabled)
+        return;
+
+    // Determine drowning context: real water OR AquaBall (Balloon) - all characters
+    bool underwater = Player.Status.IsUnderwater();
+
+    var currentState = Player.State.GetCurrentStateID<Sonic.StateID>();
+    bool isAquaBall = AquaBallStates.Contains(currentState);
+    bool isCaught = currentState == Sonic.StateID.StateCaught;
+
+    if (isAquaBall)
+        wasInAquaBall = true;
+
+    // Treat the StateCaught that follows an AquaBall as a continuation, not an exit
+    bool isDrowningContext = underwater || isAquaBall || (isCaught && wasInAquaBall);
+
+    // Clear the latch only once we're genuinely out of the whole sequence
+    if (!underwater && !isAquaBall && !isCaught)
+        wasInAquaBall = false;
+
+    // Play on entering the drowning context, stop on exit
+    if (isDrowningContext)
+    {
+        if (!soundPlayed && Lua.GetState() != 0)
+        {
+            alertHandle = Player.Sound.PlaySound("sys_jingle_drown");
+            soundPlayed = true;
+        }
+    }
+    else
+    {
+        if (soundPlayed)
+        {
+            int h = alertHandle;
+            Player.Sound.StopSound(&h);
+            alertHandle = 0;
+            soundPlayed = false;
+        }
+    }
+}
+
+Code "Grand Slam Titan Impact Sounds" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Sonic"
+#lib "HMM"
+#lib "INI"
+
+#import "Services"
+
+using System.Collections.Generic;
+using System.IO;
+
+static bool? configInitCache = null;
+static int conGrandSlamGiganto = 0;
+static int conGrandSlamSupreme = 0;
+
+static bool soundPlayed = false;
+
+{
+    if (configInitCache == null)
+    {
+        var mods = HMM.FindModsByName("Sound Overhaul Pack");
+
+        if (mods.Count == 1)
+        {
+            string iniPath = Path.Combine(mods[0].Path, "mod.ini");
+
+            if (File.Exists(iniPath))
+            {
+                var ini = INI.Read(iniPath);
+
+                conGrandSlamGiganto = INI.Parse<int>(ini["Main"]["GrandSlamGiganto"], 0);
+                conGrandSlamSupreme = INI.Parse<int>(ini["Main"]["GrandSlamSupreme"], 0);
+            }
+        }
+
+        configInitCache = true;
+    }
+
+    if (conGrandSlamGiganto != 1 && conGrandSlamSupreme != 1)
+        return;
+
+    if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+        return;
+
+    bool isGrandSlam = Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSmashSS;
+
+    if (!isGrandSlam)
+    {
+        soundPlayed = false;
+        return;
+    }
+
+    if (soundPlayed)
+        return;
+
+    bool isGiganto = (Player.State.GetStatePlugin("StatePluginBossBattle") != null) && (GameManager.GetGameObject("Giant0") != null);
+    bool isSupreme = (Player.State.GetStatePlugin("StatePluginBossBattle") != null) && (GameManager.GetGameObject("Rifle0") != null);
+
+    // Supreme
+    if (isSupreme && conGrandSlamSupreme == 1)
+    {
+        Player.Sound.PlaySound("sn_ss_spl_atk_rifle");
+        soundPlayed = true;
+        return;
+    }
+
+    // Giganto
+    if (isGiganto && conGrandSlamGiganto == 1)
+    {
+        Player.Sound.PlaySound("sn_ss_spl_atk_giant");
+        soundPlayed = true;
+    }
+}
+
+Code "Tired Grunt" by "Batman Sonic & SuperNova124"
+//
+
+#include "Reflection" noemit
+
+#lib "Player"
+#lib "Tails"
+#lib "HMM"
+#lib "INI"
+
+#import "States"
+
+using System.IO;
+
+static bool? configInitCache = null;
+
+static bool voicePlayed = false;
+static bool qolActive = false;
+
+{
+    if (configInitCache == null)
+    {
+        qolActive = HMM.GetModByID("frontiers.quality-of-life-additions") != null;
+
+        configInitCache = true;
+    }
+
+    if (Player.GetPlayerType() != Player.PlayerType.Tails)
+        return;
+
+    var flyState = Player.State.GetState<StateTailsFly>();
+
+    bool isFlyTired = flyState != null && flyState->Phase == StateTailsFly.PhaseType.Tired;
+
+    bool isSleeping = qolActive && Player.State.GetCurrentStateID<Tails.StateID>() == Tails.StateID.StateSleep;
+
+    if (isFlyTired || isSleeping)
+    {
+        if (!voicePlayed)
+        {
+            Lua.Call("PlayVoice", "sa1048");
+
+            voicePlayed = true;
+        }
+    }
+    else
+    {
+        voicePlayed = false;
+    }
+}

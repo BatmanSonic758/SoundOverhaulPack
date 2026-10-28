@@ -1,3 +1,15 @@
+## Version 4.2
+
+- Added support for Aggro Titans.
+
+- DLC config category was renamed to Mod Compatibility.
+
+- Fixed the loud Grand Slam sound.
+
+- Aerial Spin Dash sounds now apply for the original Drop Dash charge under a separate config.
+
+----------------------------
+
 ## Version 4.1
 
 *Please note, you'll need to download the updated files from GameBanana as the Update Server does not contain them!!!*
@@ -53,7 +65,6 @@
 - Drowning Jingle now supports when you're captured by the Balloon... yes, that aqua ball's name is Balloon. I did not know that until now.
 
 - Jumping and spinning are loaded separately. Meaning that, for example, the regular jumping sound plays when jumping off rails. Basically like how Amy's jumping sounds.
-
 ----------------------------
 
 ## Version 4.0
