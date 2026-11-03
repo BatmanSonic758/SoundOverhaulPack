@@ -213,12 +213,21 @@ using System.IO;
 static bool? qolConfigCache = null;
 static int conScrewdriverAbility = 0;
 
-static int chargeHandle = 0;
-static int auraHandle = 0;
+static bool isChargeLoop = false;
 
 static bool chargeSoundPlayed = false;
 
 {
+    void StopLoopingSound(string soundName)
+    {
+        if (soundName == null)
+            return;
+
+        // Restart then stop to cut the looping sound
+        int soundHandle = Player.Sound.PlaySound(soundName);
+        Player.Sound.StopSound(&soundHandle);
+    }
+
     if (qolConfigCache == null)
     {
         var qolMods = HMM.FindModsByName("Quality of Life Additions");
@@ -235,45 +244,52 @@ static bool chargeSoundPlayed = false;
     }
 
     if (Player.GetPlayerType() != Player.PlayerType.Knuckles)
+    {
+        // The loops went with the old player
+        chargeSoundPlayed = false;
+        isChargeLoop = false;
         return;
+    }
+
+    bool isAttackButtonDown = Player.Input.IsDown(Player.InputActionType.PlayerAttack);
+    bool isAttackButtonReleased = Player.Input.IsReleased(Player.InputActionType.PlayerAttack);
+
+    // Checked before the lock-on lookup so losing the target mid-charge can't strand the loops
+    if (chargeSoundPlayed && isAttackButtonReleased)
+    {
+        // Only cut what this code started, Screwdriver owns these cues while it's on
+        if (isChargeLoop)
+        {
+            StopLoopingSound("kn_heat_knuckle_charge");
+            StopLoopingSound("kn_heat_knuckle_aura");
+            isChargeLoop = false;
+        }
+
+        chargeSoundPlayed = false;
+    }
 
     var pGameObject = Player.Status.GetLockOnTarget();
-	
+
     if (pGameObject == null)
         return;
 
     bool hasHealthComponent = GameObject.GetGOC(pGameObject, "GOCHealth") != null;
-    bool isAttackButtonDown = Player.Input.IsDown(Player.InputActionType.PlayerAttack);
-    bool isAttackButtonReleased = Player.Input.IsReleased(Player.InputActionType.PlayerAttack);
 
-    if (hasHealthComponent && isAttackButtonDown)
+    if (hasHealthComponent && isAttackButtonDown && !chargeSoundPlayed)
     {
-        if (!chargeSoundPlayed)
+        // Lock-on sound always plays, no stop needed
+        Player.Sound.PlaySound("kn_heat_knuckle_lockon");
+
+        // Charge and aura only play if Screwdriver is disabled
+        if (conScrewdriverAbility != 1)
         {
-            // Lock-on sound always plays, no stop needed
-            Player.Sound.PlaySound("kn_heat_knuckle_lockon");
-
-            // Charge and aura only play if Screwdriver is disabled
-            if (conScrewdriverAbility != 1)
-            {
-                chargeHandle = Player.Sound.PlaySound("kn_heat_knuckle_charge");
-                auraHandle = Player.Sound.PlaySound("kn_heat_knuckle_aura");
-            }
-
-            // Mark as played even if Screwdriver is enabled (prevents re-triggering)
-            chargeSoundPlayed = true;
+            Player.Sound.PlaySound("kn_heat_knuckle_charge");
+            Player.Sound.PlaySound("kn_heat_knuckle_aura");
+            isChargeLoop = true;
         }
-    }
-    // Stop sounds when attack button released
-    else if (chargeSoundPlayed && isAttackButtonReleased)
-    {
-        int localChargeHandle = chargeHandle;
-        Player.Sound.StopSound(&localChargeHandle);
 
-        int localAuraHandle = auraHandle;
-        Player.Sound.StopSound(&localAuraHandle);
-
-        chargeSoundPlayed = false;
+        // Mark as played even if Screwdriver is enabled (prevents re-triggering)
+        chargeSoundPlayed = true;
     }
 }
 
@@ -293,11 +309,20 @@ static bool? configInitCache = null;
 static int conCyberAuraFriends = 0;
 
 static bool isIdleSound = false;
-static int idleHandle = 0;
 static Player.PlayerType lastPlayerType = Player.PlayerType.Sonic;
 static IntPtr lastPlayer = IntPtr.Zero;
 
 {
+    void StopLoopingSound(string soundName)
+    {
+        if (soundName == null)
+            return;
+
+        // Restart then stop to cut the looping sound
+        int soundHandle = Player.Sound.PlaySound(soundName);
+        Player.Sound.StopSound(&soundHandle);
+    }
+
     if (configInitCache == null)
     {
         var mods = HMM.FindModsByName("Sound Overhaul Pack");
@@ -322,13 +347,8 @@ static IntPtr lastPlayer = IntPtr.Zero;
 
     if (player != lastPlayer)
     {
-        if (isIdleSound)
-        {
-            int dead = idleHandle;
-            Player.Sound.StopSound(&dead);
-        }
+        // The old player's sound component went with it, so there's nothing left to stop
         isIdleSound = false;
-        idleHandle = 0;
         lastPlayer = player;
     }
 
@@ -341,8 +361,7 @@ static IntPtr lastPlayer = IntPtr.Zero;
     {
         if (isIdleSound)
         {
-            int stop = idleHandle;
-            Player.Sound.StopSound(&stop);
+            StopLoopingSound("obj_friends_idle");
             isIdleSound = false;
         }
         lastPlayerType = currentType;
@@ -355,11 +374,10 @@ static IntPtr lastPlayer = IntPtr.Zero;
     // Swapped straight from one friend to another
     if (isIdleSound)
     {
-        int stop = idleHandle;
-        Player.Sound.StopSound(&stop);
+        StopLoopingSound("obj_friends_idle");
     }
 
-    idleHandle = Player.Sound.PlaySound("obj_friends_idle");
+    Player.Sound.PlaySound("obj_friends_idle");
     isIdleSound = true;
     lastPlayerType = currentType;
 }
@@ -387,10 +405,19 @@ static int conBoostJet = 0;
 static int conSonicDriftBoost = 0;
 static string boostJetSoundName = "sn_boost_jet_rangers";
 
-static int boostJetHandle = 0;
 static bool soundPlayed = false;
 
 {
+    void StopLoopingSound(string soundName)
+    {
+        if (soundName == null)
+            return;
+
+        // Restart then stop to cut the looping sound
+        int soundHandle = Player.Sound.PlaySound(soundName);
+        Player.Sound.StopSound(&soundHandle);
+    }
+
     if (configInitCache == null)
     {
         var mods = HMM.FindModsByName("Sound Overhaul Pack");
@@ -420,9 +447,17 @@ static bool soundPlayed = false;
     if (configInitCache == false || conBoostJet == 4)
         return;
 
-    // Disable for Super Sonic
+    // Disable for Super Sonic, cutting a jet that was already going
     if (BlackboardStatus.IsSuper())
+    {
+        if (soundPlayed)
+        {
+            StopLoopingSound(boostJetSoundName);
+            soundPlayed = false;
+        }
+
         return;
+    }
 
     bool isBoost = IS_STATE_FLAG(IsBoost);
     bool isPowerBoost = IS_WORLD_FLAG(IsPowerBoost);
@@ -463,7 +498,7 @@ static bool soundPlayed = false;
     {
         if (!soundPlayed)
         {
-            boostJetHandle = Player.Sound.PlaySound(boostJetSoundName);
+            Player.Sound.PlaySound(boostJetSoundName);
             soundPlayed = true;
         }
     }
@@ -471,8 +506,7 @@ static bool soundPlayed = false;
     {
         if (soundPlayed)
         {
-            int stop = boostJetHandle;
-            Player.Sound.StopSound(&stop);
+            StopLoopingSound(boostJetSoundName);
             soundPlayed = false;
         }
     }
@@ -496,10 +530,19 @@ using System.IO;
 static bool? configInitCache = null;
 static int conLightDashImpact = 0;
 
-static int poseHandle = 0;
 static bool isPoseSound = false;
 
 {
+    void StopLoopingSound(string soundName)
+    {
+        if (soundName == null)
+            return;
+
+        // Restart then stop to cut the looping sound
+        int soundHandle = Player.Sound.PlaySound(soundName);
+        Player.Sound.StopSound(&soundHandle);
+    }
+
     if (configInitCache == null)
     {
         var mods = HMM.FindModsByName("Sound Overhaul Pack");
@@ -524,7 +567,7 @@ static bool isPoseSound = false;
     {
         if (!isPoseSound)
         {
-            poseHandle = Player.Sound.PlaySound("sn_lightdash_pose");
+            Player.Sound.PlaySound("sn_lightdash_pose");
             isPoseSound = true;
         }
     }
@@ -532,8 +575,7 @@ static bool isPoseSound = false;
     {
         if (isPoseSound)
         {
-            int stop = poseHandle;
-            Player.Sound.StopSound(&stop);
+            StopLoopingSound("sn_lightdash_pose");
             isPoseSound = false;
         }
     }
@@ -649,10 +691,19 @@ static int conSpinDashImpact = 0;
 
 static List<Sonic.StateID> SpinDashStates = null;
 
-static int poseHandle = 0;
 static bool isPoseSound = false;
 
 {
+    void StopLoopingSound(string soundName)
+    {
+        if (soundName == null)
+            return;
+
+        // Restart then stop to cut the looping sound
+        int soundHandle = Player.Sound.PlaySound(soundName);
+        Player.Sound.StopSound(&soundHandle);
+    }
+
     if (configInitCache == null)
     {
         var mods = HMM.FindModsByName("Sound Overhaul Pack");
@@ -688,7 +739,7 @@ static bool isPoseSound = false;
     {
         if (!isPoseSound)
         {
-            poseHandle = Player.Sound.PlaySound("sn_spindash_pose");
+            Player.Sound.PlaySound("sn_spindash_pose");
             isPoseSound = true;
         }
     }
@@ -696,8 +747,7 @@ static bool isPoseSound = false;
     {
         if (isPoseSound)
         {
-            int stop = poseHandle;
-            Player.Sound.StopSound(&stop);
+            StopLoopingSound("sn_spindash_pose");
             isPoseSound = false;
         }
     }
@@ -717,13 +767,20 @@ using System.IO;
 static bool? configInitCache = null;
 static int conSkyDiveUnleashed = 1;
 
-static int handleNormal = 0;
-static int handleFast = 0;
-
 // 0 = not diving, 1 = normal, 2 = fast
 static int currentDiveState = 0;
 
 {
+    void StopLoopingSound(string soundName)
+    {
+        if (soundName == null)
+            return;
+
+        // Restart then stop to cut the looping sound
+        int soundHandle = Player.Sound.PlaySound(soundName);
+        Player.Sound.StopSound(&soundHandle);
+    }
+
     if (configInitCache == null)
     {
         var mods = HMM.FindModsByName("Sound Overhaul Pack");
@@ -767,21 +824,15 @@ static int currentDiveState = 0;
 
     // Stop whatever was playing
     if (currentDiveState == 1)
-    {
-        int stopHandle = handleNormal;
-        Player.Sound.StopSound(&stopHandle);
-    }
+        StopLoopingSound("sn_dive_pose");
     else if (currentDiveState == 2)
-    {
-        int stopHandle = handleFast;
-        Player.Sound.StopSound(&stopHandle);
-    }
+        StopLoopingSound("sn_fast_dive_pose");
 
     // Start new state
     if (targetState == 1)
-        handleNormal = Player.Sound.PlaySound("sn_dive_pose");
+        Player.Sound.PlaySound("sn_dive_pose");
     else if (targetState == 2)
-        handleFast = Player.Sound.PlaySound("sn_fast_dive_pose");
+        Player.Sound.PlaySound("sn_fast_dive_pose");
 
     currentDiveState = targetState;
 }
@@ -888,30 +939,36 @@ static bool WasSonicboomDown = false;
 static bool wasCharging = false;
 
 // Case 1 (pitch-shift tiers) - layered, all 5 tracked independently
-static int[] tierHandles = new int[5];
+static string[] tierSounds = new string[5];
 static bool[] tierActive = new bool[5];
 
 // Single-layer charge (cases 2,3,4,5,6,7,9)
-static int chargeSoundHandle = -1;
+static string chargeSoundName = null;
 static bool chargeSoundActive = false;
 
 // Case 8 (Brawl) - two simultaneous layers
-static int brawlHandle1 = -1;
-static int brawlHandle2 = -1;
 static bool brawlChargeActive = false;
 
 static bool wasChargingAir = false;
 static bool wasReleaseState = false;
 static bool isFaithfulLayer = false;
-static int faithfulHandle = -1;
-static int airSoundHandle = -1;
+static string airSoundName = null;
 static bool airSoundActive = false;
-static int millerLoopHandle = 0;
 static bool millerLoopActive = false;
 static bool wasChargingDropDash = false;
-static int dropDashAirHandle = -1;
+static string dropDashAirSoundName = null;
 static bool dropDashAirActive = false;
 {
+    void StopLoopingSound(string soundName)
+    {
+        if (soundName == null)
+            return;
+
+        // Restart then stop to cut the looping sound
+        int soundHandle = Player.Sound.PlaySound(soundName);
+        Player.Sound.StopSound(&soundHandle);
+    }
+
     if (configInitCache == null)
     {
         var mods = HMM.FindModsByName("Sound Overhaul Pack");
@@ -980,7 +1037,8 @@ static bool dropDashAirActive = false;
                             tierSound = "sn_spinboost_charge_rangers_top";
                             break;
                     }
-                    tierHandles[tierIndex] = Player.Sound.PlaySound(tierSound);
+                    Player.Sound.PlaySound(tierSound);
+                    tierSounds[tierIndex] = tierSound;
                     tierActive[tierIndex] = true;
                     if (ChargeLevel < 4)
                         ChargeLevel++;
@@ -989,76 +1047,74 @@ static bool dropDashAirActive = false;
             case 2:
                 if (chargeSoundActive)
                 {
-                    int stopHandle = chargeSoundHandle;
-                    Player.Sound.StopSound(&stopHandle);
+                    StopLoopingSound(chargeSoundName);
                 }
-                chargeSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_rangers");
+                Player.Sound.PlaySound("sn_spinboost_charge_rangers");
+                chargeSoundName = "sn_spinboost_charge_rangers";
                 chargeSoundActive = true;
                 break;
             case 3:
                 if (chargeSoundActive)
                 {
-                    int stopHandle = chargeSoundHandle;
-                    Player.Sound.StopSound(&stopHandle);
+                    StopLoopingSound(chargeSoundName);
                 }
-                chargeSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_swa");
+                Player.Sound.PlaySound("sn_spinboost_charge_swa");
+                chargeSoundName = "sn_spinboost_charge_swa";
                 chargeSoundActive = true;
                 break;
             case 4:
                 if (chargeSoundActive)
                 {
-                    int stopHandle = chargeSoundHandle;
-                    Player.Sound.StopSound(&stopHandle);
+                    StopLoopingSound(chargeSoundName);
                 }
-                chargeSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_sxsg");
+                Player.Sound.PlaySound("sn_spinboost_charge_sxsg");
+                chargeSoundName = "sn_spinboost_charge_sxsg";
                 chargeSoundActive = true;
                 break;
             case 5:
                 if (chargeSoundActive)
                 {
-                    int stopHandle = chargeSoundHandle;
-                    Player.Sound.StopSound(&stopHandle);
+                    StopLoopingSound(chargeSoundName);
                 }
-                chargeSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_miller");
+                Player.Sound.PlaySound("sn_spinboost_charge_miller");
+                chargeSoundName = "sn_spinboost_charge_miller";
                 chargeSoundActive = true;
                 break;
             case 6:
                 if (chargeSoundActive)
                 {
-                    int stopHandle = chargeSoundHandle;
-                    Player.Sound.StopSound(&stopHandle);
+                    StopLoopingSound(chargeSoundName);
                 }
-                chargeSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_next");
+                Player.Sound.PlaySound("sn_spinboost_charge_next");
+                chargeSoundName = "sn_spinboost_charge_next";
                 chargeSoundActive = true;
                 break;
             case 7:
                 if (chargeSoundActive)
                 {
-                    int stopHandle = chargeSoundHandle;
-                    Player.Sound.StopSound(&stopHandle);
+                    StopLoopingSound(chargeSoundName);
                 }
-                chargeSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_sa1");
+                Player.Sound.PlaySound("sn_spinboost_charge_sa1");
+                chargeSoundName = "sn_spinboost_charge_sa1";
                 chargeSoundActive = true;
                 break;
             case 8:
                 if (brawlChargeActive)
                 {
-                    int stopHandle1 = brawlHandle1;
-                    int stopHandle2 = brawlHandle2;
-                    Player.Sound.StopSound(&stopHandle1);
-                    Player.Sound.StopSound(&stopHandle2);
+                    StopLoopingSound("sn_spinboost_charge_brawl_1st");
+                    StopLoopingSound("sn_spinboost_charge_brawl_2nd");
                 }
-                brawlHandle1 = Player.Sound.PlaySound("sn_spinboost_charge_brawl_1st");
-                brawlHandle2 = Player.Sound.PlaySound("sn_spinboost_charge_brawl_2nd");
+                Player.Sound.PlaySound("sn_spinboost_charge_brawl_1st");
+                Player.Sound.PlaySound("sn_spinboost_charge_brawl_2nd");
                 brawlChargeActive = true;
                 break;
             case 9:
                 if (chargeSoundActive)
                 {
-                    int stopHandle = chargeSoundHandle;
-                    Player.Sound.StopSound(&stopHandle);
+                    StopLoopingSound(chargeSoundName);
                 }
-                chargeSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_ultimate");
+                Player.Sound.PlaySound("sn_spinboost_charge_ultimate");
+                chargeSoundName = "sn_spinboost_charge_ultimate";
                 chargeSoundActive = true;
                 break;
         }
@@ -1071,23 +1127,19 @@ static bool dropDashAirActive = false;
         {
             if (tierActive[i])
             {
-                int stopTier = tierHandles[i];
-                Player.Sound.StopSound(&stopTier);
+                StopLoopingSound(tierSounds[i]);
                 tierActive[i] = false;
             }
         }
         if (chargeSoundActive)
         {
-            int localChargeHandle = chargeSoundHandle;
-            Player.Sound.StopSound(&localChargeHandle);
+            StopLoopingSound(chargeSoundName);
             chargeSoundActive = false;
         }
         if (brawlChargeActive)
         {
-            int stopHandle1 = brawlHandle1;
-            int stopHandle2 = brawlHandle2;
-            Player.Sound.StopSound(&stopHandle1);
-            Player.Sound.StopSound(&stopHandle2);
+            StopLoopingSound("sn_spinboost_charge_brawl_1st");
+            StopLoopingSound("sn_spinboost_charge_brawl_2nd");
             brawlChargeActive = false;
         }
     }
@@ -1099,15 +1151,18 @@ static bool dropDashAirActive = false;
         {
             case 1:
             default:
-                airSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_pose");
+                Player.Sound.PlaySound("sn_spinboost_charge_pose");
+                airSoundName = "sn_spinboost_charge_pose";
                 airSoundActive = true;
                 break;
             case 2:
-                airSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_air_mania");
+                Player.Sound.PlaySound("sn_spinboost_charge_air_mania");
+                airSoundName = "sn_spinboost_charge_air_mania";
                 airSoundActive = true;
                 break;
             case 3:
-                airSoundHandle = Player.Sound.PlaySound("sn_spinboost_charge_air_anniversary");
+                Player.Sound.PlaySound("sn_spinboost_charge_air_anniversary");
+                airSoundName = "sn_spinboost_charge_air_anniversary";
                 airSoundActive = true;
                 break;
             case 4:
@@ -1118,8 +1173,7 @@ static bool dropDashAirActive = false;
     {
         if (airSoundActive)
         {
-            int localAirHandle = airSoundHandle;
-            Player.Sound.StopSound(&localAirHandle);
+            StopLoopingSound(airSoundName);
             airSoundActive = false;
         }
     }
@@ -1133,15 +1187,18 @@ static bool dropDashAirActive = false;
         {
             case 1:
             default:
-                dropDashAirHandle = Player.Sound.PlaySound("sn_spinboost_charge_pose");
+                Player.Sound.PlaySound("sn_spinboost_charge_pose");
+                dropDashAirSoundName = "sn_spinboost_charge_pose";
                 dropDashAirActive = true;
                 break;
             case 2:
-                dropDashAirHandle = Player.Sound.PlaySound("sn_spinboost_charge_air_mania");
+                Player.Sound.PlaySound("sn_spinboost_charge_air_mania");
+                dropDashAirSoundName = "sn_spinboost_charge_air_mania";
                 dropDashAirActive = true;
                 break;
             case 3:
-                dropDashAirHandle = Player.Sound.PlaySound("sn_spinboost_charge_air_anniversary");
+                Player.Sound.PlaySound("sn_spinboost_charge_air_anniversary");
+                dropDashAirSoundName = "sn_spinboost_charge_air_anniversary";
                 dropDashAirActive = true;
                 break;
             case 4:
@@ -1152,8 +1209,7 @@ static bool dropDashAirActive = false;
     {
         if (dropDashAirActive)
         {
-            int localDropDashHandle = dropDashAirHandle;
-            Player.Sound.StopSound(&localDropDashHandle);
+            StopLoopingSound(dropDashAirSoundName);
             dropDashAirActive = false;
         }
     }
@@ -1177,10 +1233,9 @@ static bool dropDashAirActive = false;
                 Player.Sound.PlaySound("sn_spinboost_miller_1st");
                 if (millerLoopActive)
                 {
-                    int stopLoop = millerLoopHandle;
-                    Player.Sound.StopSound(&stopLoop);
+                    StopLoopingSound("sn_spinboost_miller_2nd");
                 }
-                millerLoopHandle = Player.Sound.PlaySound("sn_spinboost_miller_2nd");
+                Player.Sound.PlaySound("sn_spinboost_miller_2nd");
                 millerLoopActive = true;
                 break;
             case 6:
@@ -1201,8 +1256,7 @@ static bool dropDashAirActive = false;
     // sn_spinboost_miller_2nd loops, so drop it once the boost / dash states end
     if (!releasing && millerLoopActive)
     {
-        int stopLoop = millerLoopHandle;
-        Player.Sound.StopSound(&stopLoop);
+        StopLoopingSound("sn_spinboost_miller_2nd");
         millerLoopActive = false;
     }
 
@@ -1217,7 +1271,7 @@ static bool dropDashAirActive = false;
     {
         if (!isFaithfulLayer)
         {
-            faithfulHandle = Player.Sound.PlaySound("sn_spinboost_charge_pose");
+            Player.Sound.PlaySound("sn_spinboost_charge_pose");
             isFaithfulLayer = true;
         }
     }
@@ -1225,8 +1279,7 @@ static bool dropDashAirActive = false;
     {
         if (isFaithfulLayer)
         {
-            int stop = faithfulHandle;
-            Player.Sound.StopSound(&stop);
+            StopLoopingSound("sn_spinboost_charge_pose");
             isFaithfulLayer = false;
         }
     }
@@ -1258,8 +1311,7 @@ static bool? configInitCache = null;
 static int conPrimary = 0;
 static int conSecondary = 0;
 
-static int handlePrimary = 0;
-static int handleSecondary = 0;
+static string secondarySound = null;
 
 static bool primaryPlaying = false;
 static bool secondaryPlaying = false;
@@ -1277,6 +1329,16 @@ static List<Sonic.StateID> SuperStates = new List<Sonic.StateID>
 };
 
 {
+    void StopLoopingSound(string soundName)
+    {
+        if (soundName == null)
+            return;
+
+        // Restart then stop to cut the looping sound
+        int soundHandle = Player.Sound.PlaySound(soundName);
+        Player.Sound.StopSound(&soundHandle);
+    }
+
     if (configInitCache == null)
     {
         var mods = HMM.FindModsByName("Sound Overhaul Pack");
@@ -1309,7 +1371,13 @@ static List<Sonic.StateID> SuperStates = new List<Sonic.StateID>
         return;
 
     if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+    {
+        // Another character's cue isn't safe to replay, the loops went with the old player
+        primaryPlaying = false;
+        secondaryPlaying = false;
+        wasSuperSonic2 = false;
         return;
+    }
 
     bool isBoost = IS_STATE_FLAG(IsBoost);
     bool isSuperStates = SuperStates.Contains(Player.State.GetCurrentStateID<Sonic.StateID>());
@@ -1346,7 +1414,7 @@ static List<Sonic.StateID> SuperStates = new List<Sonic.StateID>
         {
             if (!primaryPlaying)
             {
-                handlePrimary = Player.Sound.PlaySound("sn_supersonic_boost_1");
+                Player.Sound.PlaySound("sn_supersonic_boost_1");
                 primaryPlaying = true;
             }
         }
@@ -1354,8 +1422,7 @@ static List<Sonic.StateID> SuperStates = new List<Sonic.StateID>
         {
             if (primaryPlaying)
             {
-                int stopHandle = handlePrimary;
-                Player.Sound.StopSound(&stopHandle);
+                StopLoopingSound("sn_supersonic_boost_1");
                 primaryPlaying = false;
             }
         }
@@ -1369,15 +1436,15 @@ static List<Sonic.StateID> SuperStates = new List<Sonic.StateID>
             // SS2 state changed mid-boost, restart with the correct variant
             if (secondaryPlaying && wasSuperSonic2 != isCurrentlySS2)
             {
-                int stopHandle = handleSecondary;
-                Player.Sound.StopSound(&stopHandle);
+                StopLoopingSound(secondarySound);
                 secondaryPlaying = false;
             }
 
             if (!secondaryPlaying)
             {
                 string sfx = isCurrentlySS2 ? "sn_supersonic2_boost_2" : "sn_supersonic_boost_2";
-                handleSecondary = Player.Sound.PlaySound(sfx);
+                Player.Sound.PlaySound(sfx);
+                secondarySound = sfx;
                 secondaryPlaying = true;
                 wasSuperSonic2 = isCurrentlySS2;
             }
@@ -1386,8 +1453,7 @@ static List<Sonic.StateID> SuperStates = new List<Sonic.StateID>
         {
             if (secondaryPlaying)
             {
-                int stopHandle = handleSecondary;
-                Player.Sound.StopSound(&stopHandle);
+                StopLoopingSound(secondarySound);
                 secondaryPlaying = false;
                 wasSuperSonic2 = false;
             }
@@ -1409,10 +1475,19 @@ using System.IO;
 static bool? configInitCache = null;
 static int conSuperSonicDrift = 0;
 
-static int handleDrift = 0;
 static bool driftPlaying = false;
 
 {
+    void StopLoopingSound(string soundName)
+    {
+        if (soundName == null)
+            return;
+
+        // Restart then stop to cut the looping sound
+        int soundHandle = Player.Sound.PlaySound(soundName);
+        Player.Sound.StopSound(&soundHandle);
+    }
+
     if (configInitCache == null)
     {
         var mods = HMM.FindModsByName("Sound Overhaul Pack");
@@ -1444,7 +1519,11 @@ static bool driftPlaying = false;
         return;
 
     if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+    {
+        // Another character's cue isn't safe to replay, the loop went with the old player
+        driftPlaying = false;
         return;
+    }
 
     var currentState = Player.State.GetCurrentStateID<Sonic.StateID>();
 
@@ -1452,13 +1531,12 @@ static bool driftPlaying = false;
 
     if (isSuperDrift && !driftPlaying)
     {
-        handleDrift = Player.Sound.PlaySound("sn_supersonic_drift");
+        Player.Sound.PlaySound("sn_supersonic_drift");
         driftPlaying = true;
     }
     else if (!isSuperDrift && driftPlaying)
     {
-        int stopHandle = handleDrift;
-        Player.Sound.StopSound(&stopHandle);
+        StopLoopingSound("sn_supersonic_drift");
         driftPlaying = false;
     }
 }
@@ -1481,14 +1559,20 @@ using System.IO;
 static bool? configInitCache = null;
 static int conSS2Aura = 0;
 
-static int handleIdle = 0;
 static bool idlePlaying = false;
-
-static int handleAura1 = 0;
-static int handleAura2 = 0;
 
 static bool ss2AuraPlaying = false;
 {
+    void StopLoopingSound(string soundName)
+    {
+        if (soundName == null)
+            return;
+
+        // Restart then stop to cut the looping sound
+        int soundHandle = Player.Sound.PlaySound(soundName);
+        Player.Sound.StopSound(&soundHandle);
+    }
+
     if (configInitCache == null)
     {
         var mods = HMM.FindModsByName("Sound Overhaul Pack");
@@ -1514,22 +1598,28 @@ static bool ss2AuraPlaying = false;
         return;
 
     bool isSonic = Player.GetPlayerType() == Player.PlayerType.Sonic;
-    bool isSuper = isSonic && BlackboardStatus.IsSuper();
+
+    if (!isSonic)
+    {
+        // Another character's cue isn't safe to replay, the loops went with the old player
+        idlePlaying = false;
+        ss2AuraPlaying = false;
+        return;
+    }
+
+    bool isSuper = BlackboardStatus.IsSuper();
 
     if (!isSuper)
     {
         if (idlePlaying)
         {
-            int stopIdle = handleIdle;
-            Player.Sound.StopSound(&stopIdle);
+            StopLoopingSound("sn_supersonic_idle");
             idlePlaying = false;
         }
         if (ss2AuraPlaying)
         {
-            int stop1 = handleAura1;
-            int stop2 = handleAura2;
-            Player.Sound.StopSound(&stop1);
-            Player.Sound.StopSound(&stop2);
+            StopLoopingSound("sn_supersonic2_1");
+            StopLoopingSound("sn_supersonic2_2");
             ss2AuraPlaying = false;
         }
         return;
@@ -1557,28 +1647,25 @@ static bool ss2AuraPlaying = false;
 
     if (wantIdle && !idlePlaying)
     {
-        handleIdle = Player.Sound.PlaySound("sn_supersonic_idle");
+        Player.Sound.PlaySound("sn_supersonic_idle");
         idlePlaying = true;
     }
     else if (!wantIdle && idlePlaying)
     {
-        int stopIdle = handleIdle;
-        Player.Sound.StopSound(&stopIdle);
+        StopLoopingSound("sn_supersonic_idle");
         idlePlaying = false;
     }
 
     if (wantSS2Aura && !ss2AuraPlaying)
     {
-        handleAura1 = Player.Sound.PlaySound("sn_supersonic2_1");
-        handleAura2 = Player.Sound.PlaySound("sn_supersonic2_2");
+        Player.Sound.PlaySound("sn_supersonic2_1");
+        Player.Sound.PlaySound("sn_supersonic2_2");
         ss2AuraPlaying = true;
     }
     else if (!wantSS2Aura && ss2AuraPlaying)
     {
-        int stop1 = handleAura1;
-        int stop2 = handleAura2;
-        Player.Sound.StopSound(&stop1);
-        Player.Sound.StopSound(&stop2);
+        StopLoopingSound("sn_supersonic2_1");
+        StopLoopingSound("sn_supersonic2_2");
         ss2AuraPlaying = false;
     }
 }
@@ -1601,7 +1688,6 @@ using System.IO;
 
 // Cue resolved once at init from mod.ini; "" = disabled / not found
 static string drownCue = "";
-static int drownHandle = 0;
 static bool initialized = false;
 
 static float drownjingleTime = 0.0f;
@@ -1623,6 +1709,16 @@ static List<Sonic.StateID> AquaBallStates = new List<Sonic.StateID>
 };
 
 {
+    void StopLoopingSound(string soundName)
+    {
+        if (soundName == null)
+            return;
+
+        // Restart then stop to cut the looping sound
+        int soundHandle = Player.Sound.PlaySound(soundName);
+        Player.Sound.StopSound(&soundHandle);
+    }
+
     if (!initialized)
     {
         initialized = true;
@@ -1696,9 +1792,7 @@ static List<Sonic.StateID> AquaBallStates = new List<Sonic.StateID>
             drownjingleTime = 0.0f;
             if (musicPlayed)
             {
-                int h = drownHandle;
-                Player.Sound.StopSound(&h); // stop the looping jingle -> level BGM resumes
-                drownHandle = 0;
+                StopLoopingSound(drownCue);
                 musicPlayed = false;
             }
         }
@@ -1707,7 +1801,7 @@ static List<Sonic.StateID> AquaBallStates = new List<Sonic.StateID>
     // Fire once at the threshold; the cue loops until we stop it
     if (drownjingleTime >= musicTime && !musicPlayed)
     {
-        drownHandle = Player.Sound.PlaySound(drownCue);
+        Player.Sound.PlaySound(drownCue);
         musicPlayed = true;
     }
 }
@@ -1726,7 +1820,6 @@ using System.IO;
 
 // Resolved once at init from mod.ini
 static bool enabled = false;
-static int alertHandle = 0;
 static bool initialized = false;
 
 static bool soundPlayed = false;
@@ -1742,6 +1835,16 @@ static List<Sonic.StateID> AquaBallStates = new List<Sonic.StateID>
 };
 
 {
+    void StopLoopingSound(string soundName)
+    {
+        if (soundName == null)
+            return;
+
+        // Restart then stop to cut the looping sound
+        int soundHandle = Player.Sound.PlaySound(soundName);
+        Player.Sound.StopSound(&soundHandle);
+    }
+
     if (!initialized)
     {
         initialized = true;
@@ -1790,7 +1893,7 @@ static List<Sonic.StateID> AquaBallStates = new List<Sonic.StateID>
     {
         if (!soundPlayed && Lua.GetState() != 0)
         {
-            alertHandle = Player.Sound.PlaySound("sys_jingle_drown");
+            Player.Sound.PlaySound("sys_jingle_drown");
             soundPlayed = true;
         }
     }
@@ -1798,9 +1901,7 @@ static List<Sonic.StateID> AquaBallStates = new List<Sonic.StateID>
     {
         if (soundPlayed)
         {
-            int h = alertHandle;
-            Player.Sound.StopSound(&h);
-            alertHandle = 0;
+            StopLoopingSound("sys_jingle_drown");
             soundPlayed = false;
         }
     }

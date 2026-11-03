@@ -1,3 +1,9 @@
+## Version 4.2.1
+
+- Fixed looping sounds not ending properly when they should.
+
+----------------------------
+
 ## Version 4.2
 
 - Added support for Aggro Titans.
